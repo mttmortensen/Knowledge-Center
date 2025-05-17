@@ -8,5 +8,18 @@ namespace Knowledge_Center
 {
     public class KnowledgeNodeService
     {
+        private readonly Database _database;
+
+        public KnowledgeNodeService(Database database)
+        {
+            _database = database;
+        }
+
+        // === CREATE ===
+        public bool CreateNode(KnowledgeNode node) 
+        {
+            // INSERT Query + Parameters to store new KnowledgeNode
+            throw new NotImplementedException("CreateNode method not implemented");
+        }
     }
 }
