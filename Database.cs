@@ -26,8 +26,19 @@ namespace Knowledge_Center
 
         // === Executing Write Operations (INSERT, UPDATE, DELETE) ===
 
+        public int ExecuteNonQuery(string query, List<SqlParameter> parameters) 
+        {
+            // Executes a non-query SQL command (INSERT, UPDATE, DELETE) and returns a count of affected rows
+            throw new NotImplementedException();
+        }
+
         // === Executing Read Operations (SELECT) ===
 
+        public List<Dictionary<string, object>> ExecuteQuery(string sql, List<SqlParameter> parameters)
+        {
+            // Executes a SQL query and returns a list of db row data (as key/value pairs)
+            throw new NotImplementedException();
+        }
 
     }
 }
