@@ -8,5 +8,12 @@ namespace Knowledge_Center
 {
     public class Database
     {
+        // === Connection Management ===
+
+        // === Executing Write Operations (INSERT, UPDATE, DELETE) ===
+
+        // === Executing Read Operations (SELECT) ===
+
+
     }
 }
