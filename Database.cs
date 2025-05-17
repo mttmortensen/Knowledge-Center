@@ -21,7 +21,9 @@ namespace Knowledge_Center
         private SqlConnection OpenConnection() 
         {
             // Opens and returns a new SQL connection
-            throw new NotImplementedException();
+            SqlConnection connection = new SqlConnection(_connectionString);
+            connection.Open();
+            return connection;
         }
 
         // === Executing Write Operations (INSERT, UPDATE, DELETE) ===
