@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace Knowledge_Center
 {
@@ -18,8 +19,28 @@ namespace Knowledge_Center
         // === CREATE ===
         public bool CreateNode(KnowledgeNode node) 
         {
-            // INSERT Query + Parameters to store new KnowledgeNode
-            throw new NotImplementedException("CreateNode method not implemented");
+            // Set timestamps
+            DateTime now = DateTime.Now;
+            node.CreatedAt = now;
+            node.LastUpdated = now;
+
+            // Build SQL Parameters
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Title", node.Title),
+                new SqlParameter("@Domain", node.Domain),
+                new SqlParameter("@Description", node.Description),
+                new SqlParameter("@ConfidenceLevel", node.ConfidenceLevel),
+                new SqlParameter("@Status", node.Status),
+                new SqlParameter("@CreatedAt", node.CreatedAt),
+                new SqlParameter("@LastUpdated", node.LastUpdated)
+            };
+
+            // Run the INSERT query
+            int result = _database.ExecuteNonQuery(KnowledgeNodeQueries.InsertNode, parameters);
+
+            // Return true to see if INSERT was successful
+            return result > 0;
         }
 
         // === READ ===
