@@ -21,5 +21,12 @@ namespace Knowledge_Center
             // INSERT Query + Parameters to store new KnowledgeNode
             throw new NotImplementedException("CreateNode method not implemented");
         }
+
+        // === READ ===
+        public List<KnowledgeNode> GetAllNodes()
+        {
+            // SELECT Query + Parameters to retrieve all KnowledgeNodes and map results into KnowledgeNode objects
+            throw new NotImplementedException("GetAllNodes method not implemented");
+        }
     }
 }
