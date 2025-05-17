@@ -10,7 +10,7 @@ namespace Knowledge_Center
 {
     public class Database
     {
-        private readonly string _connectionString;
+        private readonly string _connectionString = "Server=MORTENSENS-MPC\\SQLEXPRESS;Database=KnowledgeCenterDB;Trusted_Connection=True;;TrustServerCertificate=True;";
 
         public Database(string connectionString)
         {
