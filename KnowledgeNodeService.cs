@@ -28,5 +28,25 @@ namespace Knowledge_Center
             // SELECT Query + Parameters to retrieve all KnowledgeNodes and map results into KnowledgeNode objects
             throw new NotImplementedException("GetAllNodes method not implemented");
         }
+
+        public KnowledgeNode GetNodeById(int id)
+        {
+            // SELECT Query + Parameters to retrieve a specific KnowledgeNode by ID and map result into a KnowledgeNode object
+            throw new NotImplementedException("GetNodeById method not implemented");
+        }
+
+        // === UPDATE ===
+        public bool UpdateNode(KnowledgeNode node)
+        {
+            // UPDATE Query + Parameters to update an existing KnowledgeNode by it's ID
+            throw new NotImplementedException("UpdateNode method not implemented");
+        }
+
+        // === DELETE ===
+        public bool DeleteNode(int id)
+        {
+            // DELETE Query + Parameters to delete a KnowledgeNode by ID
+            throw new NotImplementedException("DeleteNode method not implemented");
+        }
     }
 }
