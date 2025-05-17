@@ -6,7 +6,38 @@ using System.Threading.Tasks;
 
 namespace Knowledge_Center
 {
-    public class KnowledgeNodeQueries
+    public static class KnowledgeNodeQueries
     {
+        public static readonly string InsertNode = @"
+            INSERT INTO KnowledgeNodes 
+                    (Title, Domain, Description, ConfidenceLevel, Status, CreatedAt, LastUpdated)
+            VALUES 
+                    (@Title, @Domain, @Description, @ConfidenceLevel, @Status, @CreatedAt, @LastUpdated);
+        ";
+
+        public static readonly string SelectAllNodes = @"
+            SELECT * FROM KnowledgeNodes;
+        ";
+
+        public static readonly string SelectNodeById = @"
+            SELECT * FROM KnowledgeNodes 
+            WHERE Id = @Id;
+        ";
+
+        public static readonly string UpdateNode = @"
+            UPDATE KnowledgeNodes 
+            SET Title = @Title, 
+                Domain = @Domain, 
+                Description = @Description, 
+                ConfidenceLevel = @ConfidenceLevel, 
+                Status = @Status, 
+                LastUpdated = @LastUpdated
+            WHERE Id = @Id;
+        ";
+
+        public static readonly string DeleteNode = @"
+            DELETE FROM KnowledgeNodes 
+            WHERE Id = @Id;
+        ";  
     }
 }
