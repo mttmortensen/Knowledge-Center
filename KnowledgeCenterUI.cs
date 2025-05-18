@@ -58,31 +58,7 @@ namespace Knowledge_Center
             Console.Write("Domain: ");
             string domain = Console.ReadLine();
 
-            /* For allowing to choose from a selection of Node Types*/
-            string nodeType = "";
-
-            while (nodeType == "")
-            {
-                Console.WriteLine("Select Node Type:");
-                Console.WriteLine("1. Concept");
-                Console.WriteLine("2. Project");
-                Console.Write("Your choice: ");
-                string choice = Console.ReadLine();
-
-                switch (choice)
-                {
-                    case "1":
-                        nodeType = "Concept";
-                        break;
-                    case "2":
-                        nodeType = "Project";
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option. Please choose 1 or 2.\n");
-                        break;
-                }
-            }
-            /* End of Node Type selection */
+            string nodeType = GetNodeType();
 
             Console.Write("Description: ");
             string description = Console.ReadLine();
@@ -113,6 +89,21 @@ namespace Knowledge_Center
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
 
+        }
+
+        private static string GetNodeType()
+        {
+            Console.WriteLine("Select Node Type:");
+            Console.WriteLine("1. Concept");
+            Console.WriteLine("2. Project");
+            Console.Write("Enter your choice: ");
+            string choice = Console.ReadLine();
+            return choice switch
+            {
+                "1" => "Concept",
+                "2" => "Project",
+                _ => throw new ArgumentException("Invalid choice")
+            };
         }
 
         public static void ViewAllNodes(KnowledgeNodeService service)
