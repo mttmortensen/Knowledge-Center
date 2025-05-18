@@ -12,7 +12,7 @@ namespace Knowledge_Center
         public int NodeId { get; set; }
         public DateTime EntryDate { get; set; }
         public string Content { get; set; }
-        public string Tags { get; set; }
+        public string Tag { get; set; }
         public bool ContributesToProgress { get; set; }
 
     }
