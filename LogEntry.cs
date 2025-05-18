@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Knowledge_Center
+{
+    public class LogEntry
+    {
+        public int LogId { get; set; }
+        public int NodeId { get; set; }
+        public DateTime EntryDate { get; set; }
+        public string Content { get; set; }
+        public string Tags { get; set; }
+        public bool ContributesToProgress { get; set; }
+
+    }
+}
