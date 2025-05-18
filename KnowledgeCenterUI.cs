@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Knowledge_Center
 {
@@ -170,6 +171,24 @@ namespace Knowledge_Center
                 Console.WriteLine("Invalid selection. Please try again.");
                 Console.ReadKey();
             }
+        }
+
+        private static void ShowKnowledgeNodeDetails(KnowledgeNode selectedNode, KnowledgeNodeService knService, LogEntryService leService)
+        {
+            Console.Clear();
+            Console.WriteLine($"=== {selectedNode.Title} Details ===");
+            Console.WriteLine($"Domain: {selectedNode.Domain}");
+            Console.WriteLine($"Node Type: {selectedNode.NodeType}");
+            Console.WriteLine($"Confidence Level: {selectedNode.ConfidenceLevel}");
+            Console.WriteLine($"Status: {selectedNode.Status}");
+            Console.WriteLine($"Created At: {selectedNode.CreatedAt}");
+            Console.WriteLine($"Description: {selectedNode.Description}");
+            Console.WriteLine($"Created: {selectedNode.CreatedAt}");
+            Console.WriteLine($"Last Updated: {selectedNode.LastUpdated}");
+
+
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
         }
 
 
