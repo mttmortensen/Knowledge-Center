@@ -184,6 +184,21 @@ namespace Knowledge_Center
             Console.WriteLine($"Created: {selectedNode.CreatedAt}");
             Console.WriteLine($"Last Updated: {selectedNode.LastUpdated}");
 
+            Console.WriteLine($"\n=== Log Entries for {selectedNode.Title} ===");
+
+            List<LogEntry> logEntries = leService.GetAllLogEntriesByNodeId(selectedNode.Id);
+            if (logEntries == null || logEntries.Count == 0)
+            {
+                Console.WriteLine("No log entries found.");
+            }
+            else
+            {
+                foreach (var log in logEntries)
+                {
+                    Console.WriteLine($"[{log.EntryDate}] {log.Content} (Tag: {log.Tag})");
+                }
+            }
+
             Console.WriteLine("\nPress any key to go back to the Main Menu...");
             Console.ReadKey();
         }
@@ -205,13 +220,16 @@ namespace Knowledge_Center
             Console.Write("Tag: ");
             string tag = Console.ReadLine();
 
+            Console.Write("Contributes to Progress? (true/false): ");
+            bool contributesToProgress = Convert.ToBoolean(Console.ReadLine());
+
             var newLogEntry = new LogEntry
             {
                 NodeId = nodeId,
                 EntryDate = DateTime.Now,
                 Content = content,
                 Tag = tag,
-                ContributesToProgress = true // This can be set based on user input but default for now
+                ContributesToProgress = contributesToProgress 
             };
 
             bool success = leService.CreateLogEntry(newLogEntry);
