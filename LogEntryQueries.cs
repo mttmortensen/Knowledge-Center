@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Knowledge_Center
+{
+    public class LogEntryQueries
+    {
+        public static readonly string InsertLogEntry = @"
+            INSERT INTO LogEntries 
+                    (NodeId, EntryDate, Content, Tag, ContributesToProgress)
+            VALUES 
+                    (@NodeId, @EntryDate, @Content, @Tag, @ContributesToProgress);
+        ";
+
+        public static readonly string GetLogsByNodeId = @"
+            SELECT * FROM LogEntries 
+            WHERE NodeId = @NodeId
+            ORDER BY EntryDate DESC;
+        ";
+    }
+}
