@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.Data.SqlClient;
 
 namespace Knowledge_Center
@@ -21,13 +22,19 @@ namespace Knowledge_Center
         // === CREATE ===
         public bool CreateLogEntry(LogEntry log) 
         {
+
+            // Set timestamps
+            DateTime now = DateTime.Now;
+            log.EntryDate = now;
+
             List<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@NodeId", log.NodeId),
                 new SqlParameter("@EntryDate", log.EntryDate),
                 new SqlParameter("@Content", log.Content),
-                new SqlParameter("@Tags", log.Tags),
-                new SqlParameter("@ContributesToProgress", log.ContributesToProgress)
+                new SqlParameter("@Tag", log.Tags),
+                new SqlParameter("@ContributesToProgress", log.ContributesToProgress),
+                new SqlParameter("@EntryDate", log.EntryDate)
             };
 
             // Run the INSERT query
