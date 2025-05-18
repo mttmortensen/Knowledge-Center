@@ -98,12 +98,18 @@ namespace Knowledge_Center
             Console.WriteLine("2. Project");
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
-            return choice switch
+
+            switch (choice) 
             {
-                "1" => "Concept",
-                "2" => "Project",
-                _ => throw new ArgumentException("Invalid choice")
-            };
+                case "1":
+                    choice = "Concept";
+                    break;
+                case "2":
+                    choice = "Project";
+                    break;
+            }
+
+            return choice;
         }
 
         public static void ViewAllNodes(KnowledgeNodeService service)
