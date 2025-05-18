@@ -136,7 +136,7 @@ namespace Knowledge_Center
                     count++;
                 }
                 
-                SelectAKnowledgeNode(nodes);
+                SelectAKnowledgeNode(nodes, knService, leService);
             }
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
@@ -144,8 +144,32 @@ namespace Knowledge_Center
 
         private static void SelectAKnowledgeNode(List<KnowledgeNode> nodes, KnowledgeNodeService knService, LogEntryService leService) 
         {
-            Console.WriteLine("Please a select a Knowledge Node to view it's details");
+            Console.WriteLine("Please a select a Knowledge Node to view it's details (0 to return): ");
+            string input = Console.ReadLine();
 
+            if (int.TryParse(input, out int selection)) 
+            {
+                if (selection == 0)
+                {
+                    return;
+                }
+
+                if (selection >= 1 && selection <= nodes.Count)
+                {
+                    var selectedNode = nodes[selection - 1];
+                    ShowKnowledgeNodeDetails(selectedNode, knService, leService);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection. Please try again.");
+                    Console.ReadKey();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection. Please try again.");
+                Console.ReadKey();
+            }
         }
 
 
