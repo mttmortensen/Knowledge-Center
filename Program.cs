@@ -9,9 +9,10 @@ namespace Knowledge_Center
         static void Main(string[] args)
         {
             var db = new Database("Server=MORTENSENS-MPC\\SQLEXPRESS;Database=KnowledgeCenterDB;Trusted_Connection=True;TrustServerCertificate=True;");
-            var service = new KnowledgeNodeService(db);
+            KnowledgeNodeService knService = new KnowledgeNodeService(db);
+            LogEntryService leService = new LogEntryService(db);
 
-            KnowledgeCenterUI.ShowMainMenu(service);
+            KnowledgeCenterUI.ShowMainMenu(knService, leService);
         }
     }
 }

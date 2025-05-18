@@ -10,7 +10,7 @@ namespace Knowledge_Center
     {
 
         /* ======================== MAIN MENU ========================*/
-        public static void ShowMainMenu(KnowledgeNodeService service)
+        public static void ShowMainMenu(KnowledgeNodeService knService, LogEntryService leService)
         {
             bool exit = false;
 
@@ -29,10 +29,10 @@ namespace Knowledge_Center
                 switch (input)
                 {
                     case "1":
-                        CreateNode(service);
+                        CreateNode(knService);
                         break;
                     case "2":
-                        ViewAllNodes(service);
+                        ViewAllNodes(knService, leService);
                         break;
                     case "3":
                         Console.WriteLine("\nLog Entry feature coming soon! \nPress any key to go back to the main menu...");
@@ -116,12 +116,12 @@ namespace Knowledge_Center
             return choice;
         }
 
-        public static void ViewAllNodes(KnowledgeNodeService service)
+        public static void ViewAllNodes(KnowledgeNodeService knService, LogEntryService leService)
         {
             Console.Clear();
             Console.WriteLine("=== View All Knowledge Nodes ===");
 
-            List<KnowledgeNode> nodes = service.GetAllNodes();
+            List<KnowledgeNode> nodes = knService.GetAllNodes();
 
             if (nodes.Count == 0)
             {
@@ -129,22 +129,23 @@ namespace Knowledge_Center
             }
             else
             {
+                int count = 1;
                 foreach (var node in nodes)
                 {
-                    Console.WriteLine
-                    (
-                        $"\nID: {node.Id}, " +
-                        $"\nTitle: {node.Title}, " +
-                        $"\nNode Type: {node.NodeType}, " +
-                        $"\nDescription: {node.Description}, " +
-                        $"\nDomain: {node.Domain}, " +
-                        $"\nConfidence Level: {node.ConfidenceLevel}, " +
-                        $"\nStatus: {node.Status}"
-                    );
+                    Console.WriteLine($"[{count}] Title: {node.Title}, Created On: {node.CreatedAt}");
+                    count++;
                 }
+                
+                SelectAKnowledgeNode(nodes);
             }
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
+        }
+
+        private static void SelectAKnowledgeNode(List<KnowledgeNode> nodes, KnowledgeNodeService knService, LogEntryService leService) 
+        {
+            Console.WriteLine("Please a select a Knowledge Node to view it's details");
+
         }
 
 
