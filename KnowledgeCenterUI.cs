@@ -19,7 +19,8 @@ namespace Knowledge_Center
                 Console.WriteLine("=== Knowledge Center ===");
                 Console.WriteLine("1. Create a Knowledge Node");
                 Console.WriteLine("2. View All Knowledge Nodes");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. Log Entry (Coming Soon)");
+                Console.WriteLine("0. Exit");
                 Console.Write("\nSelect an option: ");
 
                 string input = Console.ReadLine();
@@ -33,7 +34,7 @@ namespace Knowledge_Center
                         ViewAllNodes(service);
                         break;
                     case "3":
-                        Console.WriteLine("\n Log Entry feature coming soon! \nPress any key to continue...");
+                        Console.WriteLine("\nLog Entry feature coming soon! \nPress any key to go back to the main menu...");
                         Console.ReadKey();
                         break;
                     case "0":
@@ -104,11 +105,11 @@ namespace Knowledge_Center
                 {
                     Console.WriteLine
                     (
-                        $"ID: {node.Id}, " +
-                        $"Title: {node.Title}, " +
-                        $"Domain: {node.Domain}, " +
-                        $"Confidence Level: {node.ConfidenceLevel}, " +
-                        $"Status: {node.Status}"
+                        $"\nID: {node.Id}, " +
+                        $"\nTitle: {node.Title}, " +
+                        $"\nDomain: {node.Domain}, " +
+                        $"\nConfidence Level: {node.ConfidenceLevel}, " +
+                        $"\nStatus: {node.Status}"
                     );
                 }
             }
