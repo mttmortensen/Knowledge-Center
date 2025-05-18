@@ -10,7 +10,7 @@ namespace Knowledge_Center
 {
     public class Database
     {
-
+        private readonly string _connectionString;
         public Database(string connectionString)
         {
             _connectionString = connectionString;
