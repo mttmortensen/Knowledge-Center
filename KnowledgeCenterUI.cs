@@ -36,8 +36,7 @@ namespace Knowledge_Center
                         ViewAllNodes(knService, leService);
                         break;
                     case "3":
-                        Console.WriteLine("\nLog Entry feature coming soon! \nPress any key to go back to the main menu...");
-                        Console.ReadKey();
+                        CreateLogEntry(leService, knService);
                         break;
                     case "0":
                         exit = true;
@@ -137,10 +136,9 @@ namespace Knowledge_Center
                     count++;
                 }
                 
-                SelectAKnowledgeNode(nodes, knService, leService);
+                SelectAKnowledgeNode(nodes, knService, leService);   
             }
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+            
         }
 
         private static void SelectAKnowledgeNode(List<KnowledgeNode> nodes, KnowledgeNodeService knService, LogEntryService leService) 
@@ -186,12 +184,45 @@ namespace Knowledge_Center
             Console.WriteLine($"Created: {selectedNode.CreatedAt}");
             Console.WriteLine($"Last Updated: {selectedNode.LastUpdated}");
 
-
-            Console.WriteLine("\nPress any key to return...");
+            Console.WriteLine("\nPress any key to go back to the Main Menu...");
             Console.ReadKey();
         }
 
 
         /* ======================== LOG ENTRIES ========================*/
+
+        public static void CreateLogEntry(LogEntryService leService, KnowledgeNodeService knService) 
+        {
+            Console.Clear();
+
+            Console.WriteLine("=== Create a Log Entry ===");
+            Console.Write("Node ID: ");
+            int nodeId = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Content: ");
+            string content = Console.ReadLine();
+
+            Console.Write("Tag: ");
+            string tag = Console.ReadLine();
+
+            var newLogEntry = new LogEntry
+            {
+                NodeId = nodeId,
+                EntryDate = DateTime.Now,
+                Content = content,
+                Tag = tag,
+                ContributesToProgress = true // This can be set based on user input but default for now
+            };
+
+            bool success = leService.CreateLogEntry(newLogEntry);
+            var knowledgeNode = knService.GetNodeById(nodeId);
+
+            Console.WriteLine(success
+                ? $"\n🎉 Log entry created successfully! It's now been added to {knowledgeNode.Title}"
+                : "\n❌ Failed to create log entry.");
+
+            Console.WriteLine("\nPress any key to return to the Main Menu...");
+            Console.ReadKey();
+        }
     }
 }
