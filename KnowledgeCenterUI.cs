@@ -47,5 +47,34 @@ namespace Knowledge_Center
             Console.ReadKey();
 
         }
+
+        public static void ViewAllNodes(KnowledgeNodeService service)
+        {
+            Console.Clear();
+            Console.WriteLine("=== View All Knowledge Nodes ===");
+
+            List<KnowledgeNode> nodes = service.GetAllNodes();
+
+            if (nodes.Count == 0)
+            {
+                Console.WriteLine("No nodes found.");
+            }
+            else
+            {
+                foreach (var node in nodes)
+                {
+                    Console.WriteLine
+                    (
+                        $"ID: {node.Id}, " +
+                        $"Title: {node.Title}, " +
+                        $"Domain: {node.Domain}, " +
+                        $"Confidence Level: {node.ConfidenceLevel}, " +
+                        $"Status: {node.Status}"
+                    );
+                }
+            }
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+        }
     }
 }
