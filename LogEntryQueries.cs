@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,16 @@ namespace Knowledge_Center
             SELECT * FROM LogEntries 
             WHERE NodeId = @NodeId
             ORDER BY EntryDate DESC;
+        ";
+
+        public static readonly string GetLogByLogId = @"
+            SELECT * FROM LogEntries 
+            WHERE LogId = @LogId;
+        ";
+
+        public static readonly string DeleteLogByLogId = @"
+            DELETE FROM LogEntries 
+            WHERE LogId = @LogId;
         ";
     }
 }
