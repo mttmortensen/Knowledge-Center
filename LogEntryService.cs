@@ -33,8 +33,7 @@ namespace Knowledge_Center
                 new SqlParameter("@EntryDate", log.EntryDate),
                 new SqlParameter("@Content", log.Content),
                 new SqlParameter("@Tag", log.Tag),
-                new SqlParameter("@ContributesToProgress", log.ContributesToProgress),
-                new SqlParameter("@EntryDate", log.EntryDate)
+                new SqlParameter("@ContributesToProgress", log.ContributesToProgress)
             };
 
             // Run the INSERT query
