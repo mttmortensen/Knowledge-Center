@@ -21,7 +21,7 @@ namespace Knowledge_Center
                 Console.WriteLine("=== Knowledge Center ===");
                 Console.WriteLine("1. Create a Knowledge Node");
                 Console.WriteLine("2. View All Knowledge Nodes");
-                Console.WriteLine("3. Log Entry (Coming Soon)");
+                Console.WriteLine("3. Log Entry to a Knowledge Node");
                 Console.WriteLine("0. Exit");
                 Console.Write("\nSelect an option: ");
 
