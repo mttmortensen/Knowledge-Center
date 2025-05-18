@@ -97,8 +97,6 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
-KnowledgeCenter.csproj
-KnowledgeCenter.sln
 
 # Chutzpah Test files
 _Chutzpah*
@@ -364,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Knowledge Center.csproj
+/Knowledge Center.sln
