@@ -8,6 +8,45 @@ namespace Knowledge_Center
 {
     public static class KnowledgeCenterUI
     {
+
+        public static void ShowMainMenu(KnowledgeNodeService service)
+        {
+            bool exit = false;
+
+            while (!exit) 
+            {
+                Console.Clear();
+                Console.WriteLine("=== Knowledge Center ===");
+                Console.WriteLine("1. Create a Knowledge Node");
+                Console.WriteLine("2. View All Knowledge Nodes");
+                Console.WriteLine("3. Exit");
+                Console.Write("\nSelect an option: ");
+
+                string input = Console.ReadLine();
+
+                switch (input)
+                {
+                    case "1":
+                        CreateNode(service);
+                        break;
+                    case "2":
+                        ViewAllNodes(service);
+                        break;
+                    case "3":
+                        Console.WriteLine("\n Log Entry feature coming soon! \nPress any key to continue...");
+                        Console.ReadKey();
+                        break;
+                    case "0":
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("\nInvalid option. Please try again.");
+                        break;
+                }
+            }
+
+        }
+
         public static void CreateNode(KnowledgeNodeService service) 
         {
             Console.WriteLine("=== Create a Knowledge Node ===");
