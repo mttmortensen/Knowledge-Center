@@ -1,0 +1,2 @@
+ALTER TABLE KnowledgeNodes
+ADD NodeType NVARCHAR(50) NOT NULL DEFAULT 'Concept';
