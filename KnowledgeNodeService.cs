@@ -96,7 +96,17 @@ namespace Knowledge_Center
         /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */        
         private KnowledgeNode ConvertDBRowToClassObj(Dictionary<string, object> rawDBRow)
         {
-            throw new NotImplementedException();
+            return new KnowledgeNode
+            {
+                Id = Convert.ToInt32(rawDBRow["Id"]),
+                Title = rawDBRow["Title"].ToString(),
+                Domain = rawDBRow["Domain"].ToString(),
+                Description = rawDBRow["Description"].ToString(),
+                ConfidenceLevel = Convert.ToInt32(rawDBRow["ConfidenceLevel"]),
+                Status = rawDBRow["Status"].ToString(),
+                CreatedAt = Convert.ToDateTime(rawDBRow["CreatedAt"]),
+                LastUpdated = Convert.ToDateTime(rawDBRow["LastUpdated"])
+            };
         }
     }
 }
