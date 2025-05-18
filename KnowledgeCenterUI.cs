@@ -9,6 +9,7 @@ namespace Knowledge_Center
     public static class KnowledgeCenterUI
     {
 
+        /* ======================== MAIN MENU ========================*/
         public static void ShowMainMenu(KnowledgeNodeService service)
         {
             bool exit = false;
@@ -47,6 +48,9 @@ namespace Knowledge_Center
             }
 
         }
+
+
+        /* ======================== KNOWLEDGE NODES ========================*/
 
         public static void CreateNode(KnowledgeNodeService service) 
         {
@@ -143,5 +147,7 @@ namespace Knowledge_Center
             Console.ReadKey();
         }
 
+
+        /* ======================== LOG ENTRIES ========================*/
     }
 }
