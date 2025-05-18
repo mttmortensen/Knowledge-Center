@@ -43,6 +43,8 @@ namespace Knowledge_Center
             Console.WriteLine(success
                 ? "\n🎉 Node created successfully!"
                 : "\n❌ Failed to create node.");
+
+            Console.ReadLine();
         }
     }
 }
