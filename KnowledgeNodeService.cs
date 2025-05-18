@@ -16,6 +16,8 @@ namespace Knowledge_Center
             _database = database;
         }
 
+        /* ===================== CRUD ===================== */
+
         // === CREATE ===
         public bool CreateNode(KnowledgeNode node) 
         {
@@ -47,13 +49,34 @@ namespace Knowledge_Center
         public List<KnowledgeNode> GetAllNodes()
         {
             // SELECT Query + Parameters to retrieve all KnowledgeNodes and map results into KnowledgeNode objects
-            throw new NotImplementedException("GetAllNodes method not implemented");
+            List<KnowledgeNode> nodes = new List<KnowledgeNode>();
+
+            var rawDBResults = _database.ExecuteQuery(KnowledgeNodeQueries.SelectAllNodes, null);
+
+            foreach (var rawDBRow in rawDBResults) 
+            {
+                nodes.Add(ConvertDBRowToClassObj(rawDBRow));
+            }
+
+            return nodes;
         }
 
         public KnowledgeNode GetNodeById(int id)
         {
             // SELECT Query + Parameters to retrieve a specific KnowledgeNode by ID and map result into a KnowledgeNode object
-            throw new NotImplementedException("GetNodeById method not implemented");
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Id", id )
+            };
+
+            var rawDBResults = _database.ExecuteQuery(KnowledgeNodeQueries.SelectNodeById, parameters);
+
+            if (rawDBResults.Count == 0)
+            {
+                return null; // No node found with the given ID
+            }
+
+            return ConvertDBRowToClassObj(rawDBResults[0]);
         }
 
         // === UPDATE ===
@@ -68,6 +91,12 @@ namespace Knowledge_Center
         {
             // DELETE Query + Parameters to delete a KnowledgeNode by ID
             throw new NotImplementedException("DeleteNode method not implemented");
+        }
+
+        /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */        
+        private KnowledgeNode ConvertDBRowToClassObj(Dictionary<string, object> rawDBRow)
+        {
+            throw new NotImplementedException();
         }
     }
 }
