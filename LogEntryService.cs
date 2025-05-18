@@ -32,7 +32,7 @@ namespace Knowledge_Center
                 new SqlParameter("@NodeId", log.NodeId),
                 new SqlParameter("@EntryDate", log.EntryDate),
                 new SqlParameter("@Content", log.Content),
-                new SqlParameter("@Tag", log.Tags),
+                new SqlParameter("@Tag", log.Tag),
                 new SqlParameter("@ContributesToProgress", log.ContributesToProgress),
                 new SqlParameter("@EntryDate", log.EntryDate)
             };
@@ -45,9 +45,48 @@ namespace Knowledge_Center
         }
 
         // === READ ===
+        public List<LogEntry> GetAllLogEntriesByNodeId(int nodeId) 
+        {
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@NodeId", nodeId)
+            };
+
+            // SELECT Query + Parameters to retrieve all LogEntries from a specific Knowledge Node and maps results into LogEntry objects
+
+            var rawDBResults = _database.ExecuteQuery(LogEntryQueries.GetLogsByNodeId, parameters);
+
+            if (rawDBResults.Count == 0)
+            {
+                return null;
+            }
+
+            List<LogEntry> logEntries = new List<LogEntry>();
+
+            foreach (var rawDBRow in rawDBResults)
+            {
+                logEntries.Add(ConvertDBRowToClassObj(rawDBRow));
+            }
+
+            return logEntries;
+        }
+
+
         // === UPDATE ===
         // === DELETE ===
 
         /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */
+
+        private LogEntry ConvertDBRowToClassObj(Dictionary<string, object> rawDBRow)
+        {
+            return new LogEntry
+            {
+                NodeId = Convert.ToInt32(rawDBRow["NodeId"]),
+                EntryDate = Convert.ToDateTime(rawDBRow["EntryDate"]),
+                Content = rawDBRow["Content"].ToString(),
+                Tag = rawDBRow["Tag"].ToString(),
+                ContributesToProgress = (bool)rawDBRow["ContributesToProgress"]
+            };
+        }
     }
 }
