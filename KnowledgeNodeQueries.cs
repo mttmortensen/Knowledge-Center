@@ -10,9 +10,9 @@ namespace Knowledge_Center
     {
         public static readonly string InsertNode = @"
             INSERT INTO KnowledgeNodes 
-                    (Title, Domain, Description, ConfidenceLevel, Status, CreatedAt, LastUpdated)
+                    (Title, Domain, NodeType, Description, ConfidenceLevel, Status, CreatedAt, LastUpdated)
             VALUES 
-                    (@Title, @Domain, @Description, @ConfidenceLevel, @Status, @CreatedAt, @LastUpdated);
+                    (@Title, @Domain, @NodeType, @Description, @ConfidenceLevel, @Status, @CreatedAt, @LastUpdated);
         ";
 
         public static readonly string SelectAllNodes = @"
@@ -28,6 +28,7 @@ namespace Knowledge_Center
             UPDATE KnowledgeNodes 
             SET Title = @Title, 
                 Domain = @Domain, 
+                NodeType = @NodeType,
                 Description = @Description, 
                 ConfidenceLevel = @ConfidenceLevel, 
                 Status = @Status, 

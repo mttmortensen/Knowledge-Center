@@ -101,6 +101,7 @@ namespace Knowledge_Center
                 Id = Convert.ToInt32(rawDBRow["Id"]),
                 Title = rawDBRow["Title"].ToString(),
                 Domain = rawDBRow["Domain"].ToString(),
+                NodeType = rawDBRow["NodeType"].ToString(),
                 Description = rawDBRow["Description"].ToString(),
                 ConfidenceLevel = Convert.ToInt32(rawDBRow["ConfidenceLevel"]),
                 Status = rawDBRow["Status"].ToString(),
