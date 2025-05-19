@@ -40,9 +40,7 @@ namespace Knowledge_Center
                         CreateLogEntry(leService, knService);
                         break;
                     case "4":
-                        Console.WriteLine("Feature not implemented yet.");
-                        Console.WriteLine("Press any key to continue...");
-                        Console.ReadKey();
+                        UpdateAKnowledgeNode(knService);
                         break;
                     case "0":
                         exit = true;
@@ -207,16 +205,117 @@ namespace Knowledge_Center
             Console.ReadKey();
         }
 
+        public static void UpdateAKnowledgeNode(KnowledgeNodeService knService)
+        {
+            var nodes = knService.GetAllNodes();
+
+            if (nodes.Count == 0)
+            {
+                Console.WriteLine("No Knowledge Nodes available to update.");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine("=== Update a Knowledge Node ===");
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {nodes[i].Title} ({nodes[i].NodeType})");
+            }
+
+            Console.Write("\nSelect a node to update (or 0 to cancel): ");
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int choice) || choice < 0 || choice > nodes.Count)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            if (choice == 0) return;
+
+            var node = nodes[choice - 1];
+
+            Console.Clear();
+            Console.WriteLine($"=== Editing: {node.Title} ===");
+            Console.WriteLine("Leave any field blank to keep the current value.");
+
+            Console.Write($"Title ({node.Title}): ");
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title)) node.Title = title;
+
+            Console.Write($"Domain ({node.Domain}): ");
+            string domain = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(domain)) node.Domain = domain;
+
+            Console.Write($"Description ({node.Description}): ");
+            string desc = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(desc)) node.Description = desc;
+
+            Console.Write($"Confidence Level ({node.ConfidenceLevel}): ");
+            string confInput = Console.ReadLine();
+            if (int.TryParse(confInput, out int confVal)) node.ConfidenceLevel = confVal;
+
+            Console.Write($"Status ({node.Status}): ");
+            string status = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(status)) node.Status = status;
+
+            Console.Write($"Node Type ({node.NodeType}): ");
+            string type = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(type)) node.NodeType = type;
+
+            bool updated = knService.UpdateNode(node);
+
+            Console.WriteLine(updated
+                ? "\n✅ Knowledge Node updated successfully!"
+                : "\n❌ Update failed.");
+
+            Console.WriteLine("\nPress any key to return to the main menu...");
+            Console.ReadKey();
+        }
+
+
 
         /* ======================== LOG ENTRIES ========================*/
 
-        public static void CreateLogEntry(LogEntryService leService, KnowledgeNodeService knService) 
+        public static void CreateLogEntry(LogEntryService leService, KnowledgeNodeService knService)
         {
-            Console.Clear();
+            var nodes = knService.GetAllNodes();
 
-            Console.WriteLine("=== Create a Log Entry ===");
-            Console.Write("Node ID: ");
-            int nodeId = Convert.ToInt32(Console.ReadLine());
+            if (nodes.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("No Knowledge Nodes exist. Create one before adding logs.");
+                Console.WriteLine("\nPress any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine("=== Select a Knowledge Node to Add a Log ===");
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {nodes[i].Title} ({nodes[i].NodeType})");
+            }
+
+            Console.Write("\nChoose a node number: ");
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int index) || index < 1 || index > nodes.Count)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            var selectedNode = nodes[index - 1];
+
+            Console.Clear();
+            Console.WriteLine($"=== Add Log to {selectedNode.Title} ===");
 
             Console.Write("Content: ");
             string content = Console.ReadLine();
@@ -225,27 +324,27 @@ namespace Knowledge_Center
             string tag = Console.ReadLine();
 
             Console.Write("Contributes to Progress? (true/false): ");
-            bool contributesToProgress = Convert.ToBoolean(Console.ReadLine());
+            bool contributes = Convert.ToBoolean(Console.ReadLine());
 
-            var newLogEntry = new LogEntry
+            var newLog = new LogEntry
             {
-                NodeId = nodeId,
+                NodeId = selectedNode.Id,
                 EntryDate = DateTime.Now,
                 Content = content,
                 Tag = tag,
-                ContributesToProgress = contributesToProgress 
+                ContributesToProgress = contributes
             };
 
-            bool success = leService.CreateLogEntry(newLogEntry);
-            var knowledgeNode = knService.GetNodeById(nodeId);
+            bool success = leService.CreateLogEntry(newLog);
 
             Console.WriteLine(success
-                ? $"\n🎉 Log entry created successfully! It's now been added to {knowledgeNode.Title}"
+                ? $"\n✅ Log added to '{selectedNode.Title}'"
                 : "\n❌ Failed to create log entry.");
 
-            Console.WriteLine("\nPress any key to return to the Main Menu...");
+            Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
+
 
         private static void ShowLogEntryListAndSelect(List<LogEntry> logEntries, LogEntryService leService, KnowledgeNodeService knService) 
         {
@@ -301,5 +400,6 @@ namespace Knowledge_Center
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
+
     }
 }
