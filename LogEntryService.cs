@@ -95,7 +95,7 @@ namespace Knowledge_Center
             };
 
             // DELETE Query + Parameters to delete all LogEntries from a specific Knowledge Node
-            int result = _database.ExecuteNonQuery(LogEntryQueries.DeleteAllLogsByLogId, parameters);
+            int result = _database.ExecuteNonQuery(LogEntryQueries.DeleteAllLogsByNodeId, parameters);
 
             // Return true to see if DELETE was successful
             return result > 0;
