@@ -126,17 +126,21 @@ namespace Knowledge_Center
 
         public static void ViewAllNodes(KnowledgeNodeService knService, LogEntryService leService)
         {
-            Console.Clear();
-            Console.WriteLine("=== View All Knowledge Nodes ===");
 
             List<KnowledgeNode> nodes = knService.GetAllNodes();
 
             if (nodes.Count == 0)
             {
-                Console.WriteLine("No nodes found.");
+                Console.WriteLine("No Knowledge Nodes available.");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+                return;
             }
             else
             {
+                Console.Clear();
+                Console.WriteLine("=== View All Knowledge Nodes ===");
+
                 int count = 1;
                 foreach (var node in nodes)
                 {
