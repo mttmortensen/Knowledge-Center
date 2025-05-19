@@ -83,17 +83,42 @@ namespace Knowledge_Center
         public bool UpdateNode(KnowledgeNode node)
         {
             // UPDATE Query + Parameters to update an existing KnowledgeNode by it's ID
-            throw new NotImplementedException("UpdateNode method not implemented");
+            node.LastUpdated = DateTime.Now;
+
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Id", node.Id),
+                new SqlParameter("@Title", node.Title),
+                new SqlParameter("@Domain", node.Domain),
+                new SqlParameter("@NodeType", node.NodeType),
+                new SqlParameter("@Description", node.Description),
+                new SqlParameter("@ConfidenceLevel", node.ConfidenceLevel),
+                new SqlParameter("@Status", node.Status),
+                new SqlParameter("@LastUpdated", node.LastUpdated)
+            };
+
+            int result = _database.ExecuteNonQuery(KnowledgeNodeQueries.UpdateNode, parameters);
+
+            // Return true to see if UPDATE was successful
+            return result > 0;
         }
 
         // === DELETE ===
         public bool DeleteNode(int id)
         {
             // DELETE Query + Parameters to delete a KnowledgeNode by ID
-            throw new NotImplementedException("DeleteNode method not implemented");
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Id", id)
+            };
+
+            int result = _database.ExecuteNonQuery(KnowledgeNodeQueries.DeleteNode, parameters);
+
+            // Return true to see if DELETE was successful
+            return result > 0;
         }
 
-        /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */        
+        /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */
         private KnowledgeNode ConvertDBRowToClassObj(Dictionary<string, object> rawDBRow)
         {
             return new KnowledgeNode
