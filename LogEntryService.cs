@@ -86,9 +86,20 @@ namespace Knowledge_Center
             return ConvertDBRowToClassObj(rawDBResults[0]);
         }
 
-
-        // === UPDATE ===
         // === DELETE ===
+        public bool DeleteAllLogEntriesByNodeId(int nodeId)
+        {
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@NodeId", nodeId)
+            };
+
+            // DELETE Query + Parameters to delete all LogEntries from a specific Knowledge Node
+            int result = _database.ExecuteNonQuery(LogEntryQueries.DeleteAllLogsByLogId, parameters);
+
+            // Return true to see if DELETE was successful
+            return result > 0;
+        }
 
         /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */
 
