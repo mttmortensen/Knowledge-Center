@@ -27,7 +27,7 @@ namespace Knowledge_Center
             WHERE LogId = @LogId;
         ";
 
-        public static readonly string DeleteLogByLogId = @"
+        public static readonly string DeleteAllLogsByLogId = @"
             DELETE FROM LogEntries 
             WHERE LogId = @LogId;
         ";
