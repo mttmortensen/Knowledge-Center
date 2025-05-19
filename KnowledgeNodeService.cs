@@ -35,7 +35,8 @@ namespace Knowledge_Center
                 new SqlParameter("@ConfidenceLevel", node.ConfidenceLevel),
                 new SqlParameter("@Status", node.Status),
                 new SqlParameter("@CreatedAt", node.CreatedAt),
-                new SqlParameter("@LastUpdated", node.LastUpdated)
+                new SqlParameter("@LastUpdated", node.LastUpdated),
+                new SqlParameter("@NodeType", node.NodeType)
             };
 
             // Run the INSERT query
