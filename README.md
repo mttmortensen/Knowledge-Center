@@ -16,13 +16,13 @@ This app is 100% terminal-driven and fully custom-built for personal knowledge b
 
 💡 KEY FEATURES
 ---------------
-• Create, view, update, and delete Knowledge Nodes
-• Log Entries tied to each Node with timestamp, tag, and progress flag
-• Structured terminal UI for ease of use and clarity
-• Logs are immutable — no edits or deletes allowed for integrity
-• Full CRUD support for KNs
-• Connected to a SQL Server backend (NOT SQLite)
-• Version 1.0 is feature-complete for terminal workflows
+- Create, view, update, and delete Knowledge Nodes
+- Log Entries tied to each Node with timestamp, tag, and progress flag
+- Structured terminal UI for ease of use and clarity
+- Logs are immutable — no edits or deletes allowed for integrity
+- Full CRUD support for KNs
+- Connected to a SQL Server backend (NOT SQLite)
+- Version 1.0 is feature-complete for terminal workflows
 
 🧱 ENTITY STRUCTURE
 -------------------
@@ -49,28 +49,28 @@ Knowledge is messy and human — this app reflects that.
 
 ⚙️ TECH STACK
 -------------
-• Language: C#
-• Data: SQL Server (local)
-• Terminal-only UI
-• Architecture: Raw C# classes, no LINQ, no .NET Core
-• Separation of concerns: Database layer, Service layer, UI layer
+- Language: C#
+- Data: SQL Server (local)
+- Terminal-only UI
+- Architecture: Raw C# classes, no LINQ, no .NET Core
+- Separation of concerns: Database layer, Service layer, UI layer
 
 💻 RUNNING THE APP
 -------------------
-• Make sure SQL Server is installed and your KnowledgeCenterDB is configured
-• Clone the repo
-• Open solution in Visual Studio
-• Update the DB connection string in `Database.cs` to match your environment
-• Build & run — the terminal is your home
+- Make sure SQL Server is installed and your KnowledgeCenterDB is configured
+- Clone the repo
+- Open solution in Visual Studio
+- Update the DB connection string in `Database.cs` to match your environment
+- Build & run — the terminal is your home
 
 🚀 ROADMAP IDEAS (POST-V1)
 ---------------------------
-• Domains as first-class objects (CRUD support, filtering, domain descriptions)
-• Stats & analytics dashboard (log streaks, weekly log counts, etc.)
-• Markdown export for GitHub-style logging
-• WinForms read-only viewer
-• Self-hosted dashboard with Spectrum Console or ASP.NET Core
-• Sync/backup tooling for long-term archive
+- Domains as first-class objects (CRUD support, filtering, domain descriptions)
+- Stats & analytics dashboard (log streaks, weekly log counts, etc.)
+- Markdown export for GitHub-style logging
+- WinForms read-only viewer
+- Self-hosted dashboard with Spectrum Console or ASP.NET Core
+- Sync/backup tooling for long-term archive
 
 🧠 WHY I BUILT THIS
 --------------------
