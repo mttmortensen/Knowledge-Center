@@ -22,6 +22,7 @@ namespace Knowledge_Center
                 Console.WriteLine("1. Create a Knowledge Node");
                 Console.WriteLine("2. View All Knowledge Nodes");
                 Console.WriteLine("3. Log Entry to a Knowledge Node");
+                Console.WriteLine("4. Update a Knowledge Node");
                 Console.WriteLine("0. Exit");
                 Console.Write("\nSelect an option: ");
 
@@ -37,6 +38,11 @@ namespace Knowledge_Center
                         break;
                     case "3":
                         CreateLogEntry(leService, knService);
+                        break;
+                    case "4":
+                        Console.WriteLine("Feature not implemented yet.");
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
                         break;
                     case "0":
                         exit = true;
@@ -143,7 +149,7 @@ namespace Knowledge_Center
 
         private static void SelectAKnowledgeNode(List<KnowledgeNode> nodes, KnowledgeNodeService knService, LogEntryService leService) 
         {
-            Console.WriteLine("Please a select a Knowledge Node to view it's details (0 to return): ");
+            Console.WriteLine("\nPlease a select a Knowledge Node to view it's details (0 to return): ");
             string input = Console.ReadLine();
 
             if (int.TryParse(input, out int selection)) 
@@ -250,7 +256,7 @@ namespace Knowledge_Center
                 Console.WriteLine($"[{i + 1}] {logEntries[i].EntryDate.ToShortTimeString()}");
             }
 
-            Console.WriteLine("\nSelect a log entry number to view (or 0 to go back)");
+            Console.WriteLine("\nSelect a log entry number to view");
             string input = Console.ReadLine();
 
             if (int.TryParse(input, out int choice)) 
