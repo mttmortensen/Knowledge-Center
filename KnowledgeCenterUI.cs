@@ -184,19 +184,17 @@ namespace Knowledge_Center
             Console.WriteLine($"Created: {selectedNode.CreatedAt}");
             Console.WriteLine($"Last Updated: {selectedNode.LastUpdated}");
 
-            Console.WriteLine($"\n=== Log Entries for {selectedNode.Title} ===");
-
             List<LogEntry> logEntries = leService.GetAllLogEntriesByNodeId(selectedNode.Id);
-            if (logEntries == null || logEntries.Count == 0)
+
+            if (logEntries != null && logEntries.Count > 0)
             {
-                Console.WriteLine("No log entries found.");
+                ShowLogEntryListAndSelect(logEntries, leService, knService);
             }
             else
             {
-                foreach (var log in logEntries)
-                {
-                    Console.WriteLine($"[{log.EntryDate}] {log.Content} (Tag: {log.Tag})");
-                }
+                Console.WriteLine("\nNo log entries found for this node.");
+                Console.WriteLine("Press any key to go back to the Main Menu...");
+                Console.ReadKey();
             }
 
             Console.WriteLine("\nPress any key to go back to the Main Menu...");
@@ -240,6 +238,61 @@ namespace Knowledge_Center
                 : "\n❌ Failed to create log entry.");
 
             Console.WriteLine("\nPress any key to return to the Main Menu...");
+            Console.ReadKey();
+        }
+
+        private static void ShowLogEntryListAndSelect(List<LogEntry> logEntries, LogEntryService leService, KnowledgeNodeService knService) 
+        {
+            Console.WriteLine($"\n=== Log Entries ===");
+
+            for (int i = 0; i < logEntries.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {logEntries[i].EntryDate.ToShortTimeString()}");
+            }
+
+            Console.WriteLine("\nSelect a log entry number to view (or 0 to go back)");
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out int choice)) 
+            {
+                if (choice == 0)
+                {
+                    return;
+                }
+
+                if (choice >= 1 && choice <= logEntries.Count)
+                {
+                    var selectedLog = logEntries[choice - 1];
+                    ShowLogEntryDetails(selectedLog, knService);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection. Please try again.");
+                    Console.ReadKey();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection. Please try again.");
+                Console.ReadKey();
+            }
+        }
+
+        private static void ShowLogEntryDetails(LogEntry logEntry, KnowledgeNodeService knService)
+        {
+            var knowledgeNode = knService.GetNodeById(logEntry.NodeId);
+
+
+            Console.Clear();
+            Console.WriteLine($"=== Log Entry Details ===");
+            Console.WriteLine($"KnowledgeNode Title: {knowledgeNode.Title}");
+            Console.WriteLine($"KnowledgeNode ID: {logEntry.NodeId}");
+            Console.WriteLine($"Entry Date: {logEntry.EntryDate}");
+            Console.WriteLine($"Tag: {logEntry.Tag}");
+            Console.WriteLine($"Contributes to Progress: {logEntry.ContributesToProgress}");
+            Console.WriteLine($"\nContent: \n{logEntry.Content}");
+
+            Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
     }
