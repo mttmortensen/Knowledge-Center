@@ -23,6 +23,7 @@ namespace Knowledge_Center
                 Console.WriteLine("2. View All Knowledge Nodes");
                 Console.WriteLine("3. Log Entry to a Knowledge Node");
                 Console.WriteLine("4. Update a Knowledge Node");
+                Console.WriteLine("5. Delete a Knowledge Node");
                 Console.WriteLine("0. Exit");
                 Console.Write("\nSelect an option: ");
 
@@ -41,6 +42,9 @@ namespace Knowledge_Center
                         break;
                     case "4":
                         UpdateAKnowledgeNode(knService);
+                        break;
+                    case "5":
+                        DeleteAKnowledgeNode(knService, leService);
                         break;
                     case "0":
                         exit = true;
@@ -277,6 +281,61 @@ namespace Knowledge_Center
             Console.ReadKey();
         }
 
+        public static void DeleteAKnowledgeNode(KnowledgeNodeService knService, LogEntryService leService)
+        {
+            var nodes = knService.GetAllNodes();
+
+            if (nodes.Count == 0)
+            {
+                Console.WriteLine("No Knowledge Nodes available to delete.");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine("=== Delete a Knowledge Node ===");
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {nodes[i].Title} ({nodes[i].NodeType})");
+            }
+
+            Console.Write("\nSelect a node to delete (or 0 to cancel): ");
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int choice) || choice < 0 || choice > nodes.Count)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            if (choice == 0) return;
+
+            var selectedNode = nodes[choice - 1];
+
+            Console.Write($"\nAre you sure you want to permanently delete '{selectedNode.Title}' and all its logs? (yes/no): ");
+            string confirm = Console.ReadLine()?.Trim().ToLower();
+
+            if (confirm != "yes")
+            {
+                Console.WriteLine("\nDeletion cancelled. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            bool logsDeleted = leService.DeleteAllLogEntriesByNodeId(selectedNode.Id);
+            bool nodeDeleted = knService.DeleteNode(selectedNode.Id);
+
+            Console.WriteLine((logsDeleted && nodeDeleted)
+                ? $"\n✅ '{selectedNode.Title}' and all its logs were deleted successfully."
+                : "\n❌ Deletion failed. Some data may still exist.");
+
+            Console.WriteLine("\nPress any key to return to the main menu...");
+            Console.ReadKey();
+        }
+
 
 
         /* ======================== LOG ENTRIES ========================*/
@@ -344,7 +403,6 @@ namespace Knowledge_Center
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
-
 
         private static void ShowLogEntryListAndSelect(List<LogEntry> logEntries, LogEntryService leService, KnowledgeNodeService knService) 
         {
