@@ -11,7 +11,7 @@ namespace Knowledge_Center
     {
 
         /* ======================== MAIN MENU ======================== */
-        public static void ShowMainMenu(KnowledgeNodeService knService, LogEntryService leService)
+        public static void ShowMainMenu(KnowledgeNodeService knService, LogEntryService leService, DomainService dnService)
         {
             bool exit = false;
 
@@ -32,7 +32,7 @@ namespace Knowledge_Center
                 switch (input)
                 {
                     case "1":
-                        CreateNode(knService);
+                        CreateNode(knService, dnService);
                         break;
                     case "2":
                         ViewAllNodes(knService, leService);
