@@ -28,6 +28,11 @@ namespace Knowledge_Center.API.Controllers
             WriteJson(response, HttpStatusCode.OK, knowledgeNodes);
         }
 
+        // === GET /api/knowledge-nodes/{id} ===
+        public void GetById(HttpListenerResponse response, int id)
+        {
+        }
+
 
         // === HELPER ===
         private void WriteJson(HttpListenerResponse response, HttpStatusCode oK, List<KnowledgeNode> knowledgeNodes)
