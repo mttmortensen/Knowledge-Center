@@ -6,20 +6,21 @@ using System.Text.Json;
 using Knowledge_Center.Services;
 using Knowledge_Center.Models;
 using System.Security.Cryptography;
+using Knowledge_Center.API.Controllers;
 
 namespace Knowledge_Center.API
 {
     public class CoreAPI
     {
-        private readonly KnowledgeNodeService _knowledgeNodeService;
+        private readonly KnowledgeNodeController _knowledgeNodeController;
         private readonly LogEntryService _logEntryService;
         private readonly DomainService _domainService;
 
         private readonly HttpListener _listener;
 
-        public CoreAPI(KnowledgeNodeService knowledgeNodeService, LogEntryService logEntryService, DomainService domainService)
+        public CoreAPI(KnowledgeNodeController knowledgeNodeController, LogEntryService logEntryService, DomainService domainService)
         {
-            _knowledgeNodeService = knowledgeNodeService;
+            _knowledgeNodeController = knowledgeNodeController;
             _logEntryService = logEntryService;
             _domainService = domainService;
 
@@ -46,7 +47,6 @@ namespace Knowledge_Center.API
             var response = context.Response;
 
             string method = request.HttpMethod;
-            string route = request.Url.AbsolutePath.ToLower();
 
             try
             {
@@ -78,27 +78,32 @@ namespace Knowledge_Center.API
             }
         }
 
-        private void WriteResponse(HttpListenerResponse response, HttpStatusCode methodNotAllowed, string v)
+        private void HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
-            throw new NotImplementedException();
-        }
+            string route = request.Url.AbsolutePath.ToLower();
 
-        private void HandleDeleteRequest(HttpListenerRequest request, HttpListenerResponse response)
-        {
-            throw new NotImplementedException();
-        }
+            switch (route) 
+            {
+                case "/api/knowledge-nodes":
+                    _knowledgeNodeController.GetAll(response);
+                    break;
 
-        private void HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response)
-        {
-            throw new NotImplementedException();
-        }
 
+            }
+        }
         private void HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
             throw new NotImplementedException();
         }
-
-        private void HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response)
+        private void HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            throw new NotImplementedException();
+        }
+        private void HandleDeleteRequest(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            throw new NotImplementedException();
+        }
+        private void WriteResponse(HttpListenerResponse response, HttpStatusCode methodNotAllowed, string v)
         {
             throw new NotImplementedException();
         }
