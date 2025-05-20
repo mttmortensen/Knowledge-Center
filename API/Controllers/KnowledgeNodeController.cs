@@ -31,11 +31,21 @@ namespace Knowledge_Center.API.Controllers
         // === GET /api/knowledge-nodes/{id} ===
         public void GetById(HttpListenerResponse response, int id)
         {
+            var node = _knowledgeNodeService.GetNodeById(id);
+
+            if (node == null)
+            {
+                response.StatusCode = (int)HttpStatusCode.NotFound;
+                return;
+            }
+
+            // Convert to JSON
+            WriteJson(response, HttpStatusCode.OK, node);
         }
 
 
         // === HELPER ===
-        private void WriteJson(HttpListenerResponse response, HttpStatusCode oK, List<KnowledgeNode> knowledgeNodes)
+        private void WriteJson(HttpListenerResponse response, HttpStatusCode statusCode, object obj)
         {
             throw new NotImplementedException();
         }
