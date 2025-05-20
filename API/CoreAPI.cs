@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using Knowledge_Center.Services;
 using Knowledge_Center.Models;
+using System.Security.Cryptography;
 
 namespace Knowledge_Center.API
 {
@@ -25,5 +26,19 @@ namespace Knowledge_Center.API
             _listener = new HttpListener();
             _listener.Prefixes.Add("http://localhost:8080/");
         }
+
+        // Starts the server loop
+        public void Start()
+        {
+            _listener.Start();
+            Console.WriteLine("🚀 API server started on http://localhost:5000");
+            while (true)
+            {
+                var context = _listener.GetContext();
+                HandleRequest(context);
+            }
+        }
+
+
     }
 }
