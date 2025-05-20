@@ -10,7 +10,7 @@ namespace Knowledge_Center
     public static class KnowledgeCenterUI
     {
 
-        /* ======================== MAIN MENU ========================*/
+        /* ======================== MAIN MENU ======================== */
         public static void ShowMainMenu(KnowledgeNodeService knService, LogEntryService leService)
         {
             bool exit = false;
@@ -58,17 +58,41 @@ namespace Knowledge_Center
         }
 
 
-        /* ======================== KNOWLEDGE NODES ========================*/
+        /* ======================== KNOWLEDGE NODES ======================== */
 
-        public static void CreateNode(KnowledgeNodeService service) 
+        public static void CreateNode(KnowledgeNodeService knService, DomainService dnService) 
         {
             Console.WriteLine("=== Create a Knowledge Node ===");
 
             Console.Write("Title: ");
             string title = Console.ReadLine();
 
-            Console.Write("Domain: ");
-            string domain = Console.ReadLine();
+            // === DOMAIN SELECTION ===
+
+            var allDomains = dnService.GetAllDomains();
+
+            if (allDomains.Count == 0)
+            {
+                Console.WriteLine("No domains available. Please create a domain first.");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.WriteLine("\nSelect a Domain:");
+            string domainInput = Console.ReadLine();
+
+            if (!int.TryParse(domainInput, out int domainChoice) || domainChoice < 1 || domainChoice > allDomains.Count)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            int selectedDomainId = allDomains[domainChoice - 1].DomainId;
+
+
+            // === CONTINUE NORMAL FLOW ===
 
             string nodeType = GetNodeType();
 
@@ -84,7 +108,7 @@ namespace Knowledge_Center
             var newNode = new KnowledgeNode
             {
                 Title = title,
-                Domain = domain,
+                DomainId = selectedDomainId,
                 NodeType = nodeType,
                 Description = description,
                 ConfidenceLevel = confidence,
@@ -92,7 +116,7 @@ namespace Knowledge_Center
                 // CreatedAt and LastUpdated get auto-set in the service
             };
 
-            bool success = service.CreateNode(newNode);
+            bool success = knService.CreateNode(newNode);
 
             Console.WriteLine(success
                 ? "\n🎉 Node created successfully!"
@@ -341,8 +365,7 @@ namespace Knowledge_Center
         }
 
 
-
-        /* ======================== LOG ENTRIES ========================*/
+        /* ======================== LOG ENTRIES ======================== */
 
         public static void CreateLogEntry(LogEntryService leService, KnowledgeNodeService knService)
         {
@@ -462,6 +485,8 @@ namespace Knowledge_Center
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
+
+        /* ======================== DOMAINS ======================== */
 
     }
 }
