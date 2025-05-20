@@ -35,7 +35,7 @@ namespace Knowledge_Center
                         CreateNode(knService, dnService);
                         break;
                     case "2":
-                        ViewAllNodes(knService, leService);
+                        ViewAllNodes(knService, leService, dnService);
                         break;
                     case "3":
                         CreateLogEntry(leService, knService);
@@ -148,7 +148,7 @@ namespace Knowledge_Center
             return choice;
         }
 
-        public static void ViewAllNodes(KnowledgeNodeService knService, LogEntryService leService)
+        public static void ViewAllNodes(KnowledgeNodeService knService, LogEntryService leService, DomainService dnService)
         {
 
             List<KnowledgeNode> nodes = knService.GetAllNodes();
@@ -172,12 +172,12 @@ namespace Knowledge_Center
                     count++;
                 }
                 
-                SelectAKnowledgeNode(nodes, knService, leService);   
+                SelectAKnowledgeNode(nodes, knService, leService, dnService);   
             }
             
         }
 
-        private static void SelectAKnowledgeNode(List<KnowledgeNode> nodes, KnowledgeNodeService knService, LogEntryService leService) 
+        private static void SelectAKnowledgeNode(List<KnowledgeNode> nodes, KnowledgeNodeService knService, LogEntryService leService, DomainService dnService) 
         {
             Console.WriteLine("\nPlease a select a Knowledge Node to view it's details (0 to return): ");
             string input = Console.ReadLine();
@@ -192,7 +192,7 @@ namespace Knowledge_Center
                 if (selection >= 1 && selection <= nodes.Count)
                 {
                     var selectedNode = nodes[selection - 1];
-                    ShowKnowledgeNodeDetails(selectedNode, knService, leService);
+                    ShowKnowledgeNodeDetails(selectedNode, knService, leService, dnService);
                 }
                 else
                 {
@@ -207,11 +207,17 @@ namespace Knowledge_Center
             }
         }
 
-        private static void ShowKnowledgeNodeDetails(KnowledgeNode selectedNode, KnowledgeNodeService knService, LogEntryService leService)
+        private static void ShowKnowledgeNodeDetails(KnowledgeNode selectedNode, KnowledgeNodeService knService, LogEntryService leService, DomainService dnService)
         {
             Console.Clear();
             Console.WriteLine($"=== {selectedNode.Title} Details ===");
-            Console.WriteLine($"Domain: {selectedNode.Domain}");
+            
+            // ==== DOMAIN NAMING ====
+            var domain = dnService.GetDomainById(selectedNode.DomainId);
+            string domainName = domain != null ? domain.DomainName : "Unknown Domain";
+
+            Console.WriteLine($"Domain: {domainName}");
+
             Console.WriteLine($"Node Type: {selectedNode.NodeType}");
             Console.WriteLine($"Confidence Level: {selectedNode.ConfidenceLevel}");
             Console.WriteLine($"Status: {selectedNode.Status}");
