@@ -57,7 +57,27 @@ namespace Knowledge_Center
             return domains;
         }
 
-        public Domain GetDomainById(int domainId);
+        public Domain GetDomainById(int domainId) 
+        {
+            // Build SQL Parameters
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@DomainId", domainId)
+            };
+
+            // SELECT Query + Parameters to retrieve a single Domain and map results into Domain object
+            var rawDBResults = _database.ExecuteQuery(DomainQueries.GetDomainById, parameters);
+
+            if (rawDBResults.Count == 0)
+            {
+                return null; // No domain found with the given ID
+            }
+
+            // Map the first result to a Domain object
+            var rawDBRow = rawDBResults.First();
+            Domain domain = ConvertDBRowToClassObj(rawDBRow);
+            return domain;
+        }
 
         // === UPDATE ===
         public bool UpdateDomain(Domain domain);
