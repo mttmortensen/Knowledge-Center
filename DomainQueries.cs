@@ -31,7 +31,6 @@ namespace Knowledge_Center
                 DomainName = @DomainName,
                 DomainDescription = @DomainDescription,
                 DomainStatus = @DomainStatus,
-                CreatedAt = @CreatedAt,
                 LastUsed = @LastUsed
             WHERE 
                 DomainId = @DomainId;
