@@ -39,6 +39,43 @@ namespace Knowledge_Center.API
             }
         }
 
+        // Main handler for incoming requests
+        private void HandleRequest(HttpListenerContext context)
+        {
+            var request = context.Request;
+            var response = context.Response;
 
+            string method = request.HttpMethod;
+            string route = request.Url.AbsolutePath.ToLower();
+
+            try
+            {
+                // ==== ROUTES ====
+                // Handle different HTTP methods
+                switch (method)
+                {
+                    case "GET":
+                        HandleGetRequest(request, response);
+                        break;
+                    case "POST":
+                        HandlePostRequest(request, response);
+                        break;
+                    case "PUT":
+                        HandlePutRequest(request, response);
+                        break;
+                    case "DELETE":
+                        HandleDeleteRequest(request, response);
+                        break;
+                    default:
+                        WriteResponse(response, HttpStatusCode.MethodNotAllowed, "Method not allowed");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                WriteResponse(response, HttpStatusCode.InternalServerError, "Internal server error");
+            }
+        }
     }
 }
