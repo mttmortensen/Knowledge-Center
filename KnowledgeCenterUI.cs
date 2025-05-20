@@ -80,6 +80,11 @@ namespace Knowledge_Center
             }
 
             Console.WriteLine("\nSelect a Domain:");
+            for (int i = 0; i < allDomains.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {allDomains[i].DomainName}");
+            }
+            Console.Write("Enter the number of the domain: ");
             string domainInput = Console.ReadLine();
 
             if (!int.TryParse(domainInput, out int domainChoice) || domainChoice < 1 || domainChoice > allDomains.Count)
