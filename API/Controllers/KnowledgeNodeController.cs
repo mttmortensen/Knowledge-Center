@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Knowledge_Center.Models;
 using Knowledge_Center.Services;
 
 namespace Knowledge_Center.API.Controllers
@@ -21,6 +22,16 @@ namespace Knowledge_Center.API.Controllers
         public void GetAll(HttpListenerResponse response) 
         {
             //Get All Knowledge Nodes
+            List<KnowledgeNode> knowledgeNodes = _knowledgeNodeService.GetAllNodes();
+
+            // Convert to JSON
+            WriteJson(response, HttpStatusCode.OK, knowledgeNodes);
+        }
+
+
+        // === HELPER ===
+        private void WriteJson(HttpListenerResponse response, HttpStatusCode oK, List<KnowledgeNode> knowledgeNodes)
+        {
             throw new NotImplementedException();
         }
     }
