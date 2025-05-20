@@ -80,10 +80,40 @@ namespace Knowledge_Center
         }
 
         // === UPDATE ===
-        public bool UpdateDomain(Domain domain);
+        public bool UpdateDomain(Domain domain) 
+        {
+            // Build SQL Parameters
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@DomainId", domain.DomainId),
+                new SqlParameter("@DomainName", domain.DomainName),
+                new SqlParameter("@DomainDescription", domain.DomainDescription),
+                new SqlParameter("@DomainStatus", domain.DomainStatus),
+                new SqlParameter("@LastUsed", domain.LastUsed)
+            };
+
+            // Run the UPDATE query
+            int result = _database.ExecuteNonQuery(DomainQueries.UpdateDomain, parameters);
+
+            // Return true to see if UPDATE was successful
+            return result > 0;
+        }
 
         // === DELETE ===
-        public bool DeleteDomain(int domainId);
+        public bool DeleteDomain(int domainId) 
+        {
+            // Build SQL Parameters
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@DomainId", domainId)
+            };
+
+            // Run the DELETE query
+            int result = _database.ExecuteNonQuery(DomainQueries.DeleteDomain, parameters);
+
+            // Return true to see if DELETE was successful
+            return result > 0;
+        }
 
         /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */
 
