@@ -10,7 +10,7 @@ namespace Knowledge_Center
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Domain { get; set; }
+        public int DomainId { get; set; }
         public string NodeType { get; set; } // e.g., "Concept", "Project"
         public string Description { get; set; }
         public int ConfidenceLevel { get; set; }

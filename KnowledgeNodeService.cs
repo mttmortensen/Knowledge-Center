@@ -30,7 +30,7 @@ namespace Knowledge_Center
             var parameters = new List<SqlParameter>
             {
                 new SqlParameter("@Title", node.Title),
-                new SqlParameter("@Domain", node.Domain),
+                new SqlParameter("@DomainId", node.DomainId),
                 new SqlParameter("@Description", node.Description),
                 new SqlParameter("@ConfidenceLevel", node.ConfidenceLevel),
                 new SqlParameter("@Status", node.Status),
@@ -90,7 +90,7 @@ namespace Knowledge_Center
             {
                 new SqlParameter("@Id", node.Id),
                 new SqlParameter("@Title", node.Title),
-                new SqlParameter("@Domain", node.Domain),
+                new SqlParameter("@DomainId", node.DomainId),
                 new SqlParameter("@NodeType", node.NodeType),
                 new SqlParameter("@Description", node.Description),
                 new SqlParameter("@ConfidenceLevel", node.ConfidenceLevel),
@@ -126,7 +126,7 @@ namespace Knowledge_Center
             {
                 Id = Convert.ToInt32(rawDBRow["Id"]),
                 Title = rawDBRow["Title"].ToString(),
-                Domain = rawDBRow["Domain"].ToString(),
+                DomainId = Convert.ToInt32(rawDBRow["DomainId"]),
                 NodeType = rawDBRow["NodeType"].ToString(),
                 Description = rawDBRow["Description"].ToString(),
                 ConfidenceLevel = Convert.ToInt32(rawDBRow["ConfidenceLevel"]),
