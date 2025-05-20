@@ -41,7 +41,7 @@ namespace Knowledge_Center
                         CreateLogEntry(leService, knService);
                         break;
                     case "4":
-                        UpdateAKnowledgeNode(knService);
+                        UpdateAKnowledgeNode(knService, dnService);
                         break;
                     case "5":
                         DeleteAKnowledgeNode(knService, leService);
@@ -243,7 +243,7 @@ namespace Knowledge_Center
             Console.ReadKey();
         }
 
-        public static void UpdateAKnowledgeNode(KnowledgeNodeService knService)
+        public static void UpdateAKnowledgeNode(KnowledgeNodeService knService, DomainService dnService)
         {
             var nodes = knService.GetAllNodes();
 
@@ -285,10 +285,39 @@ namespace Knowledge_Center
             string title = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(title)) node.Title = title;
 
-            Console.Write($"Domain ({node.Domain}): ");
-            string domain = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(domain)) node.Domain = domain;
+            // === DOMAIN SELECTION FOR UPDATES ===
+            var currentDomain = dnService.GetDomainById(node.DomainId);
+            string currentDomainName = currentDomain?.DomainName ?? "Unknown";
 
+            Console.WriteLine($"\nCurrent Domain: {currentDomainName}");
+            Console.Write("Change domain? (yes/no): ");
+            string domainChangeInput = Console.ReadLine().Trim().ToLower();
+
+            if (domainChangeInput == "yes")
+            {
+                var allDomains = dnService.GetAllDomains();
+
+                Console.WriteLine("\nAvailable Domains:");
+                for (int i = 0; i < allDomains.Count; i++)
+                {
+                    Console.WriteLine($"[{i + 1}] {allDomains[i].DomainName}");
+                }
+
+                Console.Write("Select a new domain by number: ");
+                string domainInput = Console.ReadLine();
+
+                if (int.TryParse(domainInput, out int domainChoice) &&
+                    domainChoice >= 1 && domainChoice <= allDomains.Count)
+                {
+                    node.DomainId = allDomains[domainChoice - 1].DomainId;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid domain selection. Keeping existing domain.");
+                }
+            }
+
+            // === CONTINUE NORMAL FLOW ===
             Console.Write($"Description ({node.Description}): ");
             string desc = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(desc)) node.Description = desc;
