@@ -77,5 +77,30 @@ namespace Knowledge_Center.API
                 WriteResponse(response, HttpStatusCode.InternalServerError, "Internal server error");
             }
         }
+
+        private void WriteResponse(HttpListenerResponse response, HttpStatusCode methodNotAllowed, string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleDeleteRequest(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
