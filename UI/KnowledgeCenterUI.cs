@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Knowledge_Center.Models;
+using Knowledge_Center.Services;
 
 namespace Knowledge_Center
 {

@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Data.SqlClient;
+using Knowledge_Center.Models;
 
-namespace Knowledge_Center
+namespace Knowledge_Center.Services
 {
     public class LogEntryService
     {
