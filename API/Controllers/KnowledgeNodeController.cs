@@ -102,6 +102,18 @@ namespace Knowledge_Center.API.Controllers
             WriteJson(response, HttpStatusCode.OK, node);
         }
 
+        // === DELETE /api/knowledge-nodes/{id} ===
+        public void Delete(HttpListenerResponse response, int id)
+        {
+            bool success = _knowledgeNodeService.DeleteNode(id);
+            if (!success)
+            {
+                WriteJson(response, HttpStatusCode.InternalServerError, new { message = "Node not found or delete failed." });
+                return;
+            }
+            WriteJson(response, HttpStatusCode.OK, new { message = "Node deleted"}); 
+        }
+
 
         // === HELPER ===
         private void WriteJson(HttpListenerResponse response, HttpStatusCode statusCode, object obj)
