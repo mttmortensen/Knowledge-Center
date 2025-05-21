@@ -78,31 +78,53 @@ namespace Knowledge_Center.API
             }
         }
 
+        // GET 
         private void HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
             string route = request.Url.AbsolutePath.ToLower();
 
-            switch (route) 
+            if (route == "/api/knowledge-nodes")
             {
-                case "/api/knowledge-nodes":
-                    _knowledgeNodeController.GetAll(response);
-                    break;
-
-
+                _knowledgeNodeController.GetAll(response);
+            }
+            else if (route.StartsWith("/api/knowledge-nodes/") && int.TryParse(request.Url.Segments.Last(), out int nodeId))
+            {
+               _knowledgeNodeController.GetById(response, nodeId);
+            }
+            else
+            {
+                WriteResponse(response, HttpStatusCode.NotFound, "Not found");
             }
         }
+
+        // POST
         private void HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
-            throw new NotImplementedException();
+            string route = request.Url.AbsolutePath.ToLower();
+
+            if (route == "/api/knowledge-nodes")
+            {
+                _knowledgeNodeController.Create(response, request);
+            }
+            else 
+            {
+                WriteResponse(response, HttpStatusCode.NotFound, "Method not allowed");
+            }
         }
+
+        // PUT
         private void HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
             throw new NotImplementedException();
         }
+
+        // DELETE
         private void HandleDeleteRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
             throw new NotImplementedException();
         }
+
+        // Helper method to write JSON response
         private void WriteResponse(HttpListenerResponse response, HttpStatusCode methodNotAllowed, string v)
         {
             throw new NotImplementedException();
