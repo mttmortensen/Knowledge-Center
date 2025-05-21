@@ -67,7 +67,7 @@ namespace Knowledge_Center.API
                         HandleDeleteRequest(request, response);
                         break;
                     default:
-                        WriteResponse(response, HttpStatusCode.MethodNotAllowed, "Method not allowed");
+                        WriteResponse(response, HttpStatusCode.MethodNotAllowed, "Route not found");
                         break;
                 }
             }
@@ -93,7 +93,7 @@ namespace Knowledge_Center.API
             }
             else
             {
-                WriteResponse(response, HttpStatusCode.NotFound, "Not found");
+                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
             }
         }
 
@@ -108,7 +108,7 @@ namespace Knowledge_Center.API
             }
             else 
             {
-                WriteResponse(response, HttpStatusCode.NotFound, "Method not allowed");
+                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
             }
         }
 
@@ -123,14 +123,23 @@ namespace Knowledge_Center.API
             }
             else 
             {
-                WriteResponse(response, HttpStatusCode.NotFound, "Method not allowed");
+                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
             }
         }
 
         // DELETE
         private void HandleDeleteRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
-            throw new NotImplementedException();
+            string route = request.Url.AbsolutePath.ToLower();
+
+            if (route.StartsWith("/api/knowledge-nodes/") && int.TryParse(request.Url.Segments.Last(), out int nodeId))
+            {
+                _knowledgeNodeController.Delete(response, nodeId);
+            }
+            else
+            {
+                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
+            }
         }
 
         // Helper method to write JSON response
