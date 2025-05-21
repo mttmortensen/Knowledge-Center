@@ -52,7 +52,7 @@ namespace Knowledge_Center.UI
                         knUI.CreateNode();
                         break;
                     case "3":
-                        // knUI.ShowKnowledgeNodeMenu();
+                        knUI.ShowKnowledgeNodeMenu();
                         break;
                     case "4":
                         // dnUI.ShowDomainMenu();
