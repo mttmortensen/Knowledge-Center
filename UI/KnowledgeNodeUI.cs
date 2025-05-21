@@ -195,10 +195,11 @@ namespace Knowledge_Center.UI
             Console.WriteLine($"Last Updated: {selectedNode.LastUpdated}");
 
             List<LogEntry> logEntries = _lgService.GetAllLogEntriesByNodeId(selectedNode.Id);
+            LogEntryUI logEntryUI = new LogEntryUI(_knService, _lgService, _dnService);
 
             if (logEntries != null && logEntries.Count > 0)
             {
-                ShowLogEntryListAndSelect(logEntries);
+                logEntryUI.ShowLogEntryListAndSelect(logEntries);
             }
             else
             {
