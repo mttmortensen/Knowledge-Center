@@ -1,7 +1,11 @@
 ﻿using System;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
+using System.Threading;
 using Knowledge_Center.Services;
+using Knowledge_Center.API;
+using Knowledge_Center.API.Controllers;
+
 
 namespace Knowledge_Center
 {
@@ -14,6 +18,15 @@ namespace Knowledge_Center
             LogEntryService leService = new LogEntryService(db);
             DomainService dnService = new DomainService(db);
 
+            KnowledgeNodeController knController = new KnowledgeNodeController(knService);
+            CoreAPI coreAPI = new CoreAPI(knController, leService, dnService);
+
+            // Start the API server in a separate thread
+            Thread apiThread = new Thread(() => coreAPI.Start());
+            apiThread.IsBackground = true;
+            apiThread.Start();
+
+            // Now run the UI 
             KnowledgeCenterUI.ShowMainMenu(knService, leService, dnService);
         }
     }
