@@ -32,7 +32,7 @@ namespace Knowledge_Center.API
         public void Start()
         {
             _listener.Start();
-            Console.WriteLine("🚀 API server started on http://localhost:8080");
+            Console.WriteLine("\nThe Knowledge Center API has launched as well! The server started on http://localhost:8080");
             while (true)
             {
                 var context = _listener.GetContext();
