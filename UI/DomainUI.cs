@@ -29,8 +29,8 @@ namespace Knowledge_Center.UI
             {
                 Console.Clear();
                 Console.WriteLine("=== DOMAIN MENU ===");
-                Console.WriteLine("\n=================");
-                Console.WriteLine("   SELECT AN OPTION");
+                Console.WriteLine("\n===================");
+                Console.WriteLine(" SELECT AN OPTION");
                 Console.WriteLine("===================");
                 Console.WriteLine("1. Create a New Domain");
                 Console.WriteLine("2. View All Domains");
@@ -101,6 +101,27 @@ namespace Knowledge_Center.UI
                 Console.WriteLine("Failed to create domain.");
             }
 
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
+        }
+
+        // READ
+        public void ViewAllDomains()
+        {
+            Console.Clear();
+            Console.WriteLine("=== All Domains ===");
+            List<Domain> domains = _dnService.GetAllDomains();
+            if (domains.Count == 0)
+            {
+                Console.WriteLine("No domains found.");
+            }
+            else
+            {
+                foreach(var domain in domains)
+                {
+                    Console.WriteLine($" Name: {domain.DomainName}, Status: {domain.DomainStatus}");
+                }
+            }
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
