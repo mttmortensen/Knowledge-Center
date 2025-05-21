@@ -23,6 +23,51 @@ namespace Knowledge_Center.UI
 
         }
 
+        // ========================== MAIN MENU ==========================
+
+        public void ShowKnowledgeNodeMenu()
+        {
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+                Console.WriteLine("=== KNOWLEDGE NODE MENU ===");
+                Console.WriteLine("1. Create a Knowledge Node");
+                Console.WriteLine("2. View All Knowledge Nodes");
+                Console.WriteLine("3. Update a Knowledge Node");
+                Console.WriteLine("4. Delete a Knowledge Node");
+                Console.WriteLine("0. Return to Main Menu");
+                Console.Write("\nSelect an option: ");
+                string input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        CreateNode();
+                        break;
+                    case "2":
+                        ViewAllNodes();
+                        break;
+                    case "3":
+                        UpdateAKnowledgeNode();
+                        break;
+                    case "4":
+                        DeleteAKnowledgeNode();
+                        break;
+                    case "0":
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid selection. Press any key to try again...");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+
+        // ========================== CRUD ========================== 
+
+
+        // CREATE 
         public void CreateNode() 
         {
             Console.WriteLine("=== Create a Knowledge Node ===");
@@ -116,6 +161,7 @@ namespace Knowledge_Center.UI
             return choice;
         }
 
+        // READ
         public void ViewAllNodes()
         {
 
@@ -212,6 +258,7 @@ namespace Knowledge_Center.UI
             Console.ReadKey();
         }
 
+        // UPDATE
         public void UpdateAKnowledgeNode()
         {
             var nodes = _knService.GetAllNodes();
@@ -313,6 +360,7 @@ namespace Knowledge_Center.UI
             Console.ReadKey();
         }
 
+        // DELETE
         public void DeleteAKnowledgeNode()
         {
             var nodes = _knService.GetAllNodes();
