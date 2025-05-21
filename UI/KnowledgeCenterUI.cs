@@ -16,7 +16,7 @@ namespace Knowledge_Center.UI
         {
             var knUI = new KnowledgeNodeUI(knService, leService, dnService);
             var leUI = new LogEntryUI(knService, leService, dnService);
-
+            var dnUI = new DomainUI(knService, leService, dnService);
 
             bool exit = false;
 
@@ -55,7 +55,7 @@ namespace Knowledge_Center.UI
                         knUI.ShowKnowledgeNodeMenu();
                         break;
                     case "4":
-                        // dnUI.ShowDomainMenu();
+                        dnUI.ShowDomainMenu();
                         break;
                     case "5":
                         // lgUI.ShowLogEntryMenu();
