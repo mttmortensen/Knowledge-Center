@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Knowledge_Center.Models;
 using Knowledge_Center.Services;
 
 namespace Knowledge_Center.UI
@@ -24,13 +23,22 @@ namespace Knowledge_Center.UI
             while (!exit) 
             {
                 Console.Clear();
-                Console.WriteLine("=== Knowledge Center ===");
-                Console.WriteLine("1. Create a Knowledge Node");
-                Console.WriteLine("2. View All Knowledge Nodes");
-                Console.WriteLine("3. Log Entry to a Knowledge Node");
-                Console.WriteLine("4. Update a Knowledge Node");
-                Console.WriteLine("5. Delete a Knowledge Node");
-                Console.WriteLine("0. Exit");
+                Console.WriteLine("=== KNOWLEDGE CENTER HOME ===");
+
+                Console.WriteLine("\n=================");
+                Console.WriteLine("   QUICK LINKS");
+                Console.WriteLine("=================");
+                Console.WriteLine("1. Enter a Log");
+                Console.WriteLine("2. Create a New Knowledge Node");
+
+                Console.WriteLine("\n=================");
+                Console.WriteLine(" SELECT AN OPTION");
+                Console.WriteLine("=================");
+                Console.WriteLine("3. Knowledge Nodes");
+                Console.WriteLine("4. Domains");
+                Console.WriteLine("5. Log Entries");
+
+                Console.WriteLine("\n0. Exit");
                 Console.Write("\nSelect an option: ");
 
                 string input = Console.ReadLine();
@@ -38,19 +46,19 @@ namespace Knowledge_Center.UI
                 switch (input)
                 {
                     case "1":
-                        knUI.CreateNode();
-                        break;
-                    case "2":
-                        knUI.ViewAllNodes();
-                        break;
-                    case "3":
                         leUI.CreateLogEntry();
                         break;
+                    case "2":
+                        knUI.CreateNode();
+                        break;
+                    case "3":
+                        // knUI.ShowKnowledgeNodeMenu();
+                        break;
                     case "4":
-                        knUI.UpdateAKnowledgeNode();
+                        // dnUI.ShowDomainMenu();
                         break;
                     case "5":
-                        knUI.DeleteAKnowledgeNode();
+                        // lgUI.ShowLogEntryMenu();
                         break;
                     case "0":
                         exit = true;
