@@ -32,7 +32,7 @@ namespace Knowledge_Center.API
         public void Start()
         {
             _listener.Start();
-            Console.WriteLine("🚀 API server started on http://localhost:5000");
+            Console.WriteLine("🚀 API server started on http://localhost:8080");
             while (true)
             {
                 var context = _listener.GetContext();
@@ -134,9 +134,19 @@ namespace Knowledge_Center.API
         }
 
         // Helper method to write JSON response
-        private void WriteResponse(HttpListenerResponse response, HttpStatusCode methodNotAllowed, string v)
+        private void WriteResponse(HttpListenerResponse response, HttpStatusCode statusCode, string message)
         {
-            throw new NotImplementedException();
+            response.StatusCode = (int)statusCode;
+            response.ContentType = "application/json";
+
+            var jsonResponse = JsonSerializer.Serialize(new { message });
+            byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
+            response.ContentLength64 = buffer.Length;
+
+            using (var output = response.OutputStream)
+            {
+                output.Write(buffer, 0, buffer.Length);
+            }
         }
     }
 }
