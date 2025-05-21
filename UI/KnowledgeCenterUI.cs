@@ -15,6 +15,7 @@ namespace Knowledge_Center.UI
         /* ======================== MAIN MENU ======================== */
         public static void ShowMainMenu(KnowledgeNodeService knService, LogEntryService leService, DomainService dnService)
         {
+            var knUI = new KnowledgeNodeUI(knService, leService, dnService);
             bool exit = false;
 
             while (!exit) 
@@ -34,7 +35,7 @@ namespace Knowledge_Center.UI
                 switch (input)
                 {
                     case "1":
-                        CreateNode(knService, dnService);
+                        knUI.CreateNode();
                         break;
                     case "2":
                         ViewAllNodes(knService, leService, dnService);
