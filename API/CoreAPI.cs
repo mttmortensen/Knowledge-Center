@@ -115,7 +115,16 @@ namespace Knowledge_Center.API
         // PUT
         private void HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
-            throw new NotImplementedException();
+            string route = request.Url.AbsolutePath.ToLower();
+
+            if (route.StartsWith("/api/knowledge-nodes/") && int.TryParse(request.Url.Segments.Last(), out int nodeId))
+            {
+                _knowledgeNodeController.Update(response, request, nodeId);
+            }
+            else 
+            {
+                WriteResponse(response, HttpStatusCode.NotFound, "Method not allowed");
+            }
         }
 
         // DELETE
