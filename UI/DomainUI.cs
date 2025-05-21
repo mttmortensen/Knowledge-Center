@@ -53,7 +53,7 @@ namespace Knowledge_Center.UI
                         UpdateDomain();
                         break;
                     case "4":
-                        // DeleteDomain();
+                        DeleteDomain();
                         break;
                     case "0":
                         exit = true;
@@ -190,18 +190,29 @@ namespace Knowledge_Center.UI
         // DELETE
         public void DeleteDomain() 
         {
+            
             Console.Clear();
             Console.WriteLine("=== Delete Domain ===");
-            Console.Write("Enter Domain ID to delete: ");
+            Console.WriteLine("\n=== Available Domains ===:");
+            List<Domain> domainList = _dnService.GetAllDomains();
 
-            int domainId;
-            if (!int.TryParse(Console.ReadLine(), out domainId))
+            foreach (Domain domain in domainList) 
             {
-                Console.WriteLine("Invalid ID. Press any key to return...");
-                Console.ReadKey();
-                return;
+                Console.WriteLine($" Name: {domain.DomainName}, Status: {domain.DomainStatus}");
             }
-            bool success = _dnService.DeleteDomain(domainId);
+
+            Console.Write("\nEnter Domain Name to delete: ");
+            string domainName = Console.ReadLine();
+
+            bool success = false;
+            foreach (Domain domain in domainList) 
+            {
+                if (domain.DomainName.Equals(domainName, StringComparison.OrdinalIgnoreCase))
+                {
+                    success = _dnService.DeleteDomain(domain.DomainId);
+                    break;
+                }
+            }
 
             Console.WriteLine(success
                 ? "\n✅ Domain deleted successfully!"
