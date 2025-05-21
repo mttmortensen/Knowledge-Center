@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
+using Knowledge_Center.Services;
 
 namespace Knowledge_Center
 {
