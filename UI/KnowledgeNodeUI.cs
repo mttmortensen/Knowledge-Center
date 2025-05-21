@@ -115,5 +115,256 @@ namespace Knowledge_Center.UI
 
             return choice;
         }
+
+        public void ViewAllNodes()
+        {
+
+            List<KnowledgeNode> nodes = _knService.GetAllNodes();
+
+            if (nodes.Count == 0)
+            {
+                Console.WriteLine("No Knowledge Nodes available.");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("=== View All Knowledge Nodes ===");
+
+                int count = 1;
+                foreach (var node in nodes)
+                {
+                    Console.WriteLine($"[{count}] Title: {node.Title}, Created On: {node.CreatedAt}");
+                    count++;
+                }
+
+                SelectAKnowledgeNode(nodes);
+            }
+
+        }
+
+        private void SelectAKnowledgeNode(List<KnowledgeNode> nodes)
+        {
+            Console.WriteLine("\nPlease a select a Knowledge Node to view it's details (0 to return): ");
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out int selection))
+            {
+                if (selection == 0)
+                {
+                    return;
+                }
+
+                if (selection >= 1 && selection <= nodes.Count)
+                {
+                    var selectedNode = nodes[selection - 1];
+                    ShowKnowledgeNodeDetails(selectedNode);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection. Please try again.");
+                    Console.ReadKey();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection. Please try again.");
+                Console.ReadKey();
+            }
+        }
+
+        private void ShowKnowledgeNodeDetails(KnowledgeNode selectedNode)
+        {
+            Console.Clear();
+            Console.WriteLine($"=== {selectedNode.Title} Details ===");
+
+            // ==== DOMAIN NAMING ====
+            var domain = _dnService.GetDomainById(selectedNode.DomainId);
+            string domainName = domain != null ? domain.DomainName : "Unknown Domain";
+
+            Console.WriteLine($"Domain: {domainName}");
+
+            Console.WriteLine($"Node Type: {selectedNode.NodeType}");
+            Console.WriteLine($"Confidence Level: {selectedNode.ConfidenceLevel}");
+            Console.WriteLine($"Status: {selectedNode.Status}");
+            Console.WriteLine($"Created At: {selectedNode.CreatedAt}");
+            Console.WriteLine($"Description: {selectedNode.Description}");
+            Console.WriteLine($"Created: {selectedNode.CreatedAt}");
+            Console.WriteLine($"Last Updated: {selectedNode.LastUpdated}");
+
+            List<LogEntry> logEntries = _lgService.GetAllLogEntriesByNodeId(selectedNode.Id);
+
+            if (logEntries != null && logEntries.Count > 0)
+            {
+                ShowLogEntryListAndSelect(logEntries);
+            }
+            else
+            {
+                Console.WriteLine("\nNo log entries found for this node.");
+                Console.WriteLine("Press any key to go back to the Main Menu...");
+                Console.ReadKey();
+            }
+
+            Console.WriteLine("\nPress any key to go back to the Main Menu...");
+            Console.ReadKey();
+        }
+
+        public void UpdateAKnowledgeNode()
+        {
+            var nodes = _knService.GetAllNodes();
+
+            if (nodes.Count == 0)
+            {
+                Console.WriteLine("No Knowledge Nodes available to update.");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine("=== Update a Knowledge Node ===");
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {nodes[i].Title} ({nodes[i].NodeType})");
+            }
+
+            Console.Write("\nSelect a node to update (or 0 to cancel): ");
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int choice) || choice < 0 || choice > nodes.Count)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            if (choice == 0) return;
+
+            var node = nodes[choice - 1];
+
+            Console.Clear();
+            Console.WriteLine($"=== Editing: {node.Title} ===");
+            Console.WriteLine("Leave any field blank to keep the current value.");
+
+            Console.Write($"Title ({node.Title}): ");
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title)) node.Title = title;
+
+            // === DOMAIN SELECTION FOR UPDATES ===
+            var currentDomain = _dnService.GetDomainById(node.DomainId);
+            string currentDomainName = currentDomain?.DomainName ?? "Unknown";
+
+            Console.WriteLine($"\nCurrent Domain: {currentDomainName}");
+            Console.Write("Change domain? (yes/no): ");
+            string domainChangeInput = Console.ReadLine().Trim().ToLower();
+
+            if (domainChangeInput == "yes")
+            {
+                var allDomains = _dnService.GetAllDomains();
+
+                Console.WriteLine("\nAvailable Domains:");
+                for (int i = 0; i < allDomains.Count; i++)
+                {
+                    Console.WriteLine($"[{i + 1}] {allDomains[i].DomainName}");
+                }
+
+                Console.Write("Select a new domain by number: ");
+                string domainInput = Console.ReadLine();
+
+                if (int.TryParse(domainInput, out int domainChoice) &&
+                    domainChoice >= 1 && domainChoice <= allDomains.Count)
+                {
+                    node.DomainId = allDomains[domainChoice - 1].DomainId;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid domain selection. Keeping existing domain.");
+                }
+            }
+
+            // === CONTINUE NORMAL FLOW ===
+            Console.Write($"Description ({node.Description}): ");
+            string desc = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(desc)) node.Description = desc;
+
+            Console.Write($"Confidence Level ({node.ConfidenceLevel}): ");
+            string confInput = Console.ReadLine();
+            if (int.TryParse(confInput, out int confVal)) node.ConfidenceLevel = confVal;
+
+            Console.Write($"Status ({node.Status}): ");
+            string status = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(status)) node.Status = status;
+
+            Console.Write($"Node Type ({node.NodeType}): ");
+            string type = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(type)) node.NodeType = type;
+
+            bool updated = _knService.UpdateNode(node);
+
+            Console.WriteLine(updated
+                ? "\n✅ Knowledge Node updated successfully!"
+                : "\n❌ Update failed.");
+
+            Console.WriteLine("\nPress any key to return to the main menu...");
+            Console.ReadKey();
+        }
+
+        public void DeleteAKnowledgeNode()
+        {
+            var nodes = _knService.GetAllNodes();
+
+            if (nodes.Count == 0)
+            {
+                Console.WriteLine("No Knowledge Nodes available to delete.");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine("=== Delete a Knowledge Node ===");
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {nodes[i].Title} ({nodes[i].NodeType})");
+            }
+
+            Console.Write("\nSelect a node to delete (or 0 to cancel): ");
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int choice) || choice < 0 || choice > nodes.Count)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            if (choice == 0) return;
+
+            var selectedNode = nodes[choice - 1];
+
+            Console.Write($"\nAre you sure you want to permanently delete '{selectedNode.Title}' and all its logs? (yes/no): ");
+            string confirm = Console.ReadLine()?.Trim().ToLower();
+
+            if (confirm != "yes")
+            {
+                Console.WriteLine("\nDeletion cancelled. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            bool logsDeleted = _lgService.DeleteAllLogEntriesByNodeId(selectedNode.Id);
+            bool nodeDeleted = _knService.DeleteNode(selectedNode.Id);
+
+            Console.WriteLine((logsDeleted && nodeDeleted)
+                ? $"\n✅ '{selectedNode.Title}' and all its logs were deleted successfully."
+                : "\n❌ Deletion failed. Some data may still exist.");
+
+            Console.WriteLine("\nPress any key to return to the main menu...");
+            Console.ReadKey();
+        }
     }
 }
