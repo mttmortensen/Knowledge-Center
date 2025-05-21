@@ -47,10 +47,10 @@ namespace Knowledge_Center.UI
                         CreateDomain();
                         break;
                     case "2":
-                        //ViewAllDomains();
+                        ViewAllDomains();
                         break;
                     case "3":
-                        // EditDomain();
+                        UpdateDomain();
                         break;
                     case "4":
                         // DeleteDomain();
@@ -122,6 +122,91 @@ namespace Knowledge_Center.UI
                     Console.WriteLine($" Name: {domain.DomainName}, Status: {domain.DomainStatus}");
                 }
             }
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
+        }
+
+        // UPDATE
+        public void UpdateDomain() 
+        {
+            Console.Clear();
+            Console.WriteLine("=== Update Domain ===");
+            Console.Write("Enter Domain ID to update: ");
+
+            int domainId;
+            if (!int.TryParse(Console.ReadLine(), out domainId))
+            {
+                Console.WriteLine("Invalid ID. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            Domain domain = _dnService.GetDomainById(domainId);
+
+            if (domain == null)
+            {
+                Console.WriteLine("Domain not found. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.WriteLine($"Current Name: {domain.DomainName}");
+            Console.Write("New Domain Name (leave blank to keep current): ");
+            string newDomainName = Console.ReadLine();
+
+            Console.WriteLine($"Current Description: {domain.DomainDescription}");
+            Console.Write("New Domain Description (leave blank to keep current): ");
+            string newDomainDescription = Console.ReadLine();
+
+            Console.WriteLine($"Current Status: {domain.DomainStatus}");
+            Console.Write("New Domain Status (Active/Inactive, leave blank to keep current): ");
+            string newDomainStatus = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(newDomainName))
+            {
+                domain.DomainName = newDomainName;
+            }
+
+            if (!string.IsNullOrEmpty(newDomainDescription))
+            {
+                domain.DomainDescription = newDomainDescription;
+            }
+
+            if (!string.IsNullOrEmpty(newDomainStatus))
+            {
+                domain.DomainStatus = newDomainStatus;
+            }
+
+            bool success = _dnService.UpdateDomain(domain);
+
+            Console.WriteLine(success
+                ? "\n✅ Domain updated successfully!"
+                : "\n❌ Failed to update domain.");
+
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
+        }
+
+        // DELETE
+        public void DeleteDomain() 
+        {
+            Console.Clear();
+            Console.WriteLine("=== Delete Domain ===");
+            Console.Write("Enter Domain ID to delete: ");
+
+            int domainId;
+            if (!int.TryParse(Console.ReadLine(), out domainId))
+            {
+                Console.WriteLine("Invalid ID. Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+            bool success = _dnService.DeleteDomain(domainId);
+
+            Console.WriteLine(success
+                ? "\n✅ Domain deleted successfully!"
+                : "\n❌ Failed to delete domain.");
+
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
