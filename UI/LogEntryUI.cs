@@ -20,7 +20,11 @@ namespace Knowledge_Center.UI
             _lgService = lgService;
             _dnService = dnService;
         }
+        // ========================== MAIN MENU ==========================
 
+        // ========================== CRUD ========================== 
+
+        // CREATE 
         public void CreateLogEntry()
         {
             var nodes = _knService.GetAllNodes();
@@ -85,6 +89,29 @@ namespace Knowledge_Center.UI
             Console.ReadKey();
         }
 
+
+        // READ
+        public void ViewAllLogEntries() 
+        {
+            Console.Clear();
+            Console.WriteLine("=== All Log Entries ===");
+            List<LogEntry> logEntries = _lgService.GetAllLogEntries();
+            if (logEntries.Count == 0)
+            {
+                Console.WriteLine("No log entries found.");
+                Console.WriteLine("\nPress any key to return...");
+                Console.ReadKey();
+                return;
+            }
+            foreach (var log in logEntries)
+            {
+                Console.WriteLine($"[{log.LogId}] {log.EntryDate.ToShortTimeString()} - {log.Content}");
+            }
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
+
+        }
+
         public void ShowLogEntryListAndSelect(List<LogEntry> logEntries)
         {
             Console.WriteLine($"\n=== Log Entries ===");
@@ -139,5 +166,7 @@ namespace Knowledge_Center.UI
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
+
+        
     }
 }
