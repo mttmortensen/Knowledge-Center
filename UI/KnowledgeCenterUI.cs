@@ -16,6 +16,9 @@ namespace Knowledge_Center.UI
         public static void ShowMainMenu(KnowledgeNodeService knService, LogEntryService leService, DomainService dnService)
         {
             var knUI = new KnowledgeNodeUI(knService, leService, dnService);
+            var leUI = new LogEntryUI(knService, leService, dnService);
+
+
             bool exit = false;
 
             while (!exit) 
@@ -38,16 +41,16 @@ namespace Knowledge_Center.UI
                         knUI.CreateNode();
                         break;
                     case "2":
-                        ViewAllNodes(knService, leService, dnService);
+                        knUI.ViewAllNodes();
                         break;
                     case "3":
-                        CreateLogEntry(leService, knService);
+                        leUI.CreateLogEntry();
                         break;
                     case "4":
-                        UpdateAKnowledgeNode(knService, dnService);
+                        knUI.UpdateAKnowledgeNode();
                         break;
                     case "5":
-                        DeleteAKnowledgeNode(knService, leService);
+                        knUI.DeleteAKnowledgeNode();
                         break;
                     case "0":
                         exit = true;
@@ -63,131 +66,7 @@ namespace Knowledge_Center.UI
 
         /* ======================== KNOWLEDGE NODES ======================== */
 
-        
-
-        
-
-
         /* ======================== LOG ENTRIES ======================== */
-
-        public static void CreateLogEntry(LogEntryService leService, KnowledgeNodeService knService)
-        {
-            var nodes = knService.GetAllNodes();
-
-            if (nodes.Count == 0)
-            {
-                Console.Clear();
-                Console.WriteLine("No Knowledge Nodes exist. Create one before adding logs.");
-                Console.WriteLine("\nPress any key to return...");
-                Console.ReadKey();
-                return;
-            }
-
-            Console.Clear();
-            Console.WriteLine("=== Select a Knowledge Node to Add a Log ===");
-
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                Console.WriteLine($"[{i + 1}] {nodes[i].Title} ({nodes[i].NodeType})");
-            }
-
-            Console.Write("\nChoose a node number: ");
-            string input = Console.ReadLine();
-
-            if (!int.TryParse(input, out int index) || index < 1 || index > nodes.Count)
-            {
-                Console.WriteLine("Invalid selection. Press any key to return...");
-                Console.ReadKey();
-                return;
-            }
-
-            var selectedNode = nodes[index - 1];
-
-            Console.Clear();
-            Console.WriteLine($"=== Add Log to {selectedNode.Title} ===");
-
-            Console.Write("Content: ");
-            string content = Console.ReadLine();
-
-            Console.Write("Tag: ");
-            string tag = Console.ReadLine();
-
-            Console.Write("Contributes to Progress? (true/false): ");
-            bool contributes = Convert.ToBoolean(Console.ReadLine());
-
-            var newLog = new LogEntry
-            {
-                NodeId = selectedNode.Id,
-                EntryDate = DateTime.Now,
-                Content = content,
-                Tag = tag,
-                ContributesToProgress = contributes
-            };
-
-            bool success = leService.CreateLogEntry(newLog);
-
-            Console.WriteLine(success
-                ? $"\n✅ Log added to '{selectedNode.Title}'"
-                : "\n❌ Failed to create log entry.");
-
-            Console.WriteLine("\nPress any key to return...");
-            Console.ReadKey();
-        }
-
-        private static void ShowLogEntryListAndSelect(List<LogEntry> logEntries, LogEntryService leService, KnowledgeNodeService knService) 
-        {
-            Console.WriteLine($"\n=== Log Entries ===");
-
-            for (int i = 0; i < logEntries.Count; i++)
-            {
-                Console.WriteLine($"[{i + 1}] {logEntries[i].EntryDate.ToShortTimeString()}");
-            }
-
-            Console.WriteLine("\nSelect a log entry number to view");
-            string input = Console.ReadLine();
-
-            if (int.TryParse(input, out int choice)) 
-            {
-                if (choice == 0)
-                {
-                    return;
-                }
-
-                if (choice >= 1 && choice <= logEntries.Count)
-                {
-                    var selectedLog = logEntries[choice - 1];
-                    ShowLogEntryDetails(selectedLog, knService);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid selection. Please try again.");
-                    Console.ReadKey();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid selection. Please try again.");
-                Console.ReadKey();
-            }
-        }
-
-        private static void ShowLogEntryDetails(LogEntry logEntry, KnowledgeNodeService knService)
-        {
-            var knowledgeNode = knService.GetNodeById(logEntry.NodeId);
-
-
-            Console.Clear();
-            Console.WriteLine($"=== Log Entry Details ===");
-            Console.WriteLine($"KnowledgeNode Title: {knowledgeNode.Title}");
-            Console.WriteLine($"KnowledgeNode ID: {logEntry.NodeId}");
-            Console.WriteLine($"Entry Date: {logEntry.EntryDate}");
-            Console.WriteLine($"Tag: {logEntry.Tag}");
-            Console.WriteLine($"Contributes to Progress: {logEntry.ContributesToProgress}");
-            Console.WriteLine($"\nContent: \n{logEntry.Content}");
-
-            Console.WriteLine("\nPress any key to return...");
-            Console.ReadKey();
-        }
 
         /* ======================== DOMAINS ======================== */
 
