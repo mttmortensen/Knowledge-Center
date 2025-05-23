@@ -98,6 +98,11 @@ namespace Knowledge_Center.API
                     _domainController.GetAll(response);
                     break;
 
+                case true when route.StartsWith("/api/domains/") &&
+                              int.TryParse(request.Url.Segments.Last(), out int domainId):
+                    _domainController.GetById(response, domainId);
+                    break;
+
                 default:
                     WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
                     break;

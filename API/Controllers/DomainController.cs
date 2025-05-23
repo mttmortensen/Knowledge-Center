@@ -31,6 +31,19 @@ namespace Knowledge_Center.API.Controllers
 
         // === GET /api/domains/{id} ===
 
+        public void GetById(HttpListenerResponse response, int id)
+        {
+            var domain = _dnService.GetDomainById(id);
+            if (domain == null)
+            {
+                response.StatusCode = (int)HttpStatusCode.NotFound;
+                return;
+            }
+
+            // Convert to JSON
+            WriteJson(response, HttpStatusCode.OK, domain);
+        }
+
         // === POST /api/domains ===
 
         // === PUT /api/domains/{id} ===
