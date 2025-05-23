@@ -22,6 +22,11 @@ namespace Knowledge_Center
             ORDER BY EntryDate DESC;
         ";
 
+        public static readonly string GetAllLogs = @"
+            SELECT * FROM LogEntries 
+            ORDER BY EntryDate DESC;
+        ";
+
         public static readonly string GetLogByLogId = @"
             SELECT * FROM LogEntries 
             WHERE LogId = @LogId;

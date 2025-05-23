@@ -45,6 +45,26 @@ namespace Knowledge_Center.Services
         }
 
         // === READ ===
+
+        public List<LogEntry> GetAllLogEntries() 
+        {
+            List<LogEntry> logEntries = new List<LogEntry>();
+
+            // SELECT Query + Parameters to retrieve all LogEntries and maps results into LogEntry objects
+            var rawDBResults = _database.ExecuteQuery(LogEntryQueries.GetAllLogs, null);
+
+            if (rawDBResults.Count == 0)
+            {
+                return null;
+            }
+
+            foreach (var rawDBRow in rawDBResults)
+            {
+                logEntries.Add(ConvertDBRowToClassObj(rawDBRow));
+            }
+
+            return logEntries;
+        }
         public List<LogEntry> GetAllLogEntriesByNodeId(int nodeId) 
         {
             List<SqlParameter> parameters = new List<SqlParameter>
