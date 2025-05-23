@@ -128,6 +128,7 @@ namespace Knowledge_Center.Services
         {
             return new LogEntry
             {
+                LogId = Convert.ToInt32(rawDBRow["LogId"]),
                 NodeId = Convert.ToInt32(rawDBRow["NodeId"]),
                 EntryDate = Convert.ToDateTime(rawDBRow["EntryDate"]),
                 Content = rawDBRow["Content"].ToString(),
