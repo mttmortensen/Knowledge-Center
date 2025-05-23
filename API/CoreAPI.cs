@@ -109,19 +109,24 @@ namespace Knowledge_Center.API
             }
         }
 
-
         // POST
         private void HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
             string route = request.Url.AbsolutePath.ToLower();
 
-            if (route == "/api/knowledge-nodes")
+            switch (true)
             {
-                _knowledgeNodeController.Create(response, request);
-            }
-            else 
-            {
-                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
+                case true when route == "/api/knowledge-nodes":
+                    _knowledgeNodeController.Create(response, request);
+                    break;
+
+                case true when route == "/api/domains":
+                    _domainController.Create(response, request);
+                    break;
+
+                default:
+                    WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
+                    break;
             }
         }
 

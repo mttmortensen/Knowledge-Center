@@ -30,7 +30,6 @@ namespace Knowledge_Center.API.Controllers
         }
 
         // === GET /api/domains/{id} ===
-
         public void GetById(HttpListenerResponse response, int id)
         {
             var domain = _dnService.GetDomainById(id);
@@ -45,6 +44,33 @@ namespace Knowledge_Center.API.Controllers
         }
 
         // === POST /api/domains ===
+        public void Create(HttpListenerResponse response, HttpListenerRequest request)
+        {
+            using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+            string body = reader.ReadToEnd();
+            
+            Domain domain;
+
+            try
+            {
+                domain = JsonSerializer.Deserialize<Domain>(body);
+            }
+            catch (JsonException)
+            {
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
+
+            if (_dnService.CreateDomain(domain))
+            {
+                response.StatusCode = (int)HttpStatusCode.Created;
+                WriteJson(response, HttpStatusCode.Created, domain);
+            }
+            else
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+        }
 
         // === PUT /api/domains/{id} ===
 
