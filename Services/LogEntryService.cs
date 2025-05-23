@@ -91,6 +91,22 @@ namespace Knowledge_Center.Services
             return logEntries;
         }
 
+        // This function is being used in the API
+        public LogEntry GetLogEntryByLogId(int logId)
+        {
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@LogId", logId)
+            };
+            // SELECT Query + Parameters to retrieve a specific LogEntry by LogID and map result into a LogEntry object
+            var rawDBResults = _database.ExecuteQuery(LogEntryQueries.GetLogByLogId, parameters);
+            if (rawDBResults.Count == 0)
+            {
+                return null;
+            }
+            return ConvertDBRowToClassObj(rawDBResults[0]);
+        }
+
         // === DELETE ===
         public bool DeleteAllLogEntriesByNodeId(int nodeId)
         {
