@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Knowledge_Center.Models;
 using Knowledge_Center.Services;
 
@@ -61,7 +62,8 @@ namespace Knowledge_Center.API.Controllers
                 return;
             }
 
-            if (_dnService.CreateDomain(domain))
+            bool succes = _dnService.CreateDomain(domain);
+            if (succes)
             {
                 response.StatusCode = (int)HttpStatusCode.Created;
                 WriteJson(response, HttpStatusCode.Created, domain);
@@ -73,8 +75,56 @@ namespace Knowledge_Center.API.Controllers
         }
 
         // === PUT /api/domains/{id} ===
+        public void Update(HttpListenerResponse response, HttpListenerRequest request)
+        {
+            using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+            string body = reader.ReadToEnd();
+
+            Domain domain;
+            
+            try
+            {
+                domain = JsonSerializer.Deserialize<Domain>(body);
+            }
+            catch (JsonException)
+            {
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
+
+            bool success = _dnService.UpdateDomain(domain);
+            if (success)
+            {
+                response.StatusCode = (int)HttpStatusCode.OK;
+                WriteJson(response, HttpStatusCode.OK, domain);
+            }
+            else
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+        }
 
         // === DELETE /api/domains/{id} ===
+        public void Delete(HttpListenerResponse response, HttpListenerRequest request)
+        {
+            string idString = request.Url.Segments.Last();
+
+            if (!int.TryParse(idString, out int id))
+            {
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
+  
+            bool success = _dnService.DeleteDomain(id);
+            if (success)
+            {
+                response.StatusCode = (int)HttpStatusCode.NoContent;
+            }
+            else
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+        }
 
         // === HELPER ===
         private void WriteJson(HttpListenerResponse response, HttpStatusCode statusCode, object obj)
