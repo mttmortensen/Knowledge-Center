@@ -14,14 +14,14 @@ namespace Knowledge_Center.API
     {
         private readonly KnowledgeNodeController _knowledgeNodeController;
         private readonly DomainController _domainController;
-        private readonly LogEntryService _logEntryService;
+        private readonly LogEntryController _logEntryController;
 
         private readonly HttpListener _listener;
 
-        public CoreAPI(KnowledgeNodeController knowledgeNodeController, LogEntryService logEntryService, DomainController domainController)
+        public CoreAPI(KnowledgeNodeController knowledgeNodeController, LogEntryController logEntryController, DomainController domainController)
         {
             _knowledgeNodeController = knowledgeNodeController;
-            _logEntryService = logEntryService;
+            _logEntryController = logEntryController;
             _domainController = domainController;
 
             _listener = new HttpListener();
@@ -101,6 +101,15 @@ namespace Knowledge_Center.API
                 case true when route.StartsWith("/api/domains/") &&
                               int.TryParse(request.Url.Segments.Last(), out int domainId):
                     _domainController.GetById(response, domainId);
+                    break;
+
+                case true when route == "/api/logs":
+                    _logEntryController.GetAll(response);
+                    break;
+
+                case true when route.StartsWith("/api/logs/") &&
+                              int.TryParse(request.Url.Segments.Last(), out int logId):
+                    _logEntryController.GetById(response, logId);
                     break;
 
                 default:
