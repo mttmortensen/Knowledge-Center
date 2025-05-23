@@ -22,6 +22,40 @@ namespace Knowledge_Center.UI
         }
         // ========================== MAIN MENU ==========================
 
+        public void ShowLogEntryMenu()
+        {
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+                Console.WriteLine("=== LOG ENTRY MENU ===");
+                Console.WriteLine("\n===================");
+                Console.WriteLine(" SELECT AN OPTION");
+                Console.WriteLine("===================");
+                Console.WriteLine("\n1. Create Log Entry");
+                Console.WriteLine("2. View All Log Entries");
+                Console.WriteLine("0. Back to Main Menu");
+                Console.Write("\nSelect an option: ");
+                string input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        CreateLogEntry();
+                        break;
+                    case "2":
+                        ViewAllLogEntries();
+                        break;
+                    case "0":
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid selection. Press any key to try again...");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+
         // ========================== CRUD ========================== 
 
         // CREATE 

@@ -58,7 +58,7 @@ namespace Knowledge_Center.UI
                         dnUI.ShowDomainMenu();
                         break;
                     case "5":
-                        // lgUI.ShowLogEntryMenu();
+                        leUI.ShowLogEntryMenu();
                         break;
                     case "0":
                         exit = true;
