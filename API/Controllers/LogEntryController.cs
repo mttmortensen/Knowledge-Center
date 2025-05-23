@@ -51,10 +51,11 @@ namespace Knowledge_Center.API.Controllers
 
             // Deserialize the JSON body into a LogEntry object
             LogEntry log;
-            
+
             try
             {
                 log = JsonSerializer.Deserialize<LogEntry>(body);
+                log.EntryDate = DateTime.Now; // Set the EntryDate to the current date and time
             }
             catch (JsonException)
             {
