@@ -133,6 +133,10 @@ namespace Knowledge_Center.API
                     _domainController.Create(response, request);
                     break;
 
+                case true when route == "/api/logs":
+                    _logEntryController.Create(response, request);
+                    break;
+
                 default:
                     WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
                     break;

@@ -43,6 +43,36 @@ namespace Knowledge_Center.API.Controllers
         }
 
         // === POST /api/logs ===
+        public void Create(HttpListenerResponse response, HttpListenerRequest request) 
+        {
+            // Read the request body
+            using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+            string body = reader.ReadToEnd();
+
+            // Deserialize the JSON body into a LogEntry object
+            LogEntry log;
+            
+            try
+            {
+                log = JsonSerializer.Deserialize<LogEntry>(body);
+            }
+            catch (JsonException)
+            {
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
+
+            // Create the log entry
+            bool success = _lgService.CreateLogEntry(log);
+            if (!success)
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return;
+            }
+
+            // Convert to JSON
+            WriteJson(response, HttpStatusCode.Created, log);
+        }
 
         // === HELPER ===
         private void WriteJson(HttpListenerResponse response, HttpStatusCode statusCode, object obj)
