@@ -156,14 +156,21 @@ namespace Knowledge_Center.API
         {
             string route = request.Url.AbsolutePath.ToLower();
 
-            if (route.StartsWith("/api/knowledge-nodes/") && int.TryParse(request.Url.Segments.Last(), out int nodeId))
+            switch (true) 
             {
-                _knowledgeNodeController.Delete(response, nodeId);
+                case true when route == "/api/knowledge-nodes" && int.TryParse(request.Url.Segments.Last(), out int nodeId):
+                    _knowledgeNodeController.Delete(response, nodeId);
+                    break;
+
+                case true when route == "/api/domains" && int.TryParse(request.Url.Segments.Last(), out int nodeId):
+                    _domainController.Delete(response, nodeId);
+                    break;
+
+                default:
+                    WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
+                    break;
             }
-            else
-            {
-                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
-            }
+
         }
 
         // Helper method to write JSON response
