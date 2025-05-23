@@ -13,16 +13,16 @@ namespace Knowledge_Center.API
     public class CoreAPI
     {
         private readonly KnowledgeNodeController _knowledgeNodeController;
+        private readonly DomainController _domainController;
         private readonly LogEntryService _logEntryService;
-        private readonly DomainService _domainService;
 
         private readonly HttpListener _listener;
 
-        public CoreAPI(KnowledgeNodeController knowledgeNodeController, LogEntryService logEntryService, DomainService domainService)
+        public CoreAPI(KnowledgeNodeController knowledgeNodeController, LogEntryService logEntryService, DomainController domainController)
         {
             _knowledgeNodeController = knowledgeNodeController;
             _logEntryService = logEntryService;
-            _domainService = domainService;
+            _domainController = domainController;
 
             _listener = new HttpListener();
             _listener.Prefixes.Add("http://localhost:8080/");
@@ -90,6 +90,15 @@ namespace Knowledge_Center.API
             else if (route.StartsWith("/api/knowledge-nodes/") && int.TryParse(request.Url.Segments.Last(), out int nodeId))
             {
                _knowledgeNodeController.GetById(response, nodeId);
+            }
+            else
+            {
+                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
+            }
+
+            if (route == "/api/domains")
+            {
+                _domainController.GetAll(response);
             }
             else
             {
