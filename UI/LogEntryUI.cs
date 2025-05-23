@@ -129,7 +129,10 @@ namespace Knowledge_Center.UI
         {
             Console.Clear();
             Console.WriteLine("=== All Log Entries ===");
+            
             List<LogEntry> logEntries = _lgService.GetAllLogEntries();
+            List<KnowledgeNode> nodes = _knService.GetAllNodes();
+            
             if (logEntries.Count == 0)
             {
                 Console.WriteLine("No log entries found.");
@@ -137,10 +140,39 @@ namespace Knowledge_Center.UI
                 Console.ReadKey();
                 return;
             }
-            foreach (var log in logEntries)
+
+            foreach (var kn in nodes)
             {
-                Console.WriteLine($"[{log.LogId}] {log.EntryDate.ToShortTimeString()} - {log.Content}");
+                Console.WriteLine($"\n=========== KNOWLEDGE NODE NAME: {kn.Title}===========");
+
+                List<LogEntry> matchingLogs = new List<LogEntry>();
+
+                foreach (LogEntry log in logEntries)
+                {
+                    if (log.NodeId == kn.Id)
+                    {
+                        matchingLogs.Add(log);
+                    }
+                }
+
+                if (matchingLogs.Count == 0) 
+                {
+                    Console.WriteLine($"No log entries found under {kn.Title}.");
+                }
+                else
+                {
+                    foreach (LogEntry log in matchingLogs) 
+                    {
+                        string preview = log.Content.Length > 50 
+                            ? log.Content.Substring(0, 50) + "..." 
+                            : log.Content;
+
+                        Console.WriteLine($"[{log.EntryDate.ToShortTimeString()}] Content: {preview} Contributed to Today?: {log.ContributesToProgress}");
+                    }
+                } 
             }
+
+           
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
 
