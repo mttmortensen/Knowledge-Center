@@ -20,7 +20,9 @@ namespace Knowledge_Center
             DomainService dnService = new DomainService(db);
 
             KnowledgeNodeController knController = new KnowledgeNodeController(knService);
-            CoreAPI coreAPI = new CoreAPI(knController, leService, dnService);
+            DomainController dnController = new DomainController(dnService);
+
+            CoreAPI coreAPI = new CoreAPI(knController, leService, dnController);
 
             // Start the API server in a separate thread
             Thread apiThread = new Thread(() => coreAPI.Start());
