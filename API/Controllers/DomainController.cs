@@ -75,7 +75,7 @@ namespace Knowledge_Center.API.Controllers
         }
 
         // === PUT /api/domains/{id} ===
-        public void Update(HttpListenerResponse response, HttpListenerRequest request)
+        public void Update(HttpListenerResponse response, HttpListenerRequest request, int id)
         {
             using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
             string body = reader.ReadToEnd();
@@ -85,6 +85,7 @@ namespace Knowledge_Center.API.Controllers
             try
             {
                 domain = JsonSerializer.Deserialize<Domain>(body);
+                domain.DomainId = id; // Ensure the ID is set for the update
             }
             catch (JsonException)
             {
