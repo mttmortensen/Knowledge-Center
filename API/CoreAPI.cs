@@ -83,28 +83,27 @@ namespace Knowledge_Center.API
         {
             string route = request.Url.AbsolutePath.ToLower();
 
-            if (route == "/api/knowledge-nodes")
+            switch (true)
             {
-                _knowledgeNodeController.GetAll(response);
-            }
-            else if (route.StartsWith("/api/knowledge-nodes/") && int.TryParse(request.Url.Segments.Last(), out int nodeId))
-            {
-               _knowledgeNodeController.GetById(response, nodeId);
-            }
-            else
-            {
-                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
-            }
+                case true when route == "/api/knowledge-nodes":
+                    _knowledgeNodeController.GetAll(response);
+                    break;
 
-            if (route == "/api/domains")
-            {
-                _domainController.GetAll(response);
-            }
-            else
-            {
-                WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
+                case true when route.StartsWith("/api/knowledge-nodes/") &&
+                              int.TryParse(request.Url.Segments.Last(), out int nodeId):
+                    _knowledgeNodeController.GetById(response, nodeId);
+                    break;
+
+                case true when route == "/api/domains":
+                    _domainController.GetAll(response);
+                    break;
+
+                default:
+                    WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
+                    break;
             }
         }
+
 
         // POST
         private void HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response)
