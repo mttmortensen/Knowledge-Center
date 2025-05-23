@@ -106,25 +106,17 @@ namespace Knowledge_Center.API.Controllers
         }
 
         // === DELETE /api/domains/{id} ===
-        public void Delete(HttpListenerResponse response, HttpListenerRequest request)
+        public void Delete(HttpListenerResponse response, int id)
         {
-            string idString = request.Url.Segments.Last();
+            bool success = _dnService.DeleteDomain(id);
 
-            if (!int.TryParse(idString, out int id))
+            if (!success)
             {
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                WriteJson(response, HttpStatusCode.InternalServerError, new { message = "Domain not found or delete failed." });
                 return;
             }
-  
-            bool success = _dnService.DeleteDomain(id);
-            if (success)
-            {
-                response.StatusCode = (int)HttpStatusCode.NoContent;
-            }
-            else
-            {
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            }
+
+            WriteJson(response, HttpStatusCode.OK, new { message = "Domain deleted" });
         }
 
         // === HELPER ===
