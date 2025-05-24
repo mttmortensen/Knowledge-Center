@@ -1,5 +1,6 @@
 ﻿
-  # KNOWLEDGE CENTER - VERSION 2.0: A Terminal-Based Knowledge Tracker
+  # KNOWLEDGE CENTER - VERSION 2.0  
+  A Terminal-Based Knowledge Tracker
 
 
 Author: Matt Mortensen (@mttmortensen)
@@ -50,7 +51,7 @@ This app is 100% terminal-driven and fully custom-built for personal knowledge b
 
 🚫 DESIGN PHILOSOPHY
 ---------------------
-Logs are permanent. No edits. No deletes. You either log it or you don't.
+Logs are permanent. No edits. No deletes. You either log it or you don't.  
 Knowledge is messy and human — this app reflects that.
 
 ⚙️ TECH STACK
