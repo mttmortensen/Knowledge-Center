@@ -92,7 +92,6 @@ namespace Knowledge_Center.UI
 
             var selectedNode = nodes[index - 1];
 
-            Console.Clear();
             Console.WriteLine($"=== Add Log to {selectedNode.Title} ===");
 
             Console.Write("Content: ");
