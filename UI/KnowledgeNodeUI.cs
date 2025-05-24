@@ -188,9 +188,15 @@ namespace Knowledge_Center.UI
                 Console.WriteLine("=== View All Knowledge Nodes ===");
 
                 int count = 1;
+                Domain domain;
+
+
                 foreach (var node in nodes)
                 {
-                    Console.WriteLine($"[{count}] Title: {node.Title}, Created On: {node.CreatedAt}");
+                    domain = _dnService.GetDomainById(node.DomainId);
+                    Console.WriteLine($"\n[{count}] Title: {node.Title}, " +
+                        $"\nDomain: {domain.DomainName} " +
+                        $"\nCreated On: {node.CreatedAt}");
                     count++;
                 }
 
