@@ -182,17 +182,36 @@ namespace Knowledge_Center.UI
         {
             Console.Clear();
             Console.WriteLine("=== Update Domain ===");
-            Console.Write("Enter Domain ID to update: ");
-
-            int domainId;
-            if (!int.TryParse(Console.ReadLine(), out domainId))
+            List<Domain> domains = _dnService.GetAllDomains();
+            if (domains.Count == 0)
             {
-                Console.WriteLine("Invalid ID. Press any key to return...");
+                Console.WriteLine("No domains found.");
+            }
+            else
+            {
+                int count = 1;
+                foreach (var singleDomain in domains)
+                {
+                    Console.WriteLine($"[{count}] Name: {singleDomain.DomainName}, Status: {singleDomain.DomainStatus}");
+                    count++;
+                }
+
+            }
+
+            Console.Write("\nSelect a domain to update (or 0 to cancel): ");
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int choice) || choice < 0 || choice > domains.Count)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
                 Console.ReadKey();
                 return;
             }
 
-            Domain domain = _dnService.GetDomainById(domainId);
+            if (choice == 0) return;
+
+            Domain domain = domains[choice - 1];  // Get domain from list index
+
 
             if (domain == null)
             {
