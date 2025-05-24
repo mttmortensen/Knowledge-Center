@@ -33,11 +33,15 @@ namespace Knowledge_Center.UI
             {
                 Console.Clear();
                 Console.WriteLine("=== KNOWLEDGE NODE MENU ===");
+                Console.WriteLine("\n===================");
+                Console.WriteLine(" SELECT AN OPTION");
+                Console.WriteLine("===================");
                 Console.WriteLine("1. Create a Knowledge Node");
                 Console.WriteLine("2. View All Knowledge Nodes");
                 Console.WriteLine("3. Update a Knowledge Node");
                 Console.WriteLine("4. Delete a Knowledge Node");
-                Console.WriteLine("0. Return to Main Menu");
+                
+                Console.WriteLine("\n0. Exit");
                 Console.Write("\nSelect an option: ");
                 string input = Console.ReadLine();
                 switch (input)
@@ -290,7 +294,7 @@ namespace Knowledge_Center.UI
 
             for (int i = 0; i < nodes.Count; i++)
             {
-                Console.WriteLine($"[{i + 1}] {nodes[i].Title} ({nodes[i].NodeType})");
+                Console.WriteLine($"[{i + 1}] Name: {nodes[i].Title} Type: ({nodes[i].NodeType})");
             }
 
             Console.Write("\nSelect a node to update (or 0 to cancel): ");
@@ -307,7 +311,6 @@ namespace Knowledge_Center.UI
 
             var node = nodes[choice - 1];
 
-            Console.Clear();
             Console.WriteLine($"=== Editing: {node.Title} ===");
             Console.WriteLine("Leave any field blank to keep the current value.");
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Knowledge_Center.Services;
 using Knowledge_Center.Models;
+using System.Xml.Linq;
 
 namespace Knowledge_Center.UI
 {
@@ -34,8 +35,8 @@ namespace Knowledge_Center.UI
                 Console.WriteLine("===================");
                 Console.WriteLine("1. Create a New Domain");
                 Console.WriteLine("2. View All Domains");
-                Console.WriteLine("3. Edit Domain");
-                Console.WriteLine("4. Delete Domain");
+                Console.WriteLine("3. Update a Domain");
+                Console.WriteLine("4. Delete a Domain");
 
                 Console.WriteLine("\n0. Exit");
                 Console.Write("\nSelect an option: ");
@@ -120,7 +121,9 @@ namespace Knowledge_Center.UI
                 int count = 1;
                 foreach(var domain in domains)
                 {
-                    Console.WriteLine($"[{count}] Name: {domain.DomainName}, Status: {domain.DomainStatus}");
+                    Console.WriteLine($"\n[{count}] Title: {domain.DomainName}, " +
+                        $"\nStatus: {domain.DomainStatus}" +
+                        $"\nCreated On: {domain.CreatedAt}");
                     count++;
                 }
 
@@ -220,16 +223,16 @@ namespace Knowledge_Center.UI
                 return;
             }
 
-            Console.WriteLine($"Current Name: {domain.DomainName}");
-            Console.Write("New Domain Name (leave blank to keep current): ");
+            Console.WriteLine($"=== Editing: {domain.DomainName} ===");
+            Console.WriteLine("Leave any field blank to keep the current value.");
+
+            Console.Write($"Name ({domain.DomainName}): ");
             string newDomainName = Console.ReadLine();
 
-            Console.WriteLine($"Current Description: {domain.DomainDescription}");
-            Console.Write("New Domain Description (leave blank to keep current): ");
+            Console.Write($"Description: ({domain.DomainDescription}): ");
             string newDomainDescription = Console.ReadLine();
 
-            Console.WriteLine($"Current Status: {domain.DomainStatus}");
-            Console.Write("New Domain Status (Active/Inactive, leave blank to keep current): ");
+            Console.Write($"Status ({domain.DomainStatus}): ");
             string newDomainStatus = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(newDomainName))
