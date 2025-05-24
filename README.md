@@ -1,6 +1,7 @@
 ﻿====================================
-  KNOWLEDGE CENTER - VERSION 2.0
-  Terminal-Based Knowledge Tracker
+  # KNOWLEDGE CENTER - VERSION 2.0
+
+  # Terminal-Based Knowledge Tracker
 ====================================
 
 Author: Matt Mortensen (@mttmortensen)
