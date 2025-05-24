@@ -13,14 +13,15 @@ namespace Knowledge_Center.UI
         private readonly KnowledgeNodeService _knService;
         private readonly LogEntryService _lgService;
         private readonly DomainService _dnService;
+        private readonly DomainUI _dnUI;
 
 
-        public KnowledgeNodeUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService) 
+        public KnowledgeNodeUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService, DomainUI dnUI) 
         {
             _knService = knService;
             _lgService = lgService;
             _dnService = dnService;
-
+            _dnUI = dnUI;
         }
 
         // ========================== MAIN MENU ==========================
@@ -72,9 +73,6 @@ namespace Knowledge_Center.UI
         {
             Console.WriteLine("=== Create a Knowledge Node ===");
 
-            Console.Write("Title: ");
-            string title = Console.ReadLine();
-
             // === DOMAIN SELECTION ===
 
             var allDomains = _dnService.GetAllDomains();
@@ -92,8 +90,16 @@ namespace Knowledge_Center.UI
             {
                 Console.WriteLine($"[{i + 1}] {allDomains[i].DomainName}");
             }
-            Console.Write("Enter the number of the domain: ");
+            Console.WriteLine("[C] Create a new domain");
+            Console.Write("Enter the number of the domain or C to create a new one: ");
             string domainInput = Console.ReadLine();
+
+            if(domainInput.Trim().ToLower() == "c")
+            {
+                _dnUI.CreateDomain();
+                CreateNode(); // Re-invoke the CreateNode method to allow the user to create a node after creating a domain
+                return;
+            }
 
             if (!int.TryParse(domainInput, out int domainChoice) || domainChoice < 1 || domainChoice > allDomains.Count)
             {
@@ -106,6 +112,8 @@ namespace Knowledge_Center.UI
 
 
             // === CONTINUE NORMAL FLOW ===
+            Console.Write("Title: ");
+            string title = Console.ReadLine();
 
             string nodeType = GetNodeType();
 
