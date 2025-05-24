@@ -266,23 +266,38 @@ namespace Knowledge_Center.UI
             Console.WriteLine("\n=== Available Domains ===:");
             List<Domain> domainList = _dnService.GetAllDomains();
 
-            foreach (Domain domain in domainList) 
+            Console.WriteLine("\n=== Available Domains ===:");
+            for (int i = 0; i < domainList.Count; i++)
             {
-                Console.WriteLine($" Name: {domain.DomainName}, Status: {domain.DomainStatus}");
+                Console.WriteLine($"[{i + 1}] {domainList[i].DomainName} ({domainList[i].DomainStatus})");
             }
 
-            Console.Write("\nEnter Domain Name to delete: ");
-            string domainName = Console.ReadLine();
+            Console.Write("\nSelect a domain to delete (or 0 to cancel): ");
+            string input = Console.ReadLine();
 
-            bool success = false;
-            foreach (Domain domain in domainList) 
+            if (!int.TryParse(input, out int choice) || choice < 0 || choice > domainList.Count)
             {
-                if (domain.DomainName.Equals(domainName, StringComparison.OrdinalIgnoreCase))
-                {
-                    success = _dnService.DeleteDomain(domain.DomainId);
-                    break;
-                }
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+                return;
             }
+
+            if (choice == 0) return;
+
+            Domain domainToDelete = domainList[choice - 1];
+
+            Console.Write($"\nAre you sure you want to delete '{domainToDelete.DomainName}'? (yes/no): ");
+            string confirm = Console.ReadLine()?.Trim().ToLower();
+
+            if (confirm != "yes")
+            {
+                Console.WriteLine("Deletion cancelled.");
+                Console.ReadKey();
+                return;
+            }
+
+            bool success = _dnService.DeleteDomain(domainToDelete.DomainId);
+
 
             Console.WriteLine(success
                 ? "\n✅ Domain deleted successfully!"
