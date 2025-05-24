@@ -44,6 +44,7 @@ namespace Knowledge_Center.UI
                 switch (input)
                 {
                     case "1":
+                        Console.Clear(); // Clearing the console here due to CreateDomain() also being used in creating a KN 
                         CreateDomain();
                         break;
                     case "2":
@@ -72,7 +73,6 @@ namespace Knowledge_Center.UI
         // CREATE 
         public void CreateDomain()
         {
-            Console.Clear();
             Console.WriteLine("=== Create a New Domain ===");
 
             Console.Write("Domain Name: ");
