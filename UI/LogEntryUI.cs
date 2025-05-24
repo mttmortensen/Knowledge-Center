@@ -141,6 +141,9 @@ namespace Knowledge_Center.UI
                 return;
             }
 
+            List<LogEntry> flattenedLogList = new List<LogEntry>();
+            int logCounter = 1;
+
             foreach (var kn in nodes)
             {
                 Console.WriteLine($"\n=========== KNOWLEDGE NODE NAME: {kn.Title}===========");
@@ -167,12 +170,31 @@ namespace Knowledge_Center.UI
                             ? log.Content.Substring(0, 50) + "..." 
                             : log.Content;
 
-                        Console.WriteLine($"[{log.EntryDate.ToShortTimeString()}] Content: {preview} Contributed to Today?: {log.ContributesToProgress}");
+                        Console.WriteLine($"[{logCounter}][{log.EntryDate.ToShortTimeString()}] - {preview} Contributed to Today?: {log.ContributesToProgress}");
+
+                        flattenedLogList.Add(log);
+                        logCounter++;
                     }
                 } 
             }
 
-           
+            Console.Write("\nEnter a log number to view in detail (or 0 to return): ");
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= flattenedLogList.Count)
+            {
+                var selectedLog = flattenedLogList[selectedIndex - 1];
+                ShowLogEntryDetails(selectedLog);
+            }
+            else if (selectedIndex != 0)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+            }
+
+            Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
+
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
 
