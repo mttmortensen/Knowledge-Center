@@ -117,12 +117,63 @@ namespace Knowledge_Center.UI
             }
             else
             {
+                int count = 1;
                 foreach(var domain in domains)
                 {
-                    Console.WriteLine($" Name: {domain.DomainName}, Status: {domain.DomainStatus}");
+                    Console.WriteLine($"[{count}] Name: {domain.DomainName}, Status: {domain.DomainStatus}");
+                    count++;
                 }
+
+                SelectADomain(domains);
             }
             Console.WriteLine("\nPress any key to return...");
+            Console.ReadKey();
+        }
+
+        private void SelectADomain(List<Domain> domains)
+        {
+            Console.WriteLine("\nPlease a select a Domain to view it's details (0 to return): ");
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out int selection))
+            {
+                if (selection == 0)
+                {
+                    return;
+                }
+
+                if (selection >= 1 && selection <= domains.Count)
+                {
+                    var selectedDomain = domains[selection - 1];
+                    ShowDomainDetails(selectedDomain);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection. Please try again.");
+                    Console.ReadKey();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection. Please try again.");
+                Console.ReadKey();
+            }
+        }
+
+        private void ShowDomainDetails(Domain seletedDomain)
+        {
+            Console.Clear();
+            Console.WriteLine($"=== {seletedDomain.DomainName} Details ===");
+
+            Console.WriteLine($"Domain Description: {seletedDomain.DomainDescription}");
+            Console.WriteLine($"Domain Status: {seletedDomain.DomainStatus}");
+            Console.WriteLine($"Created At: {seletedDomain.CreatedAt}");
+            Console.WriteLine($"Last Used: {seletedDomain.LastUsed}");
+
+            List<KnowledgeNode> nodes = _knService.GetAllNodes();
+            
+
+            Console.WriteLine("\nPress any key to go back to the Main Menu...");
             Console.ReadKey();
         }
 
