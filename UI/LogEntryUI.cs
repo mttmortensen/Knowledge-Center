@@ -191,12 +191,6 @@ namespace Knowledge_Center.UI
                 Console.ReadKey();
             }
 
-            Console.WriteLine("\nPress any key to return...");
-            Console.ReadKey();
-
-            Console.WriteLine("\nPress any key to return...");
-            Console.ReadKey();
-
         }
 
         public void ShowLogEntryListAndSelect(List<LogEntry> logEntries)

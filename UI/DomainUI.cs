@@ -128,8 +128,6 @@ namespace Knowledge_Center.UI
 
                 SelectADomain(domains);
             }
-            Console.WriteLine("\nPress any key to return...");
-            Console.ReadKey();
         }
 
         private void SelectADomain(List<Domain> domains)
