@@ -18,17 +18,18 @@ This app is 100% terminal-driven and fully custom-built for personal knowledge b
 ---------------
 - Create, view, update, and delete Knowledge Nodes
 - Log Entries tied to each Node with timestamp, tag, and progress flag
+- Create and manage Domains (categories for your Knowledge Nodes)
 - Structured terminal UI for ease of use and clarity
 - Logs are immutable — no edits or deletes allowed for integrity
 - Full CRUD support for KNs
 - Connected to a SQL Server backend (NOT SQLite)
-- Version 1.0 is feature-complete for terminal workflows
+- Version 2.0 is feature-complete for terminal workflows and includes a full REST API
 
 🧱 ENTITY STRUCTURE
 -------------------
 • KnowledgeNode
   - Title
-  - Domain
+  - Domain (General category like "Programming", "Music", etc.)
   - Description
   - Confidence Level (1–10)
   - Status (Exploring, Learning, Mastered)
@@ -41,6 +42,12 @@ This app is 100% terminal-driven and fully custom-built for personal knowledge b
   - Content (what you did, learned, tried, etc.)
   - Tag (Quick label like "breakthrough", "confused", "research")
   - ContributesToProgress (true/false)
+
+• Domain
+  - Name (e.g., "Programming", "Music", "Fitness")
+  - Description 
+  - CreatedAt timestamp
+  - Status (Active or not in use at the moment)
 
 🚫 DESIGN PHILOSOPHY
 ---------------------
@@ -60,20 +67,17 @@ Knowledge is messy and human — this app reflects that.
 - Make sure SQL Server is installed and your KnowledgeCenterDB is configured
 - Clone the repo
 - Open solution in Visual Studio
-- Update the DB connection string in `Database.cs` to match your environment
+- Update the DB connection string in `Program.cs` to match your environment
 - Build & run — the terminal is your home
 
 🚀 ROADMAP IDEAS (POST-V1)
 ---------------------------
-- Domains as first-class objects (CRUD support, filtering, domain descriptions)
 - Stats & analytics dashboard (log streaks, weekly log counts, etc.)
-- Markdown export for GitHub-style logging
 - WinForms read-only viewer
-- Self-hosted dashboard with Spectrum Console or ASP.NET Core
-- Sync/backup tooling for long-term archive
+- Self-hosted dashboard with ASP.NET Core
 
 🧠 WHY I BUILT THIS
 --------------------
 To organize the chaos of learning across life — from tech to hobbies to obsessions.
-This isn't a todo list. This is a log of what you *become*.
+This isn't a todo list. This is a log of becoming my best self.
 
