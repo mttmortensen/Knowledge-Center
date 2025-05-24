@@ -200,7 +200,7 @@ namespace Knowledge_Center.UI
                 Console.WriteLine($"[{i + 1}] {logEntries[i].EntryDate.ToShortTimeString()}");
             }
 
-            Console.WriteLine("\nSelect a log entry number to view");
+            Console.WriteLine("\nSelect a log entry number to view or hit 0 to go back to the Main Menu");
             string input = Console.ReadLine();
 
             if (int.TryParse(input, out int choice))
@@ -208,7 +208,8 @@ namespace Knowledge_Center.UI
                 if (choice == 0)
                 {
                     return;
-                }
+                }                    
+
 
                 if (choice >= 1 && choice <= logEntries.Count)
                 {
@@ -220,6 +221,7 @@ namespace Knowledge_Center.UI
                     Console.WriteLine("Invalid selection. Please try again.");
                     Console.ReadKey();
                 }
+
             }
             else
             {

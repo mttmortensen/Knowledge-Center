@@ -275,8 +275,7 @@ namespace Knowledge_Center.UI
                 Console.ReadKey();
             }
 
-            Console.WriteLine("\nPress any key to go back to the Main Menu...");
-            Console.ReadKey();
+            
         }
 
         // UPDATE
