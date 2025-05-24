@@ -77,6 +77,6 @@ Knowledge is messy and human — this app reflects that.
 
 🧠 WHY I BUILT THIS
 --------------------
-To organize the chaos of learning across life — from tech to hobbies to obsessions.
+To organize the chaos of learning across life — from tech to hobbies to obsessions.  
 This isn't a todo list. This is a log of becoming my best self.
 
