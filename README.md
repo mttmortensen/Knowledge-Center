@@ -1,6 +1,5 @@
 ﻿====================================
   # KNOWLEDGE CENTER - VERSION 2.0
-
   # Terminal-Based Knowledge Tracker
 ====================================
 
