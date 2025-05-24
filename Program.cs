@@ -31,7 +31,18 @@ namespace Knowledge_Center
             apiThread.Start();
 
             // Now run the UI 
-            KnowledgeCenterUI.ShowMainMenu(knService, leService, dnService);
+            LogEntryUI logEntryUI = new LogEntryUI(knService, leService, dnService);
+
+            // Step 1: construct with nulls
+            var domainUI = new DomainUI(knService, leService, dnService); // no knUI yet
+            var knowledgeNodeUI = new KnowledgeNodeUI(knService, leService, dnService); // no domainUI yet
+
+            // Step 2: inject the circular references
+            domainUI.InjectKnowledgeNodeUI(knowledgeNodeUI);
+            knowledgeNodeUI.InjectDomainUI(domainUI);
+
+            // Now it's safe to start the app
+            KnowledgeCenterUI.ShowMainMenu(knowledgeNodeUI, logEntryUI, domainUI);
         }
     }
 }

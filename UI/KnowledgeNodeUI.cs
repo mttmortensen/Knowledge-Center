@@ -13,19 +13,23 @@ namespace Knowledge_Center.UI
         private readonly KnowledgeNodeService _knService;
         private readonly LogEntryService _lgService;
         private readonly DomainService _dnService;
-        private readonly DomainUI _dnUI;
+
+        // Manul Injection for Reference Later to DomainUI
+        private DomainUI _dnUI;
+        public void InjectDomainUI(DomainUI dnUI)
+        {
+            _dnUI = dnUI;
+        }
 
 
-        public KnowledgeNodeUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService, DomainUI dnUI) 
+        public KnowledgeNodeUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService) 
         {
             _knService = knService;
             _lgService = lgService;
             _dnService = dnService;
-            _dnUI = dnUI;
         }
 
         // ========================== MAIN MENU ==========================
-
         public void ShowKnowledgeNodeMenu()
         {
             bool exit = false;
@@ -70,7 +74,6 @@ namespace Knowledge_Center.UI
         }
 
         // ========================== CRUD ========================== 
-
 
         // CREATE 
         public void CreateNode() 
@@ -209,7 +212,7 @@ namespace Knowledge_Center.UI
 
         }
 
-        private void SelectAKnowledgeNode(List<KnowledgeNode> nodes)
+        public void SelectAKnowledgeNode(List<KnowledgeNode> nodes)
         {
             Console.WriteLine("\nPlease a select a Knowledge Node to view it's details (0 to return): ");
             string input = Console.ReadLine();

@@ -21,7 +21,6 @@ namespace Knowledge_Center.UI
             _dnService = dnService;
         }
         // ========================== MAIN MENU ==========================
-
         public void ShowLogEntryMenu()
         {
             bool exit = false;
@@ -121,7 +120,6 @@ namespace Knowledge_Center.UI
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
-
 
         // READ
         public void ViewAllLogEntries() 

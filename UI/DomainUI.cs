@@ -14,6 +14,14 @@ namespace Knowledge_Center.UI
         private readonly KnowledgeNodeService _knService;
         private readonly LogEntryService _lgService;
         private readonly DomainService _dnService;
+
+        // Manul Injection for Reference Later to KnowledgeNodeUI
+        private KnowledgeNodeUI _knUI;
+        public void InjectKnowledgeNodeUI(KnowledgeNodeUI knUI)
+        {
+            _knUI = knUI;
+        }
+
         public DomainUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService)
         {
             _knService = knService;
@@ -68,7 +76,6 @@ namespace Knowledge_Center.UI
         }
 
         // ========================== CRUD ========================== 
-
 
         // CREATE 
         public void CreateDomain()
@@ -170,8 +177,28 @@ namespace Knowledge_Center.UI
             Console.WriteLine($"Created At: {seletedDomain.CreatedAt}");
             Console.WriteLine($"Last Used: {seletedDomain.LastUsed}");
 
-            List<KnowledgeNode> nodes = _knService.GetAllNodes();
-            
+            List<KnowledgeNode> allNodes = _knService.GetAllNodes();
+            List<KnowledgeNode> domainNodes = new List<KnowledgeNode>();
+
+            Console.WriteLine("\n=== Associated Knowledge Nodes ===");
+            foreach (var node in allNodes)
+            {
+                if (node.DomainId == seletedDomain.DomainId)
+                {
+                    domainNodes.Add(node);
+                    Console.WriteLine($"[{domainNodes.Count}] {node.Title} (Status: {node.Status})");
+                }
+            }
+
+
+            if (domainNodes.Count == 0)
+            {
+                Console.WriteLine("No Knowledge Nodes associated with this domain.");
+            }
+            else
+            {
+                _knUI.SelectAKnowledgeNode(domainNodes);
+            }
 
             Console.WriteLine("\nPress any key to go back to the Main Menu...");
             Console.ReadKey();

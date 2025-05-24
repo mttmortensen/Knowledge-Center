@@ -12,11 +12,8 @@ namespace Knowledge_Center.UI
     {
 
         /* ======================== MAIN MENU ======================== */
-        public static void ShowMainMenu(KnowledgeNodeService knService, LogEntryService leService, DomainService dnService)
+        public static void ShowMainMenu(KnowledgeNodeUI knUI, LogEntryUI leUI, DomainUI dnUI)
         {
-            var leUI = new LogEntryUI(knService, leService, dnService);
-            var dnUI = new DomainUI(knService, leService, dnService);
-            var knUI = new KnowledgeNodeUI(knService, leService, dnService, dnUI);
 
             bool exit = false;
 
