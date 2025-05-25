@@ -1,10 +1,9 @@
 ﻿
-  # KNOWLEDGE CENTER - VERSION 2.0 <br/> A Terminal-Based Knowledge Tracker
+# KNOWLEDGE CENTER - VERSION 2.0 <br/> A Terminal-Based Knowledge Tracker
 
-
-Author: Matt Mortensen (@mttmortensen)
+Author: Matt Mortensen (@mttmortensen) <br/>
 Built with: C#, SQL Server
--------------------------------
+<br/>
 
 🎯 WHAT IS THIS?
 ----------------
@@ -39,7 +38,7 @@ This app is 100% terminal-driven and fully custom-built for personal knowledge b
   - NodeId (linked to KnowledgeNode)
   - EntryDate (auto-generated)
   - Content (what you did, learned, tried, etc.)
-  - Tag (Quick label like "breakthrough", "confused", "research")
+  - TagId (Links to Tags Model)
   - ContributesToProgress (true/false)
 
 • Domain
@@ -47,6 +46,11 @@ This app is 100% terminal-driven and fully custom-built for personal knowledge b
   - Description 
   - CreatedAt timestamp
   - Status (Active or not in use at the moment)
+
+• Tag
+  - TagId (auto-generated)
+  - Name (Quick labeling e.g., "breakthrough", "confused", "research")
+
 
 🚫 DESIGN PHILOSOPHY
 ---------------------
