@@ -80,43 +80,8 @@ namespace Knowledge_Center.UI
         {
             Console.WriteLine("=== Create a Knowledge Node ===");
 
-            // === DOMAIN SELECTION ===
-
-            var allDomains = _dnService.GetAllDomains();
-
-            if (allDomains.Count == 0)
-            {
-                Console.WriteLine("No domains available. Please create a domain first.");
-                Console.WriteLine("Press any key to return...");
-                Console.ReadKey();
-                return;
-            }
-
-            Console.WriteLine("\nSelect a Domain:");
-            for (int i = 0; i < allDomains.Count; i++)
-            {
-                Console.WriteLine($"[{i + 1}] {allDomains[i].DomainName}");
-            }
-            Console.WriteLine("[C] Create a new domain");
-            Console.Write("Enter the number of the domain or C to create a new one: ");
-            string domainInput = Console.ReadLine();
-
-            if(domainInput.Trim().ToLower() == "c")
-            {
-                _dnUI.CreateDomain();
-                CreateNode(); // Re-invoke the CreateNode method to allow the user to create a node after creating a domain
-                return;
-            }
-
-            if (!int.TryParse(domainInput, out int domainChoice) || domainChoice < 1 || domainChoice > allDomains.Count)
-            {
-                Console.WriteLine("Invalid selection. Press any key to return...");
-                Console.ReadKey();
-                return;
-            }
-
-            int selectedDomainId = allDomains[domainChoice - 1].DomainId;
-
+            Console.Write("=== Available Domains ===");
+            int selectedDomain = AvaiableDomainsForSelectionDuringKnowledgeNodeCreation();
 
             // === CONTINUE NORMAL FLOW ===
             Console.Write("Title: ");
@@ -136,7 +101,7 @@ namespace Knowledge_Center.UI
             var newNode = new KnowledgeNode
             {
                 Title = title,
-                DomainId = selectedDomainId,
+                DomainId = selectedDomain,
                 NodeType = nodeType,
                 Description = description,
                 ConfidenceLevel = confidence,
@@ -153,6 +118,46 @@ namespace Knowledge_Center.UI
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
 
+        }
+
+        // Helper method to show domain selection while creating a Knowledge Node
+        private int AvaiableDomainsForSelectionDuringKnowledgeNodeCreation() 
+        {
+            // === DOMAIN SELECTION ===
+
+            var allDomains = _dnService.GetAllDomains();
+
+            if (allDomains.Count == 0)
+            {
+                Console.WriteLine("No domains available. Please create a domain first.");
+                Console.WriteLine("Press any key to return...");
+                Console.ReadKey();
+            }
+
+            Console.WriteLine("\nSelect a Domain:");
+            for (int i = 0; i < allDomains.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {allDomains[i].DomainName}");
+            }
+            Console.WriteLine("[C] Create a new domain");
+            Console.Write("Enter the number of the domain or C to create a new one: ");
+            string domainInput = Console.ReadLine();
+
+            if (domainInput.Trim().ToLower() == "c")
+            {
+                _dnUI.CreateDomain();
+                CreateNode(); // Re-invoke the CreateNode method to allow the user to create a node after creating a domain
+            }
+
+            if (!int.TryParse(domainInput, out int domainChoice) || domainChoice < 1 || domainChoice > allDomains.Count)
+            {
+                Console.WriteLine("Invalid selection. Press any key to return...");
+                Console.ReadKey();
+            }
+
+            int selectedDomainId = allDomains[domainChoice - 1].DomainId;
+
+            return selectedDomainId;
         }
 
         private string GetNodeType()
