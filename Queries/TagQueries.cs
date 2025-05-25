@@ -10,9 +10,9 @@ namespace Knowledge_Center.Queries
     {
         public static readonly string InsertTag = @"
             INSERT INTO Tags 
-                (TName)
+                (Name)
             VALUES 
-                (@TName);
+                (@Name);
         ";
 
         public static readonly string GetAllTags = @"

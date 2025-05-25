@@ -62,7 +62,7 @@ namespace Knowledge_Center.Services
             return new Tags
             {
                 TagId = Convert.ToInt32(rawDBRow["TagId"]),
-                Name = rawDBRow["TName"].ToString()
+                Name = rawDBRow["Name"].ToString()
             };
         }
 
