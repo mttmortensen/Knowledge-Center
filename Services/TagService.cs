@@ -52,8 +52,57 @@ namespace Knowledge_Center.Services
 
             return tags;
         }
+
+        public Tags GetTagById(int tagId)
+        {
+            // Build SQL Parameters
+            List<SqlParameter> tagParameters = new List<SqlParameter>
+            {
+                new SqlParameter("@TagId", tagId)
+            };
+
+            // Execute the SELECT query to get a specific tag by ID
+            var rawDBResults = _db.ExecuteQuery(TagQueries.GetTagById, tagParameters);
+
+            // If no results, return null
+            if (rawDBResults.Count == 0) return null;
+
+            // Map the first row to a Tags object
+            return ConvertDBRowToClassObj(rawDBResults[0]);
+        }
+
         // Update
+        public bool UpdateTag(Tags tag)
+        {
+            // Build SQL Parameters
+            List<SqlParameter> tagParameters = new List<SqlParameter>
+            {
+                new SqlParameter("@TagId", tag.TagId),
+                new SqlParameter("@Name", tag.Name)
+            };
+
+            // Run the UPDATE Query
+            int result = _db.ExecuteNonQuery(TagQueries.UpdateTag, tagParameters);
+
+            // Return true to see if UPDATE was successful
+            return result > 0;
+        }
+
         // Delete
+        public bool DeleteTag(int tagId)
+        {
+            // Build SQL Parameters
+            List<SqlParameter> tagParameters = new List<SqlParameter>
+            {
+                new SqlParameter("@TagId", tagId)
+            };
+
+            // Run the DELETE Query
+            int result = _db.ExecuteNonQuery(TagQueries.DeleteTag, tagParameters);
+
+            // Return true to see if DELETE was successful
+            return result > 0;
+        }
 
         /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */
 
