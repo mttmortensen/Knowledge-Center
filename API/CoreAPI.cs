@@ -15,14 +15,16 @@ namespace Knowledge_Center.API
         private readonly KnowledgeNodeController _knowledgeNodeController;
         private readonly DomainController _domainController;
         private readonly LogEntryController _logEntryController;
+        private readonly TagController _tagController;
 
         private readonly HttpListener _listener;
 
-        public CoreAPI(KnowledgeNodeController knowledgeNodeController, LogEntryController logEntryController, DomainController domainController)
+        public CoreAPI(KnowledgeNodeController knowledgeNodeController, LogEntryController logEntryController, DomainController domainController, TagController tagController)
         {
             _knowledgeNodeController = knowledgeNodeController;
             _logEntryController = logEntryController;
             _domainController = domainController;
+            _tagController = tagController;
 
             _listener = new HttpListener();
             _listener.Prefixes.Add("http://localhost:8080/");
@@ -111,6 +113,15 @@ namespace Knowledge_Center.API
                               int.TryParse(request.Url.Segments.Last(), out int logId):
                     _logEntryController.GetById(response, logId);
                     break;
+                
+                case true when route == "/api/tags":
+                    _tagController.GetAll(response);
+                    break;
+
+                case true when route.StartsWith("/api/tags/") &&
+                              int.TryParse(request.Url.Segments.Last(), out int tagId):
+                    _tagController.GetById(response, tagId);
+                    break;
 
                 default:
                     WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
@@ -135,6 +146,10 @@ namespace Knowledge_Center.API
 
                 case true when route == "/api/logs":
                     _logEntryController.Create(response, request);
+                    break;
+
+                case true when route == "/api/tags":
+                    _tagController.Create(response, request);
                     break;
 
                 default:
