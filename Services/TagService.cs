@@ -26,7 +26,7 @@ namespace Knowledge_Center.Services
             //Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
             {
-                new SqlParameter("@TName", tag.Name)
+                new SqlParameter("@Name", tag.Name)
             };
 
             // Run the INSERT Query

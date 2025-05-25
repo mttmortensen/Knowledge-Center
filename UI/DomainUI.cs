@@ -293,7 +293,6 @@ namespace Knowledge_Center.UI
             Console.WriteLine("\n=== Available Domains ===:");
             List<Domain> domainList = _dnService.GetAllDomains();
 
-            Console.WriteLine("\n=== Available Domains ===:");
             for (int i = 0; i < domainList.Count; i++)
             {
                 Console.WriteLine($"[{i + 1}] {domainList[i].DomainName} ({domainList[i].DomainStatus})");

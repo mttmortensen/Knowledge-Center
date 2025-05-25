@@ -28,6 +28,7 @@ namespace Knowledge_Center.UI
                 Console.WriteLine("1. Create New Tag");
                 Console.WriteLine("2. View All Tags");
                 Console.WriteLine("3. Update a Tag");
+                Console.WriteLine("4. Delete a Tag");
                 Console.WriteLine("0. Back to Main Menu");
                 Console.Write("\nSelect an option: ");
                 string input = Console.ReadLine();
@@ -42,6 +43,9 @@ namespace Knowledge_Center.UI
                     case "3":
                         UpdateTag();
                         break;
+                    case "4":
+                        DeleteTag();
+                        break;
                     case "0":
                         exit = true;
                         break;
@@ -54,7 +58,7 @@ namespace Knowledge_Center.UI
         // ========================== CRUD ==========================
 
         // CREATE 
-        public void CreateTag() 
+        public void CreateTag()
         {
             Console.WriteLine(" === Create a New Tag ===");
 
@@ -120,7 +124,7 @@ namespace Knowledge_Center.UI
                 Console.WriteLine("No tags found.");
 
             }
-            else 
+            else
             {
                 int count = 1;
                 foreach (var tag in tags)
@@ -133,7 +137,7 @@ namespace Knowledge_Center.UI
             Console.Write("\nEnter the number of the tag you want to update (or 0 to cancel): ");
             string input = Console.ReadLine();
 
-            if(!int.TryParse(input, out int tagNumber) || tagNumber < 0 || tagNumber > tags.Count)
+            if (!int.TryParse(input, out int tagNumber) || tagNumber < 0 || tagNumber > tags.Count)
             {
                 Console.WriteLine("Invalid input. Returning to the main menu.");
                 Console.ReadKey();
@@ -169,6 +173,56 @@ namespace Knowledge_Center.UI
                 : "\n❌ Failed to update tag.");
 
             Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        // DELETE
+        public void DeleteTag()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Delete Tag ===");
+            Console.WriteLine("\n=== Avaiable Tags ===");
+            List<Tags> tags = _tagService.GetAllTags();
+
+            int count = 1;
+            foreach (var tag in tags)
+            {
+                Console.WriteLine($"{count}. Tag Name: {tag.Name}");
+                count++;
+            }
+
+            Console.Write("\nEnter the number of the tag you want to delete (or 0 to cancel): ");
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int tagNumber) || tagNumber < 0 || tagNumber > tags.Count)
+            {
+                Console.WriteLine("Invalid input. Returning to the main menu.");
+                Console.ReadKey();
+                return;
+            }
+
+            if (tagNumber == 0) return;
+
+            Tags tagToDelete = tags[tagNumber - 1];
+
+            Console.Write($"\nAre you sure you want to delete '{tagToDelete.Name}'? (yes/no): ");
+            string confirm = Console.ReadLine()?.Trim().ToLower();
+
+            if (confirm != "yes")
+            {
+                Console.WriteLine("Deletion cancelled.");
+                Console.ReadKey();
+                return;
+            }
+
+            bool success = _tagService.DeleteTag(tagToDelete.TagId);
+
+
+            Console.WriteLine(success
+                ? "\n✅ Tag deleted successfully!"
+                : "\n❌ Failed to delete Tag.");
+
+            Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
         }
     }
