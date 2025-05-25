@@ -37,10 +37,34 @@ namespace Knowledge_Center.Services
         }
 
         // Read
+        public List<Tags> GetAllTags() 
+        {
+            List<Tags> tags = new List<Tags>();
+
+            // Execute the SELECT query to get all tags
+            var rawDBResults = _db.ExecuteQuery(TagQueries.GetAllTags, null);
+
+            // Map each row to a Tags object
+            foreach (var rawDBRow in rawDBResults)
+            {
+                tags.Add(ConvertDBRowToClassObj(rawDBRow));
+            }
+
+            return tags;
+        }
         // Update
         // Delete
 
         /* ===================== DATA TYPE CONVERTERS (MAPPERS) ===================== */
+
+        private Tags ConvertDBRowToClassObj(Dictionary<string, object> rawDBRow)
+        {
+            return new Tags
+            {
+                TagId = Convert.ToInt32(rawDBRow["TagId"]),
+                Name = rawDBRow["TName"].ToString()
+            };
+        }
 
     }
 }
