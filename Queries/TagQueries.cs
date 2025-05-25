@@ -14,5 +14,9 @@ namespace Knowledge_Center.Queries
             VALUES 
                 (@TName);
         ";
+
+        public static readonly string GetAllTags = @"
+            SELECT * FROM Tags;
+        ";
     }
 }
