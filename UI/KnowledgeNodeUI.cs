@@ -13,6 +13,7 @@ namespace Knowledge_Center.UI
         private readonly KnowledgeNodeService _knService;
         private readonly LogEntryService _lgService;
         private readonly DomainService _dnService;
+        private readonly TagService _tgService;
 
         // Manul Injection for Reference Later to DomainUI
         private DomainUI _dnUI;
@@ -22,11 +23,12 @@ namespace Knowledge_Center.UI
         }
 
 
-        public KnowledgeNodeUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService) 
+        public KnowledgeNodeUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService, TagService tgService) 
         {
             _knService = knService;
             _lgService = lgService;
             _dnService = dnService;
+            _tgService = tgService;
         }
 
         // ========================== MAIN MENU ==========================
@@ -267,7 +269,7 @@ namespace Knowledge_Center.UI
             Console.WriteLine($"Last Updated: {selectedNode.LastUpdated}");
 
             List<LogEntry> logEntries = _lgService.GetAllLogEntriesByNodeId(selectedNode.Id);
-            LogEntryUI logEntryUI = new LogEntryUI(_knService, _lgService, _dnService);
+            LogEntryUI logEntryUI = new LogEntryUI(_knService, _lgService, _dnService, _tgService);
 
             if (logEntries != null && logEntries.Count > 0)
             {
