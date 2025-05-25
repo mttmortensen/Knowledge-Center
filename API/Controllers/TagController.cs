@@ -75,8 +75,50 @@ namespace Knowledge_Center.API.Controllers
             }
             
         }
+
         // === PUT /api/tags/{id} ===
+        public void Update(HttpListenerResponse response, HttpListenerRequest request, int id)
+        {
+            using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+            string body = reader.ReadToEnd();
+
+            Tags tag;
+            
+            try
+            {
+                tag = JsonSerializer.Deserialize<Models.Tags>(body);
+            }
+            catch (JsonException)
+            {
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return;
+            }
+
+            bool success = _tagService.UpdateTag(tag);
+            if (success)
+            {
+                response.StatusCode = (int)HttpStatusCode.OK;
+                WriteJson(response, HttpStatusCode.OK, tag);
+            }
+            else
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+        }
+
         // === DELETE /api/tags/{id} ===
+        public void Delete(HttpListenerResponse response, int id)
+        {
+            bool success = _tagService.DeleteTag(id);
+
+            if (!success)
+            {
+                WriteJson(response, HttpStatusCode.NotFound, new { message = "Tag not found or delete failed." });
+                return;
+            }
+
+            WriteJson(response, HttpStatusCode.NoContent, new { message = "Tag deleted" });
+        }
 
         // === HELPER ===
         private void WriteJson(HttpListenerResponse response, HttpStatusCode statusCode, object obj)

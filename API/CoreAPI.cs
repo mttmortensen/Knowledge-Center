@@ -173,6 +173,10 @@ namespace Knowledge_Center.API
                     _domainController.Update(response, request, nodeId);
                     break;
 
+                case true when route == "/api/tags" && int.TryParse(request.Url.Segments.Last(), out int tagId):
+                    _tagController.Update(response, request, tagId);
+                    break;
+
                 default:
                     WriteResponse(response, HttpStatusCode.NotFound, "Route not found");
                     break;
@@ -192,6 +196,10 @@ namespace Knowledge_Center.API
 
                 case true when route == "/api/domains" && int.TryParse(request.Url.Segments.Last(), out int nodeId):
                     _domainController.Delete(response, nodeId);
+                    break;
+
+                case true when route == "api/tags" && int.TryParse(request.Url.Segments.Last(), out int tagId):
+                    _tagController.Delete(response, tagId);
                     break;
 
                 default:
