@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Knowledge_Center.Services;
+using Knowledge_Center.Models;
 
 namespace Knowledge_Center.UI
 {
@@ -47,5 +48,60 @@ namespace Knowledge_Center.UI
             }
         }
         // ========================== CRUD ==========================
+
+        // CREATE 
+        public void CreateTag() 
+        {
+            Console.WriteLine(" === Create a New Tag ===");
+
+            Console.Write("Enter Tag Name: ");
+            string tagName = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(tagName))
+            {
+                Console.WriteLine("Tag name cannot be empty.");
+                return;
+            }
+
+            // Create a new tag object
+            Tags newTag = new Tags
+            {
+                Name = tagName
+            };
+
+            // Call the service to create the tag
+            bool success = _tagService.CreateTag(newTag);
+            if (success)
+            {
+                Console.WriteLine("Tag created successfully!");
+            }
+            else
+            {
+                Console.WriteLine("Failed to create tag. Please try again.");
+            }
+
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        // READ
+        public void ViewAllTags()
+        {
+            Console.WriteLine("=== All Tags ===");
+            List<Tags> tags = _tagService.GetAllTags();
+            if (tags.Count == 0)
+            {
+                Console.WriteLine("No tags found.");
+            }
+            else
+            {
+                foreach (var tag in tags)
+                {
+                    Console.WriteLine($"Tag ID: {tag.TagId}, Name: {tag.Name}");
+                }
+            }
+            Console.WriteLine("Press any key to continue to return to the Main Menu...");
+            Console.ReadKey();
+        }
     }
 }
