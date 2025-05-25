@@ -18,5 +18,21 @@ namespace Knowledge_Center.Queries
         public static readonly string GetAllTags = @"
             SELECT * FROM Tags;
         ";
+
+        public static readonly string GetTagById = @"
+            SELECT * FROM Tags 
+            WHERE TagId = @TagId;
+        ";
+
+        public static readonly string UpdateTag = @"
+            UPDATE Tags 
+            SET Name = @Name
+            WHERE TagId = @TagId;   
+        ";
+
+        public static readonly string DeleteTag = @"
+            DELETE FROM Tags 
+            WHERE TagId = @TagId;
+        ";
     }
 }
