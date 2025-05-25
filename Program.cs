@@ -18,6 +18,7 @@ namespace Knowledge_Center
             KnowledgeNodeService knService = new KnowledgeNodeService(db);
             LogEntryService leService = new LogEntryService(db);
             DomainService dnService = new DomainService(db);
+            TagService tgService = new TagService(db);
 
             KnowledgeNodeController knController = new KnowledgeNodeController(knService);
             DomainController dnController = new DomainController(dnService);
@@ -32,6 +33,7 @@ namespace Knowledge_Center
 
             // Now run the UI 
             LogEntryUI logEntryUI = new LogEntryUI(knService, leService, dnService);
+            TagUI tagUI = new TagUI(tgService);
 
             // Step 1: construct with nulls
             var domainUI = new DomainUI(knService, leService, dnService); // no knUI yet
@@ -42,7 +44,7 @@ namespace Knowledge_Center
             knowledgeNodeUI.InjectDomainUI(domainUI);
 
             // Now it's safe to start the app
-            KnowledgeCenterUI.ShowMainMenu(knowledgeNodeUI, logEntryUI, domainUI);
+            KnowledgeCenterUI.ShowMainMenu(knowledgeNodeUI, logEntryUI, domainUI, tagUI);
         }
     }
 }

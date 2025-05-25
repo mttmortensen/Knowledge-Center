@@ -12,7 +12,7 @@ namespace Knowledge_Center.UI
     {
 
         /* ======================== MAIN MENU ======================== */
-        public static void ShowMainMenu(KnowledgeNodeUI knUI, LogEntryUI leUI, DomainUI dnUI)
+        public static void ShowMainMenu(KnowledgeNodeUI knUI, LogEntryUI leUI, DomainUI dnUI, TagUI tgUI)
         {
 
             bool exit = false;
@@ -34,6 +34,7 @@ namespace Knowledge_Center.UI
                 Console.WriteLine("3. Knowledge Nodes");
                 Console.WriteLine("4. Domains");
                 Console.WriteLine("5. Log Entries");
+                Console.WriteLine("6. Tags");
 
                 Console.WriteLine("\n0. Exit");
                 Console.Write("\nSelect an option: ");
@@ -56,6 +57,9 @@ namespace Knowledge_Center.UI
                         break;
                     case "5":
                         leUI.ShowLogEntryMenu();
+                        break;
+                    case "6":
+                        tgUI.ShowTagMenu();
                         break;
                     case "0":
                         exit = true;
