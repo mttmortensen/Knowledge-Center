@@ -11,9 +11,9 @@ namespace Knowledge_Center
     {
         public static readonly string InsertLogEntry = @"
             INSERT INTO LogEntries 
-                    (NodeId, EntryDate, Content, Tag, ContributesToProgress)
+                    (NodeId, EntryDate, Content, TagId, ContributesToProgress)
             VALUES 
-                    (@NodeId, @EntryDate, @Content, @Tag, @ContributesToProgress);
+                    (@NodeId, @EntryDate, @Content, @TagId, @ContributesToProgress);
         ";
 
         public static readonly string GetLogsByNodeId = @"

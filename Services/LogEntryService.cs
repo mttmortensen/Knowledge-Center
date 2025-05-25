@@ -33,7 +33,7 @@ namespace Knowledge_Center.Services
                 new SqlParameter("@NodeId", log.NodeId),
                 new SqlParameter("@EntryDate", log.EntryDate),
                 new SqlParameter("@Content", log.Content),
-                new SqlParameter("@Tag", log.Tag),
+                new SqlParameter("@TagId", log.TagId),
                 new SqlParameter("@ContributesToProgress", log.ContributesToProgress)
             };
 
@@ -132,7 +132,7 @@ namespace Knowledge_Center.Services
                 NodeId = Convert.ToInt32(rawDBRow["NodeId"]),
                 EntryDate = Convert.ToDateTime(rawDBRow["EntryDate"]),
                 Content = rawDBRow["Content"].ToString(),
-                Tag = rawDBRow["Tag"].ToString(),
+                TagId = Convert.ToInt32(rawDBRow["TagId"]),
                 ContributesToProgress = (bool)rawDBRow["ContributesToProgress"]
             };
         }
