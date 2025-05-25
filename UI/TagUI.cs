@@ -27,6 +27,7 @@ namespace Knowledge_Center.UI
                 Console.WriteLine("=== TAG MANAGEMENT ===");
                 Console.WriteLine("1. Create New Tag");
                 Console.WriteLine("2. View All Tags");
+                Console.WriteLine("3. Update a Tag");
                 Console.WriteLine("0. Back to Main Menu");
                 Console.Write("\nSelect an option: ");
                 string input = Console.ReadLine();
@@ -37,6 +38,9 @@ namespace Knowledge_Center.UI
                         break;
                     case "2":
                         ViewAllTags();
+                        break;
+                    case "3":
+                        UpdateTag();
                         break;
                     case "0":
                         exit = true;
@@ -101,6 +105,70 @@ namespace Knowledge_Center.UI
                 }
             }
             Console.WriteLine("Press any key to continue to return to the Main Menu...");
+            Console.ReadKey();
+        }
+
+        // UPDATE
+        public void UpdateTag()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Update Tag ===");
+            List<Tags> tags = _tagService.GetAllTags();
+
+            if (tags.Count == 0)
+            {
+                Console.WriteLine("No tags found.");
+
+            }
+            else 
+            {
+                int count = 1;
+                foreach (var tag in tags)
+                {
+                    Console.WriteLine($"{count}. Tag Name: {tag.Name}");
+                    count++;
+                }
+            }
+
+            Console.Write("\nEnter the number of the tag you want to update (or 0 to cancel): ");
+            string input = Console.ReadLine();
+
+            if(!int.TryParse(input, out int tagNumber) || tagNumber < 0 || tagNumber > tags.Count)
+            {
+                Console.WriteLine("Invalid input. Returning to the main menu.");
+                Console.ReadKey();
+                return;
+            }
+
+            if (tagNumber == 0) return;
+
+            Tags tagToUpdate = tags[tagNumber - 1];
+
+            if (tagToUpdate == null)
+            {
+                Console.WriteLine("Tag not found.");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.WriteLine($"=== Editing Tag: {tagToUpdate.Name} ===");
+            Console.WriteLine("Leave any field blank to keep the current value.");
+
+            Console.Write($"Tag Name ({tagToUpdate.Name}):");
+            string newTagName = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(newTagName))
+            {
+                tagToUpdate.Name = newTagName;
+            }
+
+            // Call the service to update the tag
+            bool success = _tagService.UpdateTag(tagToUpdate);
+
+            Console.WriteLine(success
+                ? "\n✅ Tag updated successfully!"
+                : "\n❌ Failed to update tag.");
+
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }
     }
