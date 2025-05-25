@@ -13,12 +13,14 @@ namespace Knowledge_Center.UI
         private readonly KnowledgeNodeService _knService;
         private readonly LogEntryService _lgService;
         private readonly DomainService _dnService;
+        private readonly TagService _tgService;
 
-        public LogEntryUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService)
+        public LogEntryUI(KnowledgeNodeService knService, LogEntryService lgService, DomainService dnService, TagService tgService)
         {
             _knService = knService;
             _lgService = lgService;
             _dnService = dnService;
+            _tgService = tgService;
         }
         // ========================== MAIN MENU ==========================
         public void ShowLogEntryMenu()
@@ -97,7 +99,7 @@ namespace Knowledge_Center.UI
             string content = Console.ReadLine();
 
             Console.Write("Tag: ");
-            string tag = Console.ReadLine();
+            int tagId = AvailableTagsForSelectionDuringLogEntryCreation();
 
             Console.Write("Contributes to Progress? (true/false): ");
             bool contributes = Convert.ToBoolean(Console.ReadLine());
@@ -107,7 +109,7 @@ namespace Knowledge_Center.UI
                 NodeId = selectedNode.Id,
                 EntryDate = DateTime.Now,
                 Content = content,
-                Tag = tag,
+                TagId = tagId,
                 ContributesToProgress = contributes
             };
 
@@ -119,6 +121,36 @@ namespace Knowledge_Center.UI
 
             Console.WriteLine("\nPress any key to return...");
             Console.ReadKey();
+        }
+
+        // Helper method to show available Tag options during log creation
+        private int AvailableTagsForSelectionDuringLogEntryCreation() 
+        {
+            var tags = _tgService.GetAllTags();
+            if (tags.Count == 0)
+            {
+                Console.WriteLine("No tags available. Please create a tag first.");
+                return -1; // Indicating no tags available
+            }
+
+            Console.WriteLine("Available Tags:");
+            for (int i = 0; i < tags.Count; i++)
+            {
+                Console.WriteLine($"[{i + 1}] {tags[i].Name}");
+            }
+
+            Console.Write("\nSelect a tag number or 0 to skip: ");
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out int tagIndex) && tagIndex >= 0 && tagIndex <= tags.Count)
+            {
+                return tagIndex == 0 ? -1 : tagIndex - 1; // Return -1 if skipped
+            }
+
+            Console.WriteLine("Invalid selection. Press any key to return...");
+            Console.ReadKey();
+
+            return -1; // Invalid selection
         }
 
         // READ
@@ -233,14 +265,14 @@ namespace Knowledge_Center.UI
         private void ShowLogEntryDetails(LogEntry logEntry)
         {
             var knowledgeNode = _knService.GetNodeById(logEntry.NodeId);
-
+            var tag = _tgService.GetTagById(logEntry.TagId);
 
             Console.Clear();
             Console.WriteLine($"=== Log Entry Details ===");
             Console.WriteLine($"KnowledgeNode Title: {knowledgeNode.Title}");
             Console.WriteLine($"KnowledgeNode ID: {logEntry.NodeId}");
             Console.WriteLine($"Entry Date: {logEntry.EntryDate}");
-            Console.WriteLine($"Tag: {logEntry.Tag}");
+            Console.WriteLine($"Tag: {tag.Name}");
             Console.WriteLine($"Contributes to Progress: {logEntry.ContributesToProgress}");
             Console.WriteLine($"\nContent: \n{logEntry.Content}");
 
