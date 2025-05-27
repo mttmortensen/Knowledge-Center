@@ -20,6 +20,7 @@ namespace Knowledge_Center
             if (string.IsNullOrWhiteSpace(connStr))
             {
                 Console.WriteLine("❌ Environment variable 'KNOWLEDGE_CENTER_DB_CONN' not found.");
+                Console.WriteLine($"{connStr}");
                 return;
             }
 
