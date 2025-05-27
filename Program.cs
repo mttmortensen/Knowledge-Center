@@ -14,7 +14,17 @@ namespace Knowledge_Center
     {
         static void Main(string[] args)
         {
-            var db = new Database("Server=MORTENSENS-MPC\\SQLEXPRESS;Database=KnowledgeCenterDB;Trusted_Connection=True;TrustServerCertificate=True;");
+            // DB Connection is a Environment variable due to repo being on different endpoints
+            string connStr = Environment.GetEnvironmentVariable("KNOWLEDGE_CENTER_DB_CONN");
+
+            if (string.IsNullOrWhiteSpace(connStr))
+            {
+                Console.WriteLine("❌ Environment variable 'KNOWLEDGE_CENTER_DB_CONN' not found.");
+                return;
+            }
+
+            var db = new Database(connStr);
+
             KnowledgeNodeService knService = new KnowledgeNodeService(db);
             LogEntryService leService = new LogEntryService(db);
             DomainService dnService = new DomainService(db);
