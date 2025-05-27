@@ -5,7 +5,7 @@ CREATE TABLE KnowledgeNodes (
     DomainId INT NOT NULL,
     Description NVARCHAR(MAX),
     ConfidenceLevel INT,
-    Status NVARCHAR(50),
+    Status NVARCHAR(25),
     CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
     LastUpdated DATETIME NOT NULL DEFAULT GETDATE(),
     FOREIGN KEY (DomainId) REFERENCES Domains(DomainId)
