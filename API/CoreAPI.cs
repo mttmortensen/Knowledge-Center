@@ -48,6 +48,11 @@ namespace Knowledge_Center.API
             var request = context.Request;
             var response = context.Response;
 
+            // === CORS FIX ===
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+
             string method = request.HttpMethod;
 
             try
