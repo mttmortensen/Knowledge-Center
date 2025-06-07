@@ -49,6 +49,16 @@ namespace Knowledge_Center.API
             var response = context.Response;
 
             // === CORS FIX ===
+            if (request.HttpMethod == "OPTIONS")
+            {
+                response.StatusCode = 200;
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
+                response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+                response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+                response.Close();
+                return;
+            }
+
             response.Headers.Add("Access-Control-Allow-Origin", "*");
             response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
