@@ -13,10 +13,12 @@ namespace Knowledge_Center.API.Controllers
     public class KnowledgeNodeController
     {
         private readonly KnowledgeNodeService _knowledgeNodeService;
+        private readonly LogEntryService _logEntryService;
 
-        public KnowledgeNodeController(KnowledgeNodeService knService) 
+        public KnowledgeNodeController(KnowledgeNodeService knService, LogEntryService lgService) 
         {
             _knowledgeNodeService = knService;
+            _logEntryService = lgService;
         }
 
         // === GET /api/knowledge-nodes ===
@@ -102,17 +104,30 @@ namespace Knowledge_Center.API.Controllers
             WriteJson(response, HttpStatusCode.OK, node);
         }
 
-        // === DELETE /api/knowledge-nodes/{id} ===
+        // === DELETE /api/knowledge-nodes/{id} === 
         public void Delete(HttpListenerResponse response, int id)
         {
-            bool success = _knowledgeNodeService.DeleteNode(id);
-            if (!success)
+            // Delete all logs associated with the Knowledge Node
+            bool logsDeleted = _logEntryService.DeleteAllLogEntriesByNodeId(id);
+
+            if (!logsDeleted)
+            {
+                WriteJson(response, HttpStatusCode.InternalServerError, new { message = "Failed to delete related logs." });
+                return;
+            }
+
+            // Now delete the Knowledge Node
+            bool nodeDeleted = _knowledgeNodeService.DeleteNode(id);
+
+            if (!nodeDeleted)
             {
                 WriteJson(response, HttpStatusCode.InternalServerError, new { message = "Node not found or delete failed." });
                 return;
             }
-            WriteJson(response, HttpStatusCode.OK, new { message = "Node deleted"}); 
+
+            WriteJson(response, HttpStatusCode.OK, new { message = "Node and related logs deleted successfully." });
         }
+
 
 
         // === HELPER ===
