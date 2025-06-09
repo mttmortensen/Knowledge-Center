@@ -205,15 +205,15 @@ namespace Knowledge_Center.API
 
             switch (true) 
             {
-                case true when route == "/api/knowledge-nodes" && int.TryParse(request.Url.Segments.Last(), out int nodeId):
+                case true when route.StartsWith("/api/knowledge-nodes") && int.TryParse(request.Url.Segments.Last(), out int nodeId):
                     _knowledgeNodeController.Delete(response, nodeId);
                     break;
 
-                case true when route == "/api/domains" && int.TryParse(request.Url.Segments.Last(), out int nodeId):
+                case true when route.StartsWith("/api/domains") && int.TryParse(request.Url.Segments.Last(), out int nodeId):
                     _domainController.Delete(response, nodeId);
                     break;
 
-                case true when route == "api/tags" && int.TryParse(request.Url.Segments.Last(), out int tagId):
+                case true when route.StartsWith("/api/tags") && int.TryParse(request.Url.Segments.Last(), out int tagId):
                     _tagController.Delete(response, tagId);
                     break;
 
