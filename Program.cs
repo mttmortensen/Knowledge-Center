@@ -31,7 +31,7 @@ namespace Knowledge_Center
             DomainService dnService = new DomainService(db);
             TagService tgService = new TagService(db);
 
-            KnowledgeNodeController knController = new KnowledgeNodeController(knService);
+            KnowledgeNodeController knController = new KnowledgeNodeController(knService, leService);
             DomainController dnController = new DomainController(dnService);
             LogEntryController lgController = new LogEntryController(leService);
             TagController tgController = new TagController(tgService);
