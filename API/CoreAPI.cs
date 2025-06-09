@@ -53,7 +53,7 @@ namespace Knowledge_Center.API
             {
                 response.StatusCode = 200;
                 response.Headers.Add("Access-Control-Allow-Origin", "*");
-                response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+                response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
                 response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
                 response.Close();
                 return;
@@ -180,15 +180,15 @@ namespace Knowledge_Center.API
 
             switch (true)
             {
-                case true when route == "/api/knowledge-nodes" && int.TryParse(request.Url.Segments.Last(), out int nodeId):
+                case true when route.StartsWith("/api/knowledge-nodes/") && int.TryParse(request.Url.Segments.Last(), out int nodeId):
                     _knowledgeNodeController.Update(response, request, nodeId);
                     break;
 
-                case true when route == "/api/domains" && int.TryParse(request.Url.Segments.Last(), out int nodeId):
-                    _domainController.Update(response, request, nodeId);
+                case true when route.StartsWith("/api/domains/") && int.TryParse(request.Url.Segments.Last(), out int domainId):
+                    _domainController.Update(response, request, domainId);
                     break;
 
-                case true when route == "/api/tags" && int.TryParse(request.Url.Segments.Last(), out int tagId):
+                case true when route.StartsWith("/api/tags/") && int.TryParse(request.Url.Segments.Last(), out int tagId):
                     _tagController.Update(response, request, tagId);
                     break;
 
