@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Knowledge_Center.Models;
+using System.Data;
 
 namespace Knowledge_Center.Services
 {
@@ -30,14 +31,14 @@ namespace Knowledge_Center.Services
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("@Title", node.Title),
-                new SqlParameter("@DomainId", node.DomainId),
-                new SqlParameter("@Description", node.Description),
-                new SqlParameter("@ConfidenceLevel", node.ConfidenceLevel),
-                new SqlParameter("@Status", node.Status),
-                new SqlParameter("@CreatedAt", node.CreatedAt),
-                new SqlParameter("@LastUpdated", node.LastUpdated),
-                new SqlParameter("@NodeType", node.NodeType)
+                new SqlParameter("@Title", SqlDbType.NVarChar, 100) { Value = node.Title },
+                new SqlParameter("@DomainId", SqlDbType.Int) { Value = node.DomainId },
+                new SqlParameter("@Description", SqlDbType.NVarChar, 500) { Value = node.Description },
+                new SqlParameter("@ConfidenceLevel", SqlDbType.Int) { Value = node.ConfidenceLevel },
+                new SqlParameter("@Status", SqlDbType.NVarChar, 20) { Value = node.Status },
+                new SqlParameter("@CreatedAt", SqlDbType.DateTime) { Value = node.CreatedAt },
+                new SqlParameter("@LastUpdated", SqlDbType.DateTime) { Value = node.LastUpdated },
+                new SqlParameter("@NodeType", SqlDbType.NVarChar, 20) { Value = node.NodeType }
             };
 
             // Run the INSERT query
