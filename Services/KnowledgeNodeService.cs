@@ -23,6 +23,16 @@ namespace Knowledge_Center.Services
         // === CREATE ===
         public bool CreateNode(KnowledgeNode node) 
         {
+            // Enum Validation
+            var validNodeTypes = new HashSet<string> { "Concept", "Project" };
+            var validStatuses = new HashSet<string> { "Exploring", "Learning", "Mastered" };
+
+            if (!validNodeTypes.Contains(node.NodeType))
+                throw new ArgumentException($"Invalid NodeType: {node.NodeType}");
+
+            if (!validStatuses.Contains(node.Status))
+                throw new ArgumentException($"Invalid Status: {node.Status}");
+
             // Set timestamps
             DateTime now = DateTime.Now;
             node.CreatedAt = now;
