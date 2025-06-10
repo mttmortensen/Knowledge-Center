@@ -2,10 +2,10 @@
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Threading;
-using Knowledge_Center.Services;
 using Knowledge_Center.API;
 using Knowledge_Center.API.Controllers;
 using Knowledge_Center.UI;
+using Knowledge_Center.Services.Core;
 
 
 namespace Knowledge_Center

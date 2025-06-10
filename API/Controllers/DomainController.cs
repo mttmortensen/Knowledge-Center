@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Knowledge_Center.Models;
-using Knowledge_Center.Services;
+using Knowledge_Center.Services.Core;
 
 namespace Knowledge_Center.API.Controllers
 {

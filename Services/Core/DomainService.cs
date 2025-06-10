@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Knowledge_Center.Models;
 
-namespace Knowledge_Center.Services
+namespace Knowledge_Center.Services.Core
 {
     public class DomainService
     {
         private readonly Database _database;
-        public DomainService(Database database) 
+        public DomainService(Database database)
         {
             _database = database;
         }
@@ -19,7 +19,7 @@ namespace Knowledge_Center.Services
         /* ===================== CRUD ===================== */
 
         // === CREATE ===
-        public bool CreateDomain(Domain domain) 
+        public bool CreateDomain(Domain domain)
         {
             // Set timestamps first
             DateTime now = DateTime.Now;
@@ -58,7 +58,7 @@ namespace Knowledge_Center.Services
             return domains;
         }
 
-        public Domain GetDomainById(int domainId) 
+        public Domain GetDomainById(int domainId)
         {
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
@@ -81,7 +81,7 @@ namespace Knowledge_Center.Services
         }
 
         // === UPDATE ===
-        public bool UpdateDomain(Domain domain) 
+        public bool UpdateDomain(Domain domain)
         {
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
@@ -101,7 +101,7 @@ namespace Knowledge_Center.Services
         }
 
         // === DELETE ===
-        public bool DeleteDomain(int domainId) 
+        public bool DeleteDomain(int domainId)
         {
             // Build SQL Parameters
             var parameters = new List<SqlParameter>

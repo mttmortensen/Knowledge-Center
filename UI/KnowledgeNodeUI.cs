@@ -1,5 +1,5 @@
 ﻿using Knowledge_Center.Models;
-using Knowledge_Center.Services;
+using Knowledge_Center.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

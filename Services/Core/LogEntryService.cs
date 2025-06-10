@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Microsoft.Data.SqlClient;
 using Knowledge_Center.Models;
 
-namespace Knowledge_Center.Services
+namespace Knowledge_Center.Services.Core
 {
     public class LogEntryService
     {
@@ -21,7 +21,7 @@ namespace Knowledge_Center.Services
         /* ===================== CRUD ===================== */
 
         // === CREATE ===
-        public bool CreateLogEntry(LogEntry log) 
+        public bool CreateLogEntry(LogEntry log)
         {
 
             // Set timestamps
@@ -46,7 +46,7 @@ namespace Knowledge_Center.Services
 
         // === READ ===
 
-        public List<LogEntry> GetAllLogEntries() 
+        public List<LogEntry> GetAllLogEntries()
         {
             List<LogEntry> logEntries = new List<LogEntry>();
 
@@ -65,7 +65,7 @@ namespace Knowledge_Center.Services
 
             return logEntries;
         }
-        public List<LogEntry> GetAllLogEntriesByNodeId(int nodeId) 
+        public List<LogEntry> GetAllLogEntriesByNodeId(int nodeId)
         {
             List<SqlParameter> parameters = new List<SqlParameter>
             {

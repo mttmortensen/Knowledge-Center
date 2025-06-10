@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 using Knowledge_Center.Models;
 using System.Data;
 
-namespace Knowledge_Center.Services
+namespace Knowledge_Center.Services.Core
 {
     public class KnowledgeNodeService
     {
@@ -21,7 +21,7 @@ namespace Knowledge_Center.Services
         /* ===================== CRUD ===================== */
 
         // === CREATE ===
-        public bool CreateNode(KnowledgeNode node) 
+        public bool CreateNode(KnowledgeNode node)
         {
             // Enum Validation
             var validNodeTypes = new HashSet<string> { "Concept", "Project" };
@@ -66,7 +66,7 @@ namespace Knowledge_Center.Services
 
             var rawDBResults = _database.ExecuteQuery(KnowledgeNodeQueries.SelectAllNodes, null);
 
-            foreach (var rawDBRow in rawDBResults) 
+            foreach (var rawDBRow in rawDBResults)
             {
                 nodes.Add(ConvertDBRowToClassObj(rawDBRow));
             }

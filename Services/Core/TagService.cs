@@ -7,12 +7,12 @@ using Knowledge_Center.Models;
 using Knowledge_Center.Queries;
 using Microsoft.Data.SqlClient;
 
-namespace Knowledge_Center.Services
+namespace Knowledge_Center.Services.Core
 {
     public class TagService
     {
         private readonly Database _db;
-        public TagService(Database db) 
+        public TagService(Database db)
         {
             _db = db;
         }
@@ -20,7 +20,7 @@ namespace Knowledge_Center.Services
         /* ===================== CRUD ===================== */
 
         // Create
-        public bool CreateTag(Tags tag) 
+        public bool CreateTag(Tags tag)
         {
 
             //Build SQL Parameters
@@ -37,7 +37,7 @@ namespace Knowledge_Center.Services
         }
 
         // Read
-        public List<Tags> GetAllTags() 
+        public List<Tags> GetAllTags()
         {
             List<Tags> tags = new List<Tags>();
 
