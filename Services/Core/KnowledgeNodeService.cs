@@ -24,10 +24,13 @@ namespace Knowledge_Center.Services.Core
         // === CREATE ===
         public bool CreateNode(KnowledgeNode node)
         {
-            InputValidator.ValidateTitle(node.Title);
-            InputValidator.ValidateDescription(node.Description);
-            InputValidator.ValidateNodeType(node.NodeType);
-            InputValidator.ValidateStatus(node.Status);
+            // Validate Inputs Using Validators 
+            FieldValidator.ValidateRequiredString(node.Title, "Title", 100);
+            FieldValidator.ValidateRequiredString(node.Description, "Description", 500);
+
+            FieldValidator.ValidateEnumValue(node.NodeType, "NodeType", new() { "Concept", "Project" });
+            FieldValidator.ValidateEnumValue(node.Status, "Status", new() { "Exploring", "Learning", "Mastered" });
+
 
             // Set timestamps
             DateTime now = DateTime.Now;
@@ -72,6 +75,9 @@ namespace Knowledge_Center.Services.Core
 
         public KnowledgeNode GetNodeById(int id)
         {
+            // Validate Inputs Using Validators 
+            FieldValidator.ValidateId(id, "KnowledgeNode ID");
+
             // SELECT Query + Parameters to retrieve a specific KnowledgeNode by ID and map result into a KnowledgeNode object
             List<SqlParameter> parameters = new List<SqlParameter>
             {
@@ -91,11 +97,13 @@ namespace Knowledge_Center.Services.Core
         // === UPDATE ===
         public bool UpdateNode(KnowledgeNode node)
         {
-            // === Validate Inputs Using Validators ===
-            InputValidator.ValidateTitle(node.Title);
-            InputValidator.ValidateDescription(node.Description);
-            InputValidator.ValidateNodeType(node.NodeType);
-            InputValidator.ValidateStatus(node.Status);
+            // Validate Inputs Using Validators 
+            FieldValidator.ValidateRequiredString(node.Title, "Title", 100);
+            FieldValidator.ValidateRequiredString(node.Description, "Description", 500);
+
+            FieldValidator.ValidateEnumValue(node.NodeType, "NodeType", new() { "Concept", "Project" });
+            FieldValidator.ValidateEnumValue(node.Status, "Status", new() { "Exploring", "Learning", "Mastered" });
+
 
             // UPDATE Query + Parameters to update an existing KnowledgeNode by it's ID
             node.LastUpdated = DateTime.Now;
@@ -122,6 +130,10 @@ namespace Knowledge_Center.Services.Core
         // === DELETE ===
         public bool DeleteNode(int id)
         {
+            // Validate Inputs Using Validators 
+            FieldValidator.ValidateId(id, "KnowledgeNode ID");
+
+
             // DELETE Query + Parameters to delete a KnowledgeNode by ID
             var parameters = new List<SqlParameter>
             {
