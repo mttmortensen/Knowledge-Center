@@ -5,6 +5,7 @@ using Knowledge_Center.Services.Validation;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Knowledge_Center.Services.Core
             //Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
             {
-                new SqlParameter("@Name", tag.Name)
+                new SqlParameter("@Name", SqlDbType.NVarChar, 100) { Value = tag.Name }
             };
 
             // Run the INSERT Query
@@ -65,7 +66,7 @@ namespace Knowledge_Center.Services.Core
             // Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
             {
-                new SqlParameter("@TagId", tagId)
+                new SqlParameter("@TagId", SqlDbType.Int) { Value = tagId }
             };
 
             // Execute the SELECT query to get a specific tag by ID
@@ -88,8 +89,8 @@ namespace Knowledge_Center.Services.Core
             // Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
             {
-                new SqlParameter("@TagId", tag.TagId),
-                new SqlParameter("@Name", tag.Name)
+                new SqlParameter("@TagId", SqlDbType.Int) { Value = tag.TagId },
+                new SqlParameter("@Name", SqlDbType.NVarChar, 100) { Value = tag.Name }
             };
 
             // Run the UPDATE Query
@@ -108,7 +109,7 @@ namespace Knowledge_Center.Services.Core
             // Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
             {
-                new SqlParameter("@TagId", tagId)
+                new SqlParameter("@TagId", SqlDbType.Int) { Value = tagId }
             };
 
             // Run the DELETE Query

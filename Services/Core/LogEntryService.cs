@@ -3,6 +3,7 @@ using Knowledge_Center.Services.Validation;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,14 +35,15 @@ namespace Knowledge_Center.Services.Core
             DateTime now = DateTime.Now;
             log.EntryDate = now;
 
-            List<SqlParameter> parameters = new List<SqlParameter>
+            var parameters = new List<SqlParameter>
             {
-                new SqlParameter("@NodeId", log.NodeId),
-                new SqlParameter("@EntryDate", log.EntryDate),
-                new SqlParameter("@Content", log.Content),
-                new SqlParameter("@TagId", log.TagId),
-                new SqlParameter("@ContributesToProgress", log.ContributesToProgress)
+                new SqlParameter("@NodeId", SqlDbType.Int) { Value = log.NodeId },
+                new SqlParameter("@EntryDate", SqlDbType.DateTime) { Value = log.EntryDate },
+                new SqlParameter("@Content", SqlDbType.NVarChar, 2000) { Value = log.Content },
+                new SqlParameter("@TagId", SqlDbType.Int) { Value = log.TagId },
+                new SqlParameter("@ContributesToProgress", SqlDbType.Bit) { Value = log.ContributesToProgress }
             };
+
 
             // Run the INSERT query
             int result = _database.ExecuteNonQuery(LogEntryQueries.InsertLogEntry, parameters);
@@ -78,7 +80,7 @@ namespace Knowledge_Center.Services.Core
 
             List<SqlParameter> parameters = new List<SqlParameter>
             {
-                new SqlParameter("@NodeId", nodeId)
+                new SqlParameter("@NodeId", SqlDbType.Int) { Value = nodeId }
             };
 
             // SELECT Query + Parameters to retrieve all LogEntries from a specific Knowledge Node and maps results into LogEntry objects
@@ -108,7 +110,7 @@ namespace Knowledge_Center.Services.Core
 
             List<SqlParameter> parameters = new List<SqlParameter>
             {
-                new SqlParameter("@LogId", logId)
+                new SqlParameter("@LogId", SqlDbType.Int) { Value = logId }
             };
             // SELECT Query + Parameters to retrieve a specific LogEntry by LogID and map result into a LogEntry object
             var rawDBResults = _database.ExecuteQuery(LogEntryQueries.GetLogByLogId, parameters);
@@ -127,7 +129,7 @@ namespace Knowledge_Center.Services.Core
 
             List<SqlParameter> parameters = new List<SqlParameter>
             {
-                new SqlParameter("@NodeId", nodeId)
+                new SqlParameter("@NodeId", SqlDbType.Int) { Value = nodeId }
             };
 
             // DELETE Query + Parameters to delete all LogEntries from a specific Knowledge Node
