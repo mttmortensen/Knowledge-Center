@@ -38,6 +38,12 @@ namespace Knowledge_Center.Services.Validation
                 throw new ArgumentException($"Invalid NodeType: {nodeType}");
             }
         }
-        public static void ValidateStatus(string status) { }
+        public static void ValidateStatus(string status) 
+        {
+            if(!ValidStatuses.Contains(status)) 
+            {
+                throw new ArgumentException($"Invalid Status: {status}");
+            }
+        }
     }
 }
