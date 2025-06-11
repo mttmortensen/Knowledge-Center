@@ -31,7 +31,13 @@ namespace Knowledge_Center.Services.Validation
             if (description.Length > 500)
                 throw new ArgumentException("Description cannot exceed 500 characters.");
         }
-        public static void ValidateNodeType(string nodeType) { }
+        public static void ValidateNodeType(string nodeType) 
+        {
+            if (!ValidNodeTypes.Contains(nodeType))
+            {
+                throw new ArgumentException($"Invalid NodeType: {nodeType}");
+            }
+        }
         public static void ValidateStatus(string status) { }
     }
 }
