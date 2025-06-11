@@ -73,7 +73,7 @@ namespace Knowledge_Center.Services.Core
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("@DomainId", domainId)
+                new SqlParameter("@DomainId", SqlDbType.Int) { Value = domainId }
             };
 
             // SELECT Query + Parameters to retrieve a single Domain and map results into Domain object
@@ -102,11 +102,11 @@ namespace Knowledge_Center.Services.Core
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("@DomainId", domain.DomainId),
-                new SqlParameter("@DomainName", domain.DomainName),
-                new SqlParameter("@DomainDescription", domain.DomainDescription),
-                new SqlParameter("@DomainStatus", domain.DomainStatus),
-                new SqlParameter("@LastUsed", domain.LastUsed)
+                new SqlParameter("@DomainId", SqlDbType.Int) { Value = domain.DomainId },
+                new SqlParameter("@DomainName", SqlDbType.NVarChar, 100) { Value = domain.DomainName },
+                new SqlParameter("@DomainDescription", SqlDbType.NVarChar, 300) { Value = domain.DomainDescription ?? string.Empty },
+                new SqlParameter("@DomainStatus", SqlDbType.NVarChar, 20) { Value = domain.DomainStatus },
+                new SqlParameter("@LastUsed", SqlDbType.DateTime) { Value = domain.LastUsed }
             };
 
             // Run the UPDATE query
@@ -125,7 +125,7 @@ namespace Knowledge_Center.Services.Core
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("@DomainId", domainId)
+               new SqlParameter("@DomainId", SqlDbType.Int) { Value = domainId }
             };
 
             // Run the DELETE query
