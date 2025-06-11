@@ -11,8 +11,26 @@ namespace Knowledge_Center.Services.Validation
         private static readonly HashSet<string> ValidNodeTypes = new(){ "Concept", "Project" };
         private static readonly HashSet<string> ValidStatuses  = new(){ "Exploring", "Learning", "Mastered" };
 
-        public static void ValidateTitle(string title) { }
-        public static void ValidateDescription(string description) { }
+        public static void ValidateTitle(string title) 
+        {
+            if(string.IsNullOrWhiteSpace(title)) 
+            {
+                throw new ArgumentException("Title is Required.");
+            }
+
+            if(title.Length > 100) 
+            {
+                throw new ArgumentException("Title cannot exceed 100 characters.");
+            }
+        }
+        public static void ValidateDescription(string description) 
+        {
+            if (string.IsNullOrWhiteSpace(description))
+                throw new ArgumentException("Description is required.");
+
+            if (description.Length > 500)
+                throw new ArgumentException("Description cannot exceed 500 characters.");
+        }
         public static void ValidateNodeType(string nodeType) { }
         public static void ValidateStatus(string status) { }
     }
