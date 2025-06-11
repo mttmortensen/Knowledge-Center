@@ -3,6 +3,7 @@ using Knowledge_Center.Services.Validation;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,11 +36,11 @@ namespace Knowledge_Center.Services.Core
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("@DomainName", domain.DomainName),
-                new SqlParameter("@DomainDescription", domain.DomainDescription),
-                new SqlParameter("@DomainStatus", domain.DomainStatus),
-                new SqlParameter("@CreatedAt", domain.CreatedAt),
-                new SqlParameter("@LastUsed", domain.LastUsed)
+                new SqlParameter("@DomainName", SqlDbType.NVarChar, 100) { Value = domain.DomainName },
+                new SqlParameter("@DomainDescription", SqlDbType.NVarChar, 300) { Value = domain.DomainDescription ?? string.Empty },
+                new SqlParameter("@DomainStatus", SqlDbType.NVarChar, 20) { Value = domain.DomainStatus },
+                new SqlParameter("@CreatedAt", SqlDbType.DateTime) { Value = domain.CreatedAt },
+                new SqlParameter("@LastUsed", SqlDbType.DateTime) { Value = domain.LastUsed }
             };
 
             // Run the INSERT query
