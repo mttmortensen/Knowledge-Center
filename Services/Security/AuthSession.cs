@@ -11,10 +11,21 @@ namespace Knowledge_Center.Services.Security
         // username -> token
         private static Dictionary<string, string> _activeSessions = new();
 
-        public static string CreateSession(string username) { }
+        public static string CreateSession(string username) 
+        {
+            string token = Guid.NewGuid().ToString();
+            _activeSessions[username] = token;
+            return token;
+        }
 
-        public static bool IsValidToken(string token) { }
+        public static bool IsValidToken(string token) 
+        {
+            return _activeSessions.ContainsValue(token);
+        }
 
-        public static void EndSession(string username) { }
+        public static void EndSession(string username) 
+        {
+            _activeSessions.Remove(username);
+        }
     }
 }
