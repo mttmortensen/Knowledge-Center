@@ -58,7 +58,24 @@ namespace Knowledge_Center.API.Controllers
             }
 
         }
-        public void HandleLogout(HttpListenerResponse response, HttpListenerRequest request) { }
+        public void HandleLogout(HttpListenerResponse response, HttpListenerRequest request) 
+        {
+            try 
+            {
+                // Step 1: Get the token from Authorization Header 
+                string authHeader = request.Headers["Authorization"];
+
+                if(string.IsNullOrWhiteSpace(authHeader) || !authHeader.StartsWith("Bearer ")) 
+                {
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    byte[] errorBytes = System.Text.Encoding.UTF8.GetBytes("Missing or invalid Authorization header.");
+                    response.OutputStream.Write(errorBytes, 0, errorBytes.Length);
+                    return;
+                }
+            }
+            catch { }
+            finally { }
+        }
 
     }
 }
