@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Knowledge_Center.Models;
+using Knowledge_Center.Services.Validation;
 using System.Data;
 
 namespace Knowledge_Center.Services.Core
@@ -23,6 +24,10 @@ namespace Knowledge_Center.Services.Core
         // === CREATE ===
         public bool CreateNode(KnowledgeNode node)
         {
+            InputValidator.ValidateTitle(node.Title);
+            InputValidator.ValidateDescription(node.Description);
+            InputValidator.ValidateNodeType(node.NodeType);
+            InputValidator.ValidateStatus(node.Status);
 
             // Set timestamps
             DateTime now = DateTime.Now;
@@ -86,19 +91,26 @@ namespace Knowledge_Center.Services.Core
         // === UPDATE ===
         public bool UpdateNode(KnowledgeNode node)
         {
+            // === Validate Inputs Using Validators ===
+            InputValidator.ValidateTitle(node.Title);
+            InputValidator.ValidateDescription(node.Description);
+            InputValidator.ValidateNodeType(node.NodeType);
+            InputValidator.ValidateStatus(node.Status);
+
             // UPDATE Query + Parameters to update an existing KnowledgeNode by it's ID
             node.LastUpdated = DateTime.Now;
 
+            // === Strictly Typed SQL Parameters ===
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("@Id", node.Id),
-                new SqlParameter("@Title", node.Title),
-                new SqlParameter("@DomainId", node.DomainId),
-                new SqlParameter("@NodeType", node.NodeType),
-                new SqlParameter("@Description", node.Description),
-                new SqlParameter("@ConfidenceLevel", node.ConfidenceLevel),
-                new SqlParameter("@Status", node.Status),
-                new SqlParameter("@LastUpdated", node.LastUpdated)
+                new SqlParameter("@Id", SqlDbType.Int) { Value = node.Id },
+                new SqlParameter("@Title", SqlDbType.NVarChar, 100) { Value = node.Title },
+                new SqlParameter("@DomainId", SqlDbType.Int) { Value = node.DomainId },
+                new SqlParameter("@NodeType", SqlDbType.NVarChar, 20) { Value = node.NodeType },
+                new SqlParameter("@Description", SqlDbType.NVarChar, 500) { Value = node.Description },
+                new SqlParameter("@ConfidenceLevel", SqlDbType.Int) { Value = node.ConfidenceLevel },
+                new SqlParameter("@Status", SqlDbType.NVarChar, 20) { Value = node.Status },
+                new SqlParameter("@LastUpdated", SqlDbType.DateTime) { Value = node.LastUpdated }
             };
 
             int result = _database.ExecuteNonQuery(KnowledgeNodeQueries.UpdateNode, parameters);
