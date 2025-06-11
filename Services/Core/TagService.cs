@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Azure;
+using Knowledge_Center.Models;
+using Knowledge_Center.Queries;
+using Knowledge_Center.Services.Validation;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Knowledge_Center.Models;
-using Knowledge_Center.Queries;
-using Microsoft.Data.SqlClient;
 
 namespace Knowledge_Center.Services.Core
 {
@@ -22,6 +24,8 @@ namespace Knowledge_Center.Services.Core
         // Create
         public bool CreateTag(Tags tag)
         {
+            // Validate Input Fields
+            FieldValidator.ValidateRequiredString(tag.Name, "Tag Name", 100);
 
             //Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
@@ -55,6 +59,9 @@ namespace Knowledge_Center.Services.Core
 
         public Tags GetTagById(int tagId)
         {
+            // Validate Input Fields
+            FieldValidator.ValidateId(tagId, "Tag ID");
+
             // Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
             {
@@ -74,6 +81,10 @@ namespace Knowledge_Center.Services.Core
         // Update
         public bool UpdateTag(Tags tag)
         {
+            // Validate Input Fields
+            FieldValidator.ValidateId(tag.TagId, "Tag ID");
+            FieldValidator.ValidateRequiredString(tag.Name, "Tag Name", 100);
+
             // Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
             {
@@ -91,6 +102,9 @@ namespace Knowledge_Center.Services.Core
         // Delete
         public bool DeleteTag(int tagId)
         {
+            // Validate Input Fields
+            FieldValidator.ValidateId(tagId, "Tag ID");
+
             // Build SQL Parameters
             List<SqlParameter> tagParameters = new List<SqlParameter>
             {

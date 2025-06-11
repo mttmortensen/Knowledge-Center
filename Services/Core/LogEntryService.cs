@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Knowledge_Center.Models;
+using Knowledge_Center.Services.Validation;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Microsoft.Data.SqlClient;
-using Knowledge_Center.Models;
 
 namespace Knowledge_Center.Services.Core
 {
@@ -23,6 +24,11 @@ namespace Knowledge_Center.Services.Core
         // === CREATE ===
         public bool CreateLogEntry(LogEntry log)
         {
+            // Validate Input Fields 
+            FieldValidator.ValidateId(log.NodeId, "KnowledgeNode ID");
+            FieldValidator.ValidateRequiredString(log.Content, "Log Content", 2000);
+            FieldValidator.ValidateId(log.TagId, "Tag ID");
+
 
             // Set timestamps
             DateTime now = DateTime.Now;
@@ -67,6 +73,9 @@ namespace Knowledge_Center.Services.Core
         }
         public List<LogEntry> GetAllLogEntriesByNodeId(int nodeId)
         {
+            // Validate Input Fields 
+            FieldValidator.ValidateId(nodeId, "KnowledgeNode ID");
+
             List<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@NodeId", nodeId)
@@ -94,6 +103,9 @@ namespace Knowledge_Center.Services.Core
         // This function is being used in the API
         public LogEntry GetLogEntryByLogId(int logId)
         {
+            // Validate Input Fields 
+            FieldValidator.ValidateId(logId, "Log Id");
+
             List<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@LogId", logId)
@@ -110,6 +122,9 @@ namespace Knowledge_Center.Services.Core
         // === DELETE ===
         public bool DeleteAllLogEntriesByNodeId(int nodeId)
         {
+            // Validate Input Fields 
+            FieldValidator.ValidateId(nodeId, "KnowledgeNode Id");
+
             List<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@NodeId", nodeId)
