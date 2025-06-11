@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Knowledge_Center.Models;
+using Knowledge_Center.Services.Validation;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-using Knowledge_Center.Models;
 
 namespace Knowledge_Center.Services.Core
 {
@@ -21,6 +22,11 @@ namespace Knowledge_Center.Services.Core
         // === CREATE ===
         public bool CreateDomain(Domain domain)
         {
+            // Validating Field Inputs 
+            FieldValidator.ValidateRequiredString(domain.DomainName, "Domain Name", 100);
+            FieldValidator.ValidateOptionalString(domain.DomainDescription, "Domain Description", 300);
+            FieldValidator.ValidateEnumValue(domain.DomainStatus, "Domain Status", new() { "Active", "Inactive" });
+
             // Set timestamps first
             DateTime now = DateTime.Now;
             domain.CreatedAt = now;
@@ -60,6 +66,9 @@ namespace Knowledge_Center.Services.Core
 
         public Domain GetDomainById(int domainId)
         {
+            // Validating Field Input 
+            FieldValidator.ValidateId(domainId, "Domain ID");
+
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
             {
@@ -83,6 +92,12 @@ namespace Knowledge_Center.Services.Core
         // === UPDATE ===
         public bool UpdateDomain(Domain domain)
         {
+            // Validating Field Inputs 
+            FieldValidator.ValidateId(domain.DomainId, "Domain ID");
+            FieldValidator.ValidateRequiredString(domain.DomainName, "Domain Name", 100);
+            FieldValidator.ValidateOptionalString(domain.DomainDescription, "Domain Description", 300);
+            FieldValidator.ValidateEnumValue(domain.DomainStatus, "Domain Status", new() { "Active", "Inactive" });
+
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
             {
@@ -103,6 +118,9 @@ namespace Knowledge_Center.Services.Core
         // === DELETE ===
         public bool DeleteDomain(int domainId)
         {
+            // Validating Field Input 
+            FieldValidator.ValidateId(domainId, "Domain ID");
+
             // Build SQL Parameters
             var parameters = new List<SqlParameter>
             {
