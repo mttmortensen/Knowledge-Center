@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Knowledge_Center.Models;
-using System.Text.Json;
+﻿using Knowledge_Center.Models;
 using Knowledge_Center.Services.Core;
+using Knowledge_Center.Services.Security;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Knowledge_Center.API.Controllers
 {
@@ -45,6 +46,9 @@ namespace Knowledge_Center.API.Controllers
         // === POST /api/logs ===
         public void Create(HttpListenerResponse response, HttpListenerRequest request) 
         {
+            // Checks for Auth first
+            if (!AuthHelper.RequireAuth(request, response)) return;
+
             // Read the request body
             using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
             string body = reader.ReadToEnd();

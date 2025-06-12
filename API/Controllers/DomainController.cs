@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Azure.Core;
+using Knowledge_Center.Models;
+using Knowledge_Center.Services.Core;
+using Knowledge_Center.Services.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Knowledge_Center.Models;
-using Knowledge_Center.Services.Core;
 
 namespace Knowledge_Center.API.Controllers
 {
@@ -47,6 +50,9 @@ namespace Knowledge_Center.API.Controllers
         // === POST /api/domains ===
         public void Create(HttpListenerResponse response, HttpListenerRequest request)
         {
+            // Checks for Auth first
+            if (!AuthHelper.RequireAuth(request, response)) return;
+
             using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
             string body = reader.ReadToEnd();
             
@@ -77,6 +83,9 @@ namespace Knowledge_Center.API.Controllers
         // === PUT /api/domains/{id} ===
         public void Update(HttpListenerResponse response, HttpListenerRequest request, int id)
         {
+            // Checks for Auth first
+            if (!AuthHelper.RequireAuth(request, response)) return;
+
             using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
             string body = reader.ReadToEnd();
 
@@ -106,8 +115,11 @@ namespace Knowledge_Center.API.Controllers
         }
 
         // === DELETE /api/domains/{id} ===
-        public void Delete(HttpListenerResponse response, int id)
+        public void Delete(HttpListenerRequest request, HttpListenerResponse response, int id)
         {
+            // Checks for Auth first
+            if (!AuthHelper.RequireAuth(request, response)) return;
+
             bool success = _dnService.DeleteDomain(id);
 
             if (!success)
