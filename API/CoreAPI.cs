@@ -61,16 +61,19 @@ namespace Knowledge_Center.API
             if (request.HttpMethod == "OPTIONS")
             {
                 response.StatusCode = 200;
-                response.Headers.Add("Access-Control-Allow-Origin", "*");
+                response.Headers.Add("Access-Control-Allow-Origin", "*"); // We'll change '*' to the .xyz domain once live
                 response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-                response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+                response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
                 response.Close();
                 return;
             }
 
+            // Apply headers to all other responses
             response.Headers.Add("Access-Control-Allow-Origin", "*");
             response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+            // ===============
 
             string method = request.HttpMethod;
 
