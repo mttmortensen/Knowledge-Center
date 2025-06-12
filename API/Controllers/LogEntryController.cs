@@ -49,6 +49,13 @@ namespace Knowledge_Center.API.Controllers
             // Checks for Auth first
             if (!AuthHelper.RequireAuth(request, response)) return;
 
+            // Rate limit check
+            if (!RateLimiter.IsAllowed(request))
+            {
+                WriteJson(response, HttpStatusCode.TooManyRequests, new { message = "Rate limit exceeded. Try again later." });
+                return;
+            }
+
             // Read the request body
             using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
             string body = reader.ReadToEnd();
