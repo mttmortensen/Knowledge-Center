@@ -31,7 +31,7 @@ namespace Knowledge_Center.Services.Security
         // Tracks requests per IP per route: Dictionary<"IP|routeKey">, List<Timestamps>>
         private static readonly Dictionary<string, List<DateTime>> RequestLog = new();
 
-        public static bool IsAllow(HttpListenerRequest request)
+        public static bool IsAllowed(HttpListenerRequest request)
         {
             string ip = request.RemoteEndPoint?.Address.ToString() ?? "unknown";
             string routeKey = $"{request.HttpMethod}:{request.Url.AbsolutePath.ToLower()}";

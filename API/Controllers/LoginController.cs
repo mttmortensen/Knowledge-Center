@@ -14,6 +14,13 @@ namespace Knowledge_Center.API.Controllers
     {
         public void HandleLogin(HttpListenerResponse response, HttpListenerRequest request) 
         {
+            // Step 0: Rate limit check
+            if (!RateLimiter.IsAllowed(request))
+            {
+                WriteJson(response, HttpStatusCode.TooManyRequests, new { message = "Rate limit exceeded. Try again later." });
+                return;
+            }
+
             try 
             {
                 // Step 1: Read Body
