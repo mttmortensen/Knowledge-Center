@@ -21,7 +21,10 @@ namespace Knowledge_Center.API.Controllers
                 string body = reader.ReadToEnd();
 
                 // Step 2: Parse JSON
-                var loginData = JsonSerializer.Deserialize<LoginRequest>(body);
+                var loginData = JsonSerializer.Deserialize<LoginRequest>(
+                    body,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
 
                 // Step 3: Validate creds against hardcoded creds (for testing ONLY)
                 string hardcodedUsername = "matt";
