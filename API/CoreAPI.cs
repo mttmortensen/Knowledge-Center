@@ -16,15 +16,24 @@ namespace Knowledge_Center.API
         private readonly DomainController _domainController;
         private readonly LogEntryController _logEntryController;
         private readonly TagController _tagController;
+        private readonly LoginController _loginController;
 
         private readonly HttpListener _listener;
 
-        public CoreAPI(KnowledgeNodeController knowledgeNodeController, LogEntryController logEntryController, DomainController domainController, TagController tagController)
+        public CoreAPI
+        (
+            KnowledgeNodeController knowledgeNodeController, 
+            LogEntryController logEntryController, 
+            DomainController domainController, 
+            TagController tagController,
+            LoginController loginController
+        )
         {
             _knowledgeNodeController = knowledgeNodeController;
             _logEntryController = logEntryController;
             _domainController = domainController;
             _tagController = tagController;
+            _loginController = loginController;
 
             _listener = new HttpListener();
             _listener.Prefixes.Add("http://localhost:8080/");
@@ -165,6 +174,14 @@ namespace Knowledge_Center.API
 
                 case true when route == "/api/tags":
                     _tagController.Create(response, request);
+                    break;
+
+                case true when route == "/api/login":
+                    _loginController.HandleLogin(response, request);
+                    break;
+
+                case true when route == "/api/logout":
+                    _loginController.HandleLogout(response, request);
                     break;
 
                 default:

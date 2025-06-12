@@ -35,8 +35,9 @@ namespace Knowledge_Center
             DomainController dnController = new DomainController(dnService);
             LogEntryController lgController = new LogEntryController(leService);
             TagController tgController = new TagController(tgService);
+            LoginController lgnController = new LoginController();
 
-            CoreAPI coreAPI = new CoreAPI(knController, lgController, dnController, tgController);
+            CoreAPI coreAPI = new CoreAPI(knController, lgController, dnController, tgController, lgnController);
 
             // Start the API server in a separate thread
             Thread apiThread = new Thread(() => coreAPI.Start());
