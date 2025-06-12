@@ -27,5 +27,16 @@ namespace Knowledge_Center.Services.Security
         {
             _activeSessions.Remove(username);
         }
+
+        public static string GetUsernameByToken(string token)
+        {
+            foreach (var kvp in _activeSessions)
+            {
+                if (kvp.Value == token)
+                    return kvp.Key;
+            }
+
+            return null;
+        }
     }
 }
