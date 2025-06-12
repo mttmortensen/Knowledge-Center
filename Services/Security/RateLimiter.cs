@@ -42,7 +42,24 @@ namespace Knowledge_Center.Services.Security
 
             lock (RequestLog) 
             {
+                if (!RequestLog.ContainsKey(key))
+                {
+                    RequestLog[key] = new List<DateTime>();
+                }
 
+                // Clean up old requests outside the time window
+                DateTime now = DateTime.UtcNow;
+                RequestLog[key].RemoveAll(t => (now - t) > TimeWindow);
+
+                // Check limit
+                if (RequestLog[key].Count >= limit)
+                {
+                    return false; // 🚫 Rate limit exceeded
+                }
+
+                // Add current request timestamp
+                RequestLog[key].Add(now);
+                return true; // ✅ Allowed
             }
         }
     }
