@@ -23,7 +23,7 @@ namespace Knowledge_Center.API.Controllers
                 // Step 2: Parse JSON
                 var loginData = JsonSerializer.Deserialize<LoginRequest>(body);
 
-                // Step 3: Validate creds (hardcoded for testing ONLY)
+                // Step 3: Validate creds against hardcoded creds (for testing ONLY)
                 string hardcodedUsername = "matt";
                 string hardcodedPassword = "thisShouldntB3Hardcoded!!";
 
