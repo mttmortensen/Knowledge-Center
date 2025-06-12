@@ -44,16 +44,13 @@ namespace Knowledge_Center.API.Controllers
                 }
                 else 
                 {
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Invalid credentials.");
-                    response.OutputStream.Write(buffer, 0, buffer.Length);
+                    WriteJson(response, HttpStatusCode.BadRequest, new { message = "Invalid Credentials." });
                 }
             }
             catch 
             {
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Login request failed.");
-                response.OutputStream.Write(buffer, 0, buffer.Length);
+                WriteJson(response, HttpStatusCode.InternalServerError, new { message = "Login request failed." });
+
             }
             finally 
             {
@@ -99,15 +96,26 @@ namespace Knowledge_Center.API.Controllers
             }
             catch 
             {
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                byte[] errorBytes = System.Text.Encoding.UTF8.GetBytes("Logout failed.");
-                response.OutputStream.Write(errorBytes, 0, errorBytes.Length);
-
+                WriteJson(response, HttpStatusCode.InternalServerError, new { message = "Logout request failed." });
             }
             finally 
             {
                 response.OutputStream.Close();
             }
+        }
+
+        // === HELPER ===
+        private void WriteJson(HttpListenerResponse response, HttpStatusCode statusCode, object obj)
+        {
+            string json = JsonSerializer.Serialize(obj);
+            byte[] buffer = Encoding.UTF8.GetBytes(json);
+
+            response.StatusCode = (int)statusCode;
+            response.ContentType = "application/json";
+            response.ContentLength64 = buffer.Length;
+
+            using Stream output = response.OutputStream;
+            output.Write(buffer, 0, buffer.Length);
         }
 
     }
