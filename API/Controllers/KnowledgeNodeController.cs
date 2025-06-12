@@ -52,8 +52,14 @@ namespace Knowledge_Center.API.Controllers
         public void Create(HttpListenerResponse response, HttpListenerRequest request)
         {
             // Checks for Auth first
-            if (!AuthHelper.RequireAuth(request, response)) return; 
+            if (!AuthHelper.RequireAuth(request, response)) return;
 
+            // Rate limit check
+            if (!RateLimiter.IsAllowed(request))
+            {
+                WriteJson(response, HttpStatusCode.TooManyRequests, new { message = "Rate limit exceeded. Try again later." });
+                return;
+            }
 
             using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
             string body = reader.ReadToEnd();
@@ -86,6 +92,13 @@ namespace Knowledge_Center.API.Controllers
             // Checks for Auth first
             if (!AuthHelper.RequireAuth(request, response)) return;
 
+            // Rate limit check
+            if (!RateLimiter.IsAllowed(request))
+            {
+                WriteJson(response, HttpStatusCode.TooManyRequests, new { message = "Rate limit exceeded. Try again later." });
+                return;
+            }
+
             using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
             string body = reader.ReadToEnd();
 
@@ -117,6 +130,13 @@ namespace Knowledge_Center.API.Controllers
         {
             // Checks for Auth first
             if (!AuthHelper.RequireAuth(request, response)) return;
+
+            // Rate limit check
+            if (!RateLimiter.IsAllowed(request))
+            {
+                WriteJson(response, HttpStatusCode.TooManyRequests, new { message = "Rate limit exceeded. Try again later." });
+                return;
+            }
 
             // Delete all logs associated with the Knowledge Node
             bool logsDeleted = _logEntryService.DeleteAllLogEntriesByNodeId(id);
