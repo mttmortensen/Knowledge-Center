@@ -63,7 +63,7 @@ namespace Knowledge_Center.API.Controllers
             }
             catch (JsonException)
             {
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                WriteJson(response, HttpStatusCode.BadRequest, new { message = "Invalid JSON format." });
                 return;
             }
 
@@ -71,7 +71,7 @@ namespace Knowledge_Center.API.Controllers
             bool success = _lgService.CreateLogEntry(log);
             if (!success)
             {
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                WriteJson(response, HttpStatusCode.InternalServerError, new { message = "Failed to create log entry." });
                 return;
             }
 
