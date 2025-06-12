@@ -72,9 +72,39 @@ namespace Knowledge_Center.API.Controllers
                     response.OutputStream.Write(errorBytes, 0, errorBytes.Length);
                     return;
                 }
+
+                string token = authHeader.Substring("Bearer ".Length);
+
+                // Step 2: End the session (look up by token)
+                string username = AuthSession.GetUsernameByToken(token);
+
+                if (username == null) 
+                {
+                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    byte[] errorBytes = System.Text.Encoding.UTF8.GetBytes("Invalid token.");
+                    response.OutputStream.Write(errorBytes, 0, errorBytes.Length);
+                    return;
+                }
+
+                AuthSession.EndSession(username);
+
+                // Step 3: Return success
+                response.StatusCode = (int)HttpStatusCode.OK;
+                byte[] okBytes = System.Text.Encoding.UTF8.GetBytes("Logout successful.");
+                response.OutputStream.Write(okBytes, 0, okBytes.Length);
+
             }
-            catch { }
-            finally { }
+            catch 
+            {
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                byte[] errorBytes = System.Text.Encoding.UTF8.GetBytes("Logout failed.");
+                response.OutputStream.Write(errorBytes, 0, errorBytes.Length);
+
+            }
+            finally 
+            {
+                response.OutputStream.Close();
+            }
         }
 
     }
