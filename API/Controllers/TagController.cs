@@ -38,7 +38,7 @@ namespace Knowledge_Center.API.Controllers
 
             if (tag == null)
             {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
+                WriteJson(response, HttpStatusCode.NotFound, new { message = $"Tag with ID {id} not found." });
                 return;
             }
 

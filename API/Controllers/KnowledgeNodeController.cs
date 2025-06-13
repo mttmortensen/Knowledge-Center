@@ -40,7 +40,7 @@ namespace Knowledge_Center.API.Controllers
 
             if (node == null)
             {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
+                WriteJson(response, HttpStatusCode.NotFound, new { message = $"Knowledge Node with ID {id} not found." });
                 return;
             }
 

@@ -39,7 +39,7 @@ namespace Knowledge_Center.API.Controllers
             var domain = _dnService.GetDomainById(id);
             if (domain == null)
             {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
+                WriteJson(response, HttpStatusCode.NotFound, new { message = $"Domain with ID {id} not found." });
                 return;
             }
 

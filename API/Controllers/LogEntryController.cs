@@ -36,7 +36,7 @@ namespace Knowledge_Center.API.Controllers
             var log = _lgService.GetLogEntryByLogId(id);
             if (log == null)
             {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
+                WriteJson(response, HttpStatusCode.NotFound, new { message = $"Log with ID {id} not found." });
                 return;
             }
             // Convert to JSON
