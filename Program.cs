@@ -37,14 +37,16 @@ namespace Knowledge_Center
             TagController tgController = new TagController(tgService);
             LoginController lgnController = new LoginController();
 
-            CoreAPI coreAPI = new CoreAPI(knController, lgController, dnController, tgController, lgnController);
 
-            // Start the API server in a separate thread
-            Thread apiThread = new Thread(() => coreAPI.Start());
-            apiThread.IsBackground = true;
-            apiThread.Start();
+            if (args.Length > 0 && args[0] == "--api")
+            {
+                CoreAPI coreAPI = new CoreAPI(knController, lgController, dnController, tgController, lgnController);
+                coreAPI.Start(); // 🟢 API ONLY
+                return;
+            }
 
-            // Now run the UI 
+
+            // Now run the CLI Only 🟠
             LogEntryUI logEntryUI = new LogEntryUI(knService, leService, dnService, tgService);
             TagUI tagUI = new TagUI(tgService);
 
