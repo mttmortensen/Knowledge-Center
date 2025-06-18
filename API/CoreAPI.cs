@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.IO;
 using System.Text;
@@ -36,7 +36,7 @@ namespace Knowledge_Center.API
             _loginController = loginController;
 
             _listener = new HttpListener();
-            _listener.Prefixes.Add("http://localhost:8080/");
+            _listener.Prefixes.Add("http://0.0.0.0:8080/");
         }
 
         // Starts the server loop
